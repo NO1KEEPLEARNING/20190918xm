@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+     <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="../static/layui/layui.js"></script>
+
+    <title>产能报表</title>
+    <style>
+        .red {
+            font-weight:bold;
+            background-color: #D9D9D9;
+        }
+        .msgg{
+            font-size: 15px;
+            margin: 3px;}
+
+    {#    }#}
+        .top1{
+            margin: -15px;
+        }
+        .bow1{
+            height: 10px;
+        }
+    {#    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{#}
+    {#        padding: 0px;#}
+    {#        line-height: 1.42857143;#}
+    {#        vertical-align: top;#}
+    {#    }#}
+    {#    .msg22{#}
+    {#        font-size: 15px;#}
+    {#    }#}
+    {#    .panel-body{#}
+    {#        padding-bottom: 0px;#}
+    {#    }#}
+    {#    .panel-heading {#}
+    {#padding: 2px 7px;}#}
+    {#    blockquote, body, button, dd, div, dl, dt, form, h2, h3, h4, h5, h6, input, li, ol, p, pre, td, textarea, th, ul {#}
+    {#margin-top: -10px;}#}
+
+    </style>
+
+</head>
+<body>
+<div>
+    <h1 style="text-align: center"  >双源当日产量及当月累计产能状况</h1>
+    <form action="" method="get">
+    <div>
+        <div> <!-- 注意：这一层元素并不是必须的 -->
+            <h3 style="display: inline-block; font-size: 18px"><span>请选择日期</span></h3>
+            <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1" name="text1" autocomplete="off">
+
+            <button class="btn btn-primary" >确定</button>
+            <hr>
+{#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+
+</div>
+        </form>
+
+<script src="/static/build/layui.js"></script>
+<script>
+    let msg
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1' //指定元素
+             ,theme: '#grid'
+             ,min: '2019-06-13'
+            , done: function (value, date, endDate) {
+                // alert(value)
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                msg =value
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                msggess=document.getElementById('msggess')
+                msggess.innerText=msg
+            }
+        });
+
+
+    });
+
+</script>
+
+    </div>
+    <div>
+
+    </div>
+    <div style="margin: auto">
+        {% for i in MSG %}
+            <div>
+     <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading table-hover""><span class="cor2" style="font-size: 20px ;font-weight: bolder" >{{i.plantname}}</span>&nbsp;
+         {% if datetime %}
+                <span>{{datetime}}</span>
+          {% else %}
+              <span>{{now_time}}  目前显示的是 最新日期</span>
+         {% endif %}
+
+
+
+
+
+     </div>
+            {% load my_tags %}
+        <div class="panel-body top1">
+{#        <p>{{ color_lsit}}</p>#}
+         <table class="table  table-bordered table-hover" style="background-color: {{color_lsit|filter_multi }}  ;filter:Alpha(opacity=100)">
+
+
+
+            <tr class="msg22">
+                <th>序号</th>
+                <th>单位</th>
+                <th>组别</th>
+                <th>目标产量</th>
+                <th>当日产量</th>
+                <th>当日换算</th>
+                <th>当日人数</th>
+                <th>当日人均|目标</th>
+                <th>当日人均|实际</th>
+                <th>累计目标</th>
+                <th>累计产量</th>
+                <th>差异</th>
+                <th>累计换算</th>
+                <th>累计人均</th>
+
+
+            </tr>
+            {% for foo in i.msg%}
+
+
+
+            <tr class="bow1">
+                <td class="msgg">{{ forloop.counter   }}</td>
+                <td class="msgg">{{foo.cc_type|default:'' }}</td>
+                <td class="msgg zbbb">{{foo.in_ex|default:'' }}</td>
+                <td class="msgg zbbb">{{foo.plan_day_qty|default:'' }}</td>
+                <td class="msgg zbbb">{{foo.day_qty|default:'' }}</td>
+                <td class="msgg ">{{foo.cvt_day_qty|default:'' }}</td>
+                <td class="msgg">{{foo.work_person|default:'' }}</td>
+                <td class="msgg">{{foo.plan_day_avg_qty|default:'' }}</td>
+                <td class="msgg">{{foo.plan_avg_qty|default:'' }}</td>
+                <td class="msgg">{{foo.all_plan_qty|default:'' }}</td>
+                <td class="msgg">{{foo.all_qty|default:'' }}</td>
+
+                <td class="msgg">{{foo.all_diff|default:'' }}</td>
+                <td class="msgg">{{foo.all_cvt_qty|default:'' }}</td>
+                <td class="msgg">{{foo.all_avg_qty|default:'' }}</td>
+            </tr>
+                 {% endfor %}
+
+
+
+        </table>
+        </div>
+
+        <!-- Table -->
+
+    </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+</body>
+
+</html>
+<script>
+    var zbs =document.getElementsByClassName('zbbb')
+    for (i in zbs){
+        {#console.log(zbs[i].innerText)#}
+        let zb =zbs[i].innerText
+        var myReg =/.*合计.*/
+        var flag =myReg.test(zb)
+        {#console.log(zb,flag)#}
+        if (flag) {
+            console.log(zb,flag)
+            zbs[i].setAttribute("class","red")
+
+
+
+        }
+    }
+
+</script>

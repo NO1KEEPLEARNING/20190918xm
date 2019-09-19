@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="/static/build/layui.js"></script>
+    <script>
+        var myDate = new Date()
+        let yea = myDate.getFullYear()
+        let mon = myDate.getMonth()
+        {#let msg#}
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            //年月选择器
+            laydate.render({
+                elem: '#test1'
+                , type: 'month',
+                {#min:'{{oldtime}}'#}
+                {#value:''#}
+
+            });
+
+
+            {#laydate.render({#}
+            {#    elem: '#test1' //指定元素#}
+            {#     ,theme: '#grid'#}
+            {#,min: '2019-06-13'#}
+            {#    , done: function (value, date, endDate) {#}
+            {#        // alert(value)#}
+            {#        console.log(value); //得到日期生成的值，如：2017-08-18#}
+            {#        msg =value#}
+            {#        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}#}
+            {#        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。#}
+            {#        msggess=document.getElementById('msggess')#}
+            {#        msggess.innerText=msg#}
+            {#    }#}
+            {#{);#}
+
+
+        });
+
+    </script>
+    <title>产能总报表</title>
+</head>
+<body>
+    <h1 style="position:relative;left: 30%">双驰企业{{times }}月各厂人均产能表</h1>
+<div style="margin: auto; position: relative ;left: 30%">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div> <!-- 注意：这一层元素并不是必须的 -->
+            <h3 style="display: inline-block; font-size: 18px"><span>请选择年月</span></h3>
+            <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
+                   name="text1" autocomplete="off">
+
+            <button class="btn btn-primary">确定</button>
+            <hr>
+            {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+
+        </div>
+    </form>
+</div>
+
+
+<div style="width: 80%; text-align: center ; margin: auto;">
+    <table class="table table-bordered table-hover">
+        {#      <p >{{oldtime }}</p>#}
+        <tr style=" border: 1px black; background-color: #00FFFF">
+            <th>序号</th>
+            <th>公司</th>
+            <th>部门</th>
+            <th>换算后产能(双)</th>
+            <th>打卡折合后人数/月</th>
+            <th>申请工时/月</th>
+            <th>上班总工时/月</th>
+            <th>人均产能/天/人</th>
+            <th>电脑车比重</th>
+            <th>各厂总人均产能</th>
+        </tr>
+        <div>
+            {% for row1 in shuangchilist %}
+                <tr style="background-color: #c9c9c9">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ row1.0 }}</td>
+                    <td>{{ row1.1 }}</td>
+                    <td>{{ row1.2 }}</td>
+                    <td>{{ row1.3 }}</td>
+                    <td>{{ row1.4 }}</td>
+                    <td>{{ row1.5 }}</td>
+                    <td>{{ row1.6 }}</td>
+                    <td>{{ row1.7 |default:'' }}</td>
+                    <td>{{ row1.8 }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+
+        <div>
+            {% for row2 in shuanglianlist %}
+                <tr style="background-color: #FFB800">
+                    <td class="slnum">  {{ forloop.counter}}</td>
+                    <td>{{ row2.0 }}</td>
+                    <td>{{ row2.1 }}</td>
+                    <td>{{ row2.2 }}</td>
+                    <td>{{ row2.3 }}</td>
+                    <td>{{ row2.4 }}</td>
+                    <td>{{ row2.5 }}</td>
+                    <td>{{ row2.6 }}</td>
+                    <td>{{ row2.7 |default:'' }}</td>
+                    <td>{{ row2.8 }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+        <script>
+            let slnum =document.getElementsByClassName('slnum')
+            for (i=0;i<slnum.length;i++){
+                slnum[i].innerText=parseInt(slnum[i].innerText)+parseInt({{ numlis.0}})
+            }
+
+        </script>
+
+        <div>
+            {% for row2 in shuangyuanlist %}
+                <tr style="background-color: #eb7350" class="table-hover hover">
+                    <td  class="synum">{{ forloop.counter }}</td>
+                    <td>{{ row2.0 }}</td>
+                    <td>{{ row2.1 }}</td>
+                    <td>{{ row2.2 }}</td>
+                    <td>{{ row2.3 }}</td>
+                    <td>{{ row2.4 }}</td>
+                    <td>{{ row2.5 }}</td>
+                    <td>{{ row2.6 }}</td>
+                    <td>{{ row2.7 |default:'' }}</td>
+                    <td>{{ row2.8 }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+           <script>
+            let synum =document.getElementsByClassName('synum')
+            for (i=0;i<synum.length;i++){
+                synum[i].innerText=parseInt(synum[i].innerText)+parseInt({{ numlis.0}})+parseInt({{ numlis.1}})
+            }
+
+        </script>
+
+
+
+       <div>
+            {% for row2 in xiangchanglist %}
+                <tr style="background-color: powderblue" class="table-hover hover">
+                    <td class="xcnum">{{ forloop.counter }}</td>
+                    <td>{{ row2.0 }}</td>
+                    <td>{{ row2.1 }}</td>
+                    <td>{{ row2.2 }}</td>
+                    <td>{{ row2.3 }}</td>
+                    <td>{{ row2.4 }}</td>
+                    <td>{{ row2.5 }}</td>
+                    <td>{{ row2.6 }}</td>
+                    <td>{{ row2.7 |default:'' }}</td>
+                    <td>{{ row2.8 }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+            <script>
+            let xcnum =document.getElementsByClassName('xcnum')
+            for (i=0;i<xcnum.length;i++){
+                xcnum[i].innerText=parseInt(xcnum[i].innerText)+parseInt({{ numlis.0}})+parseInt({{ numlis.1}})+parseInt({{ numlis.2}})
+            }
+
+        </script>
+
+
+
+    </table>
+</div>
+
+</body>
+</html>

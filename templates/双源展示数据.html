@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+
+     <link rel="stylesheet" href="css/normalize.min.css">
+
+
+      <link rel="stylesheet" href="css/style.css">
+
+
+
+</head>
+
+<style>
+    .back {
+        display: none;
+    }
+    {#.baj {#}
+    {#    background-color: #4E5465;#}
+    {#}#}
+
+
+
+
+
+
+
+
+
+
+</style>
+<body class="baj" id="baj">
+
+
+<script>
+
+    {#alert('{{  sy_msg.1.3 }}')#}
+    {#alert('123123123')#}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="password"    id="password" style="position: relative; text-align: center; z-index: 9999 ; margin-top: 20% ;font-size: xx-large">
+    <div width="400px"><input type="password" id="ps1"   class=""  placeholder="请输入密码" height="300px"></div>
+    <button onclick="ps1()" id="showps1"   class="btn btn-warning btn-lg" role="button">显示密码</button>
+    <button onclick="ps2()" class="btn btn-success btn-lg" role="button">确认</button>
+</div>
+
+
+<script>
+
+    function ps2() {
+        let ps1 = document.getElementById('ps1')
+        let showps1 = document.getElementById('showps1')
+        let back = document.getElementById('back')
+        let password = document.getElementById('password')
+        let baj = document.getElementById('baj')
+
+
+        let ps1val = ps1.value
+        {#alert(ps1val)#}
+        123
+        if ('{{  sy_msg.1.3 }}' == '双源' && ps1val == 'sy123') {
+            {#alert('双源')#}
+            back.classList.remove('back')
+            password.classList.add('back')
+            baj.classList.remove('baj')
+
+
+        } else if ('{{  sy_msg.1.3 }}' == '双联' && ps1val == 'sl123') {
+            {#alert('双联')#}
+            back.classList.remove('back')
+            password.classList.add('back')
+                        baj.classList.remove('baj')
+
+        } else if ('{{  sy_msg.1.3 }}' == '双驰' && ps1val == 'sc123') {
+            {#alert('双驰')#}
+            back.classList.remove('back')
+            password.classList.add('back')
+                        baj.classList.remove('baj')
+
+        } else if ('{{  sy_msg.1.3 }}' == '星昌' && ps1val == 'xc123') {
+            {#alert('星昌')#}
+            back.classList.remove('back')
+            password.classList.add('back')
+                        baj.classList.remove('baj')
+
+        } else {
+            alert('密码输入不正确')
+        }
+
+    }
+
+    function ps1() {
+        {#alert('asdasd')#}
+        let ps1 = document.getElementById('ps1')
+        let showps1 = document.getElementById('showps1')
+        let back = document.getElementById('back')
+
+        if (showps1.innerText == '显示密码') {
+            ps1.type = 'text'
+            showps1.innerText = '隐藏密码'
+        } else {
+            ps1.type = 'password'
+            showps1.innerText = '显示密码'
+        }
+
+
+    }
+
+</script>
+
+
+
+
+
+
+<div class="back" id="back">
+<h1 style="margin: auto;text-align: center">{{ sy_msg.1.3 }} <span class="yuefen1">{{ sy_msg.1.1 }}</span> 报表</h1>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>序号</th>
+            <th>公司</th>
+            <th>部门</th>
+            <th>换算后产能双</th>
+            <th>打卡折合后人数/月</th>
+            <th>申请工时/月</th>
+            <th>上班总工时/月</th>
+            <th>人均产能/天/人</th>
+            <th>电脑车比重</th>
+            <th>各厂总人均产能</th>
+        </tr>
+        {% for foo in sy_msg %}
+            <tr>
+                <td>{{ foo.0 |default:'' }}</td>
+                <td>{{ foo.2 |default:'' }}</td>
+                <td>{{ foo.3|default:'' }}</td>
+                <td>{{ foo.4|default:'' }}</td>
+                <td>{{ foo.5|default:'' }}</td>
+                <td>{{ foo.6|default:'' }}</td>
+                <td>{{ foo.7|default:'' }}</td>
+                <td>{{ foo.8|default:'' }}</td>
+                <td>{{ foo.9|default:'' }}</td>
+                <td>{{ foo.10|default:'' }}</td>
+                {#     <td>{{ foo.10|default:''}}</td>#}
+                {#     <td>{{ foo.11|default:''}}</td>#}
+            </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</div>
+
+
+
+<script>
+    /*document.writeln("<div style=\"width:252px;margin:10px auto;\"><iframe width=\"250\" height=\"100\" class=\"share_self\"  frameborder=\"0\" scrolling=\"no\"")
+document.writeln("src=\"http://widget.weibo.com/weiboshow/index.php?")
+document.writeln("language=&width=250&height=100&fansRow=2&ptype=1&speed=0&skin=1&")
+document.writeln("isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=2832482174&verifier=d71718ca&dpc=1\"></iframe></div>")*/
+
+/*document.writeln('<div style="width:510px;margin:10px auto;"><iframe width="250" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=250&height=90&fansRow=2&ptype=1&speed=0&skin=3&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=5052963352&verifier=08118085&dpc=1"></iframe>&nbsp;&nbsp;<iframe src="http://follow.v.t.qq.com/index.php?c=follow&a=quick&appkey=801484131&sign=b9b10d49&v=2&name=html5tricks&style=1&t=1393976749230&f=1" frameborder="0" scrolling="auto" width="227" height="75" marginwidth="0" marginheight="0" allowtransparency="true"></iframe></div>');*/
+
+
+
+</script>
+
+
+<script>
+    let yuefen1 = document.getElementsByClassName('yuefen1')
+    {#alert(yuefen1[0].innerHTML.slice(0,7))#}
+    yuefen1[0].innerText = yuefen1[0].innerHTML.slice(0, 7)
+
+</script>
+
+
+
+
+</html>
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{gcmsg }}录入信息</title>
+    <style>
+        .mss1{
+            height: 400px;
+            width: 400px;
+            margin: auto;
+            margin-top: 80px;
+
+        }
+    </style>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+
+
+{#<a href=""></a>#}
+{#<p>1231231231</p>#}
+{#<p>asdasdasd</p>#}
+{#{{ nowid}}#}
+
+<div class="mss1">
+    <a href="{% url 'download' %}" class="btn btn-info" role="button" style="font-size: larger;width: 400px">下载模板</a>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+  <div class="form-group">
+
+    <label for="exampleInputEmail1">产能月份</label>
+    <input type="month" class="form-control" id="exampleInputEmail1" placeholder="Email" required="required"  name="timemsg1" >
+      <script>
+{#     没啥用的代码     #}
+          let timemsg =document.getElementById('timer');
+           var day2 = new Date();
+            day2.setTime(day2.getTime());
+            var s2 = day2.getFullYear()+"-" + (day2.getMonth()+1) + "-" + day2.getDate();
+          let time1 =s2
+          timemsg.innerText=time1
+          {#  var date1 = new Date(time1);#}
+          {#timemsg.setAttribute("value",time1);#}
+      </script>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">录入序号</label> <span>这个字段不用录入</span>
+    <input type="text" class="form-control" id="exampleInputPassword1" value={{ nowid}} readonly="readonly">
+  </div>
+  <div class="form-group">
+{#    <label for="exampleInputFile"   >请上传文件</label>#}
+    <input type="file" id="exampleInputFile" name="exampleInputFile">
+
+  </div>
+
+  <button type="submit" class="btn btn-default" onclick="alert('上传成功')">确定</button>
+</form>
+    </div>
+</body>
+
+</html>
