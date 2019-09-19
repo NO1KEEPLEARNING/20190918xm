@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{oldgcname|default:'双源'}}产能录入表</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/core.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <style>
+        #syadd {
+            text-align: right;
+            position: relative;
+        {#left: 800px;#} float: right;
+            margin-right: 60px;
+        }
+
+        #pages {
+            margin-top: -20px;
+            position: absolute;
+            left: 40%;
+            {#top: 50%;#}
+
+        }
+
+        #msg2 {
+            padding-bottom: 40px;
+        }
+
+        .yanse {
+            background-color: red;
+        }
+
+        .mycolor {
+            color: red;
+        }
+        .btn1{
+            text-align: center;
+            margin: auto;
+            position: relative;
+            left: 40%;
+
+        }
+        .biaoti{
+            font-size: 66px;
+
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="header page-header" id="msg2">
+    <h1 style="margin: auto ;text-align: center"   class="biaoti" >{{oldgcname|default:'双源'}}产能录入表</h1>
+
+{{ servr1|safe}}
+{{ servr2|safe}}
+{{ servr3|safe}}
+{{ servr4|safe}}
+
+{#    <input type="search" value="shuangyuan" name="search">#}
+{#    <a href={{ msgupload }}?sear=213  name="sear">123123</a>#}
+    <button type="button" class="btn btn-success" id="syadd">产能录入新增</button>
+</div>
+<script>
+    let syadd = document.getElementById('syadd');
+    syadd.onclick = function () {
+        {#myfun()#}
+        location = '/syadd'
+    }
+
+</script>
+<div class="mid panel panel-default">
+    <table class="table hover panel-body table-hover table-bordered">
+        {#    <p>{{sy_msg }}</p>#}
+        <tr class="hover" style="background-color: powderblue">
+            <th>序号</th>
+            <th>时间</th>
+            <th>公司</th>
+            <th>查看</th>
+
+        </tr>
+        {% for  msg in sy_msg %}
+            <tr class="hover">
+                <td>{{ forloop.counter }}</td>
+                <td class='yuefen'>{{ msg.0 }}</td>
+                <td>{{ msg.1 }}</td>
+                <td><a href={% url 'symsg' id=msg.3 %}>查看数据</a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+<div id="pages">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for page in page_range %}
+                <li><a class="clolr" href={{ msgupload }}?pages={{ page }}&gcmsg={{oldgcname|default:'双源'}}>{{ page }}</a></li>
+
+            {% endfor %}
+
+
+            <li>
+                <a href={{ msgupload }}?pages={{ next_page }} aria-label="Next"> <span style="display: none"
+                                                                                       id="nextpage">{{ next_page }}</span>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<script>
+
+
+    let getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+
+    var page = getUrlParam('pages')
+
+
+    let clolr = document.getElementsByClassName('clolr')
+
+    let lastpage = clolr[clolr.length - 1].innerText
+    {#alert(lastpage)#}
+    let nextpage = document.getElementById('nextpage');
+    {#alert(nextpage.innerText)#}
+    if ((nextpage.innerText-1) == lastpage) {
+            nextpage.parentElement.parentElement.remove()
+    }
+    for (i = 0; i < clolr.length; i++) {
+        if (clolr[i].innerText == page) {
+            clolr[i].style.backgroundColor = '#eff'
+        }
+    }
+</script>
+
+
+{#    <form method="post" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#       <div style="position: relative;display: inline-block;height: 50px;min-width: 300px;overflow: hidden;">#}
+{#            <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;z-index: 1000;border: 1px dotted #9d9d9d;color: #9d9d9d;line-height: 50px;padding-left: 15px;">#}
+{#                <span>点击上传文件</span>#}
+{#            </div>#}
+{#            <input name="customer_file" type="file" id="excelFile"#}
+{#                   style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: #333333;z-index: 1001;opacity: 0;filter:alpha(opacity=0);">#}
+{#        </div>#}
+{#        <div>#}
+{#            <input type="text" name="user">#}
+{#            <input type="submit" value="提交" >#}
+{#        </div>#}
+{#    </form>#}
+
+<script>
+    $(function () {
+        $('#excelFile').change(function (e) {
+            // e.target得到的是input标签，e.target.files得到是一串filelist，
+            // e.target.files[0]得到的是图片的一些参数，这些参数可以根据自己的需要提取
+            var fileName = e.target.files[0].name;
+            $(this).prev().find('span').text(fileName);
+        })
+
+    })
+
+</script>
+
+ <script>
+        let yuefen =document.getElementsByClassName('yuefen')
+        for (i=0;i<yuefen.length;i++){
+            yuefen1=yuefen[i].innerText.slice(0,7)
+            yuefen[i].innerText=yuefen1
+        }
+    </script>
+</body>
+</html>
