@@ -14,7 +14,7 @@ def show_msg(request):
     print(MSG)
     if MSG:
 
-        server = '192.168.0.163'  # 数据库服务器名称或IP
+        server = '192.168.0.131'  # 数据库服务器名称或IP
         user = 'OA'  # 用户名
         password = 'Sems1991'  # 密码
         database = 'SYERP'  # 数据库名称
@@ -123,7 +123,7 @@ def show_msg(request):
         })
     else:
         # print(MSG, "是空的")
-        server = '192.168.0.163'  # 数据库服务器名称或IP
+        server = '192.168.0.131'  # 数据库服务器名称或IP
         user = 'OA'  # 用户名
         password = 'Sems1991'  # 密码
         database = 'SYERP'  # 数据库名称

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path,re_path
 from app01 import views
 from app022 import views as view22
+from app033 import views as view33
 urlpatterns = [
     # path('admin', admin.site.urls),
     path(r'show/',views.show_msg),
@@ -26,6 +27,7 @@ urlpatterns = [
     path(r'syadd',view22.add_symsg,name='addmsg'),
     path(r'reports',view22.cnfllmsg,name='cnfllmsg'),
     path(r'download',view22.download,name='download'),
+    path('cnmsg',view33.cn_msg),
 
 
 ]

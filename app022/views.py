@@ -14,11 +14,19 @@ from dateutil import parser
 import xlrd
 import os
 
+
+from decimal import Decimal
+
+
+
 base_path = os.getcwd() + '\sy_msg_xsl/'
 
 tyep = 12  # 每页显示多少个
 global oldgcname
 oldgcname = '双源'
+
+
+
 
 nowod = ''
 
@@ -51,7 +59,7 @@ def msgupload(request):
         if not gcmsg:
             gcmsg = oldgcname
         ##print('页码', pages)
-        ##print('工厂姓名', gcmsg)
+        print('工厂姓名', gcmsg)
         gcmsg = gcmsg
         # conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
         conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
@@ -64,9 +72,10 @@ def msgupload(request):
 
         sy_msg = []
         i = 0
-        # ##print('geshu',cursor1)
+        #print('geshu',cursor1)
         for rows in cursor1:
             sy_msg.append(rows)
+            print('rows[0]',rows[0])
             i = i + 1
         ##print('i', i)
         ##print('返回页码数', pages)
@@ -141,18 +150,20 @@ select  FD_ID,FD_YUEFEN,FD_BUMEN,FD_GONGSI,FD_HUANSUANHOUCHANNENG,FD_DAKAZHEHEHO
         FD_YUEFEN = rows[1]
         FD_GONGSI = rows[2]
         FD_BUMEN = rows[3]
-        FD_HUANSUANHOUCHANNENG = int(float(rows[4] or 0))
-        FD_DAKAZHEHEHOURENSHU = int(float(rows[5] or 0))
-        SHENQINGGONGSHI = int(float(rows[6] or 0))
-        SHANGBANZONGGONGSHI = int(float(rows[7] or 0))
-        RENJUNCHANNENG = int(float(rows[8] or 0))
+        FD_HUANSUANHOUCHANNENG = format((float(rows[4] or 0)*100)/100.0,'.0f')
+
+
+        FD_DAKAZHEHEHOURENSHU = format((float(rows[5] or 0)*100)/100.0,'.0f')
+        SHENQINGGONGSHI = format((float(rows[6] or 0)*100)/100.0,'.0f')
+        SHANGBANZONGGONGSHI = format((float(rows[7] or 0)*100)/100.0,'.0f')
+        RENJUNCHANNENG = format((float(rows[8] or 0)*100)/100.0,'.0f')
         try:
             DIANNAOCHEBIZHONG = "%.f%%" % (float(rows[9]) * 100)
         except:
             DIANNAOCHEBIZHONG=rows[9]
 
 
-        GECHANGRENJUNCHANNENG = int(float(rows[10] or 0))
+        GECHANGRENJUNCHANNENG = format((float(rows[10] or 0)*100)/100.0,'.1f')
         LIS_ID = rows[11]
 
         lisss.append(FD_ID)
