@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <style>
+        .aaa{
+            display: none;
+        }
+        body{
+         margin: 5px;
+        }
+    </style>
+</head>
+<body>
+{#<span>{{ all_plan_list.chengxing}}</span>#}
+{##}
+{#    <table>#}
+{#        <tr>#}
+{#            <td>{{all_plan_list.chengxing.1}}</td>#}
+{#        </tr>#}
+{##}
+{##}
+{##}
+{#    </table>#}
+
+<h1 style="margin: auto ;text-align: center"> 双源当日产量及当月累计产能状况</h1>
+
+
+<div style="margin-left: 35%">
+    <form method="get">
+        {% csrf_token %}
+   <div style=" float: left">
+
+
+
+        <select name="msg" class="form-control" id="msg">
+            <option value="成型" style="border: hidden" id="disabledSelect disabled">请选择类型</option>
+            <option value="成型">成型</option>
+            <option value="针车">针车</option>
+
+        </select>
+</div>
+        <div style="float: left">
+        <input type="month" name="months" style="border-radius:4px;height: 34px">
+        <button class="btn btn-success">
+            提交
+        </button>
+            </div>
+    </form>
+
+</div>
+<br>
+<h3 id="h333">{{ list }} <span style="font-size: 15px" id="mon">{{ mon }}</span></h3>
+<script>
+    let mon = document.getElementById('mon')
+    window.onload(msg1());
+    function msg1() {
+        setTimeout('mon.classList.add("aaa")',3000)
+    }
+</script>
+<table border="1" class="table table-hover">
+    <tr class="danger">
+        <th>生产部</th>
+        <th colspan="6">生产一部</th>
+        <th colspan="4">生产二部</th>
+
+    </tr>
+    <tr class="success">
+        <th>厂别</th>
+        <th>全厂合计</th>
+        <th>一厂</th>
+        <th>二厂</th>
+        <th>自动化</th>
+        <th>防水</th>
+        <th>一部合计</th>
+        <th>五厂</th>
+        <th>射出</th>
+        <th>八厂</th>
+        <th>二部合计</th>
+
+    </tr>
+    <tr>
+
+        <td>目标</td>
+        <td id="zongheji"></td>
+        <script>
+            let zongheji = document.getElementById('zongheji')
+            zongheji.innerText = {{ zuoheji.0 }}+
+            {{ youheji.0 }}
+
+        </script>
+        {% for foo in  all_plan_list.chengxing1 %}
+
+
+            <td class="{{ forloop.counter }}">{{ foo.msg.2 |default:''}}</td>
+
+
+
+        {% endfor %}
+        <td>{{ zuoheji.0|default:0 }}</td>
+
+        {% for foo in  all_plan_list.chengxing2 %}
+
+
+            <td class="{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td>{{ youheji.0|default:0 }}</td>
+
+
+    </tr>
+
+
+    <tr>
+
+        <td>本厂</td>
+        <td id="zongheji1"></td>
+        <script>
+            let zongheji1 = document.getElementById('zongheji1')
+            zongheji1.innerText = {{ zuoheji.1 }}+
+            {{ youheji.1 |default:0}}
+
+        </script>
+        {% for foo in  all_plan_list.chengxing1 %}
+
+
+            <td class="{{ forloop.counter }}">{{ foo.msg.3 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td>{{ zuoheji.1 |default:0}}</td>
+
+        {% for foo in  all_plan_list.chengxing2 %}
+
+
+            <td class="{{ forloop.counter }}">{{ foo.msg.3 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td>{{ youheji.1|default:0 }}</td>
+
+
+    </tr>
+  <tr>
+    <td>企业内外包</td>
+    <td id="zongheji3"></td>
+    <script>
+        let zongheji3 = document.getElementById('zongheji3')
+        zongheji3.innerText = {{ nwbzuohji.0|default:0 }}+
+        {{ nwbyouhji.0|default:0 }}
+
+    </script>
+
+    {% for foo in  all_nwb_list.chengxing1 %}
+
+
+        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
+        </td>
+
+
+    {% endfor %}
+    <td>{{ nwbzuohji.0|default:0 }}</td>
+    {% for foo in  all_nwb_list.chengxing2 %}
+
+
+        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
+        </td>
+
+
+    {% endfor %}
+    <td>{{ nwbyouhji.0 |default:0 }}</td>
+    <tr>
+
+
+    <tr>
+    <td>企业外外包</td>
+    <td id="zongheji2"></td>
+    <script>
+        let zongheji2 = document.getElementById('zongheji2')
+        zongheji2.innerText = {{ wwbzuohji.0|default:0 }}+
+        {{ wwbyouhji.0|default:0 }}
+
+    </script>
+
+    {% for foo in  all_wwb_list.chengxing1 %}
+
+
+        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
+        </td>
+
+
+    {% endfor %}
+    <td>{{ wwbzuohji.0|default:0 }}</td>
+    {% for foo in  all_wwb_list.chengxing2 %}
+
+
+        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
+        </td>
+
+
+    {% endfor %}
+    <td>{{ wwbyouhji.0|default:0}}</td>
+    <tr>
+
+</table>
+
+
+
+
+
+{#<h1>{{ wwbzuohji }}</h1>#}
+{#<h1>{{ wwbyouhji }}</h1>#}
+</body>
+</html>

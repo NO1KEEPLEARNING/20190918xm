@@ -260,7 +260,7 @@ def add_symsg(request):
 
         for rows in cursor1:
             nowid = rows[0]
-            print('走的0nowid')
+            print('走的0nowid',nowid)
 
         if not nowid:
             nowid=0
@@ -320,6 +320,7 @@ def add_symsg(request):
 
             else:
                 LIS_ID=int(LIS_ID)+1
+                print('走的2222else',LIS_ID)
                 cursor3.execute(
                     "INSERT INTO EKP_PRODUCTIVITY_SY VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'   )".format(
                         FD_ID, FD_YUEFEN11, FD_BUMEN, FD_HUANSUANHOUCHANNENG, FD_DAKAZHEHEHOURENSHU, SHENQINGGONGSHI,
@@ -386,7 +387,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row1[9] or 0))
+            A7 = format((float(row1[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -415,7 +416,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row2[9] or 0))
+            A7 = format((float(row2[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -444,7 +445,8 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row3[9] or 0))
+            A7 = format((float(row3[9] or 0) * 100) / 100.0, '.1f')
+
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -473,7 +475,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row4[9] or 0))
+            A7 = format((float(row4[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -546,7 +548,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row1[9] or 0))
+            A7 = format((float(row1[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -574,7 +576,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row2[9] or 0))
+            A7 = format((float(row2[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -602,7 +604,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row3[9] or 0))
+            A7 = format((float(row3[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
@@ -630,7 +632,7 @@ def cnfllmsg(request):
             except:
                 A6 = ''
 
-            A7 = int(float(row4[9] or 0))
+            A7 = format((float(row4[9] or 0) * 100) / 100.0, '.1f')
 
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
