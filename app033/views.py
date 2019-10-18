@@ -63,6 +63,7 @@ def cn_msg(requests):
     cursor6 = conn.cursor()
     cursor7 = conn.cursor()
     cursor8 = conn.cursor()
+    cursor9 = conn.cursor()
 
     # 查询操作
 
@@ -259,6 +260,21 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     cursor8.execute(sql8)
     nwbyouhji = cursor8.fetchone()
 
+
+
+
+    zdcl=[]
+    sql9 ='''
+    select top 100  all_qty  from VIEW_TEMP_DAY_CVT_CAP where docdate='{}' and cc_type ='组合' 
+   	ORDER BY CHARINDEX(in_ex, + '大地合计,外包组合,无组合,本厂组合')
+    
+    '''.format(day)
+    cursor9.execute(sql9)
+    for cow9 in cursor9:
+        zdcl.append(cow9[0])
+
+
+
     # print('wwbzuoheji',wwbzuohji)
     # print('wwbzyuoheji',wwbyouhji)
     # print('all_plan_list',all_plan_list)
@@ -274,6 +290,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         'nwbzuohji': nwbzuohji,
         'nwbyouhji': nwbyouhji,
         'list':list,
-        'mon':day
+        'mon':day,
+        'zdcl':zdcl
 
     })

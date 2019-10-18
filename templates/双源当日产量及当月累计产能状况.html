@@ -16,11 +16,12 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <style>
-        .aaa{
+        .aaa {
             display: none;
         }
-        body{
-         margin: 5px;
+
+        body {
+            margin: 5px;
         }
     </style>
 </head>
@@ -42,35 +43,36 @@
 <div style="margin-left: 35%">
     <form method="get">
         {% csrf_token %}
-   <div style=" float: left">
+        <div style=" float: left">
 
 
+            <select name="msg" class="form-control" id="msg">
+                <option value="成型" style="border: hidden" id="disabledSelect disabled">请选择类型</option>
+                <option value="成型">成型</option>
+                <option value="针车">针车</option>
 
-        <select name="msg" class="form-control" id="msg">
-            <option value="成型" style="border: hidden" id="disabledSelect disabled">请选择类型</option>
-            <option value="成型">成型</option>
-            <option value="针车">针车</option>
-
-        </select>
-</div>
+            </select>
+        </div>
         <div style="float: left">
-        <input type="month" name="months" style="border-radius:4px;height: 34px">
-        <button class="btn btn-success">
-            提交
-        </button>
-            </div>
+            <input type="month" name="months" style="border-radius:4px;height: 34px">
+            <button class="btn btn-success">
+                提交
+            </button>
+        </div>
     </form>
 
 </div>
 <br>
-<h3 id="h333">{{ list }} <span style="font-size: 15px" id="mon">{{ mon }}</span></h3>
+<h1 id="h333">{{ list }} <span style="font-size: 15px" id="mon">{{ mon }}</span></h1>
 <script>
     let mon = document.getElementById('mon')
     window.onload(msg1());
+
     function msg1() {
-        setTimeout('mon.classList.add("aaa")',3000)
+        setTimeout('mon.classList.add("aaa")', 3000)
     }
 </script>
+
 <table border="1" class="table table-hover">
     <tr class="danger">
         <th>生产部</th>
@@ -95,7 +97,7 @@
     <tr>
 
         <td>目标</td>
-        <td id="zongheji"></td>
+        <td id="zongheji" class="qcheji"></td>
         <script>
             let zongheji = document.getElementById('zongheji')
             zongheji.innerText = {{ zuoheji.0 }}+
@@ -105,22 +107,22 @@
         {% for foo in  all_plan_list.chengxing1 %}
 
 
-            <td class="{{ forloop.counter }}">{{ foo.msg.2 |default:''}}</td>
+            <td class="ccc{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td>{{ zuoheji.0|default:0 }}</td>
+        <td class="zxheji ybheji">{{ zuoheji.0|default:0 }}</td>
 
         {% for foo in  all_plan_list.chengxing2 %}
 
 
-            <td class="{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
+            <td class="xxx{{ forloop.counter }} zxheji">{{ foo.msg.2 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td>{{ youheji.0|default:0 }}</td>
+        <td class="zxheji ebheji">{{ youheji.0|default:0 }}</td>
 
 
     </tr>
@@ -129,7 +131,7 @@
     <tr>
 
         <td>本厂</td>
-        <td id="zongheji1"></td>
+        <td id="zongheji1" class="qcheji"></td>
         <script>
             let zongheji1 = document.getElementById('zongheji1')
             zongheji1.innerText = {{ zuoheji.1 }}+
@@ -139,93 +141,322 @@
         {% for foo in  all_plan_list.chengxing1 %}
 
 
-            <td class="{{ forloop.counter }}">{{ foo.msg.3 |default:'' }}</td>
+            <td class="ccc{{ forloop.counter }} zxheji">{{ foo.msg.3 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td>{{ zuoheji.1 |default:0}}</td>
+        <td class="zxheji ybheji">{{ zuoheji.1 |default:0 }}</td>
 
         {% for foo in  all_plan_list.chengxing2 %}
 
 
-            <td class="{{ forloop.counter }}">{{ foo.msg.3 |default:'' }}</td>
+            <td class="xxx{{ forloop.counter }}" class="zxheji">{{ foo.msg.3 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td>{{ youheji.1|default:0 }}</td>
+        <td class="ebheji">{{ youheji.1|default:0 }}</td>
 
 
     </tr>
-  <tr>
-    <td>企业内外包</td>
-    <td id="zongheji3"></td>
-    <script>
-        let zongheji3 = document.getElementById('zongheji3')
-        zongheji3.innerText = {{ nwbzuohji.0|default:0 }}+
-        {{ nwbyouhji.0|default:0 }}
+    <tr>
+        <td>企业内外包</td>
+        <td id="zongheji3" class="qcheji"></td>
+        <script>
+            let zongheji3 = document.getElementById('zongheji3')
+            zongheji3.innerText = {{ nwbzuohji.0|default:0 }}+
+            {{ nwbyouhji.0|default:0 }}
 
-    </script>
+        </script>
 
-    {% for foo in  all_nwb_list.chengxing1 %}
-
-
-        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
-        </td>
+        {% for foo in  all_nwb_list.chengxing1 %}
 
 
-    {% endfor %}
-    <td>{{ nwbzuohji.0|default:0 }}</td>
-    {% for foo in  all_nwb_list.chengxing2 %}
+            <td class="ccc{{ forloop.counter }} zxheji">  {{ foo.msg.2|default:'' }}
+            </td>
 
 
-        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
-        </td>
+        {% endfor %}
+        <td class="zxheji ybheji"> {{ nwbzuohji.0|default:0 }}</td>
+        {% for foo in  all_nwb_list.chengxing2 %}
 
 
-    {% endfor %}
-    <td>{{ nwbyouhji.0 |default:0 }}</td>
+            <td class="xxx{{ forloop.counter }} zxheji">  {{ foo.msg.2|default:'  ' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="zxheji ebheji">{{ nwbyouhji.0 |default:0 }}</td>
     <tr>
 
 
     <tr>
-    <td>企业外外包</td>
-    <td id="zongheji2"></td>
-    <script>
-        let zongheji2 = document.getElementById('zongheji2')
-        zongheji2.innerText = {{ wwbzuohji.0|default:0 }}+
-        {{ wwbyouhji.0|default:0 }}
+        <td>企业外外包</td>
+        <td id="zongheji2" class="qcheji"></td>
+        <script>
+            let zongheji2 = document.getElementById('zongheji2')
+            zongheji2.innerText = {{ wwbzuohji.0|default:0 }}+
+            {{ wwbyouhji.0|default:0 }}
 
-    </script>
+        </script>
 
-    {% for foo in  all_wwb_list.chengxing1 %}
-
-
-        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
-        </td>
+        {% for foo in  all_wwb_list.chengxing1 %}
 
 
-    {% endfor %}
-    <td>{{ wwbzuohji.0|default:0 }}</td>
-    {% for foo in  all_wwb_list.chengxing2 %}
+            <td class="ccc{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
+            </td>
 
 
-        <td class="{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
-        </td>
+        {% endfor %}
+        <td class="ybheji">{{ wwbzuohji.0|default:0 }}</td>
+        {% for foo in  all_wwb_list.chengxing2 %}
 
 
-    {% endfor %}
-    <td>{{ wwbyouhji.0|default:0}}</td>
+            <td class="xxx{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="ebheji">{{ wwbyouhji.0|default:0 }}</td>
     <tr>
-
+    <tr>
+        <td>合计</td>
+        <td id="zhhejijieguo"></td>
+        <td id="hjccc1">2</td>
+        <td id="hjccc2"> 3</td>
+        <td id="hjccc3">4</td>
+        <td id="hjccc4">5</td>
+        <td id="zhybheji">6</td>
+        <td id="hjxxx1">7</td>
+        <td id="hjxxx2">8</td>
+        <td id="hjxxx3">9</td>
+        <td id="zhebheji">10</td>
+    </tr>
+    <tr>
+        <td>差异</td>
+        <td id="cyqchj"></td>
+        <td id="yccy"></td>
+        <td id="eccy"></td>
+        <td id="zdhcy"></td>
+        <td id="fscy"></td>
+        <td id="ybcy"></td>
+        <td id="wccy"></td>
+        <td id="sccy"></td>
+        <td id="bccy"></td>
+        <td id="ebcy"></td>
+    </tr>
 </table>
 
 
+<script>
+
+    {#总合计#}
+    let qcheji = document.getElementsByClassName('qcheji')
+    {#alert(qcheji)#}
+    let qchejinum = 0
+    for (i = 0; i < qcheji.length; i++) {
+        qchejinum = Number(qchejinum) + Number(qcheji[i].innerText)
+    }
+    {#alert(qchejinum)+#}
+    let zhhejijieguo = document.getElementById('zhhejijieguo')
+    zhhejijieguo.innerText = qchejinum
+
+
+    {#一厂#}
+    let ccc1 = document.getElementsByClassName('ccc1')
+    {#alert(qcheji)#}
+    let ccc1num = 0
+    for (i = 0; i < ccc1.length; i++) {
+        ccc1num = Number(ccc1num) + Number(ccc1[i].innerText)
+    }
+    let ycmb = ccc1[0].innerText
+    let ycbc = ccc1[1].innerText
+    let yccy = document.getElementById('yccy')
+    yccy.innerText = Number(ycbc) - Number(ycmb)
+
+    {#alert(ccc1num)#}
+    let hjccc1 = document.getElementById('hjccc1')
+    hjccc1.innerText = ccc1num
+
+
+    {#二厂#}
+    let ccc2 = document.getElementsByClassName('ccc2')
+    {#alert(qcheji)#}
+    let ccc2num = 0
+    for (i = 0; i < ccc2.length; i++) {
+        ccc2num = Number(ccc2num) + Number(ccc2[i].innerText)
+    }
+    let ecmb = ccc2[0].innerText
+    let ecbc = ccc2[1].innerText
+    let eccy = document.getElementById('eccy')
+    eccy.innerText = Number(ecbc) - Number(ecmb)
+
+
+    {#alert(ccc1num)#}
+    let hjccc2 = document.getElementById('hjccc2')
+    hjccc2.innerText = ccc2num
+
+
+    {#自动化#}
+    let ccc3 = document.getElementsByClassName('ccc3')
+    {#alert(qcheji)#}
+    let ccc3num = 0
+    for (i = 0; i < ccc3.length; i++) {
+        ccc3num = Number(ccc3num) + Number(ccc3[i].innerText)
+    }
+
+    let zdhmb = ccc3[0].innerText
+    let zdhbc = ccc3[1].innerText
+    let zdhcy = document.getElementById('zdhcy')
+    zdhcy.innerText = Number(zdhbc) - Number(zdhmb)
+
+
+    {#alert(ccc1num)#}
+    let hjccc3 = document.getElementById('hjccc3')
+    hjccc3.innerText = ccc3num
+
+
+    {#防水#}
+    let ccc4 = document.getElementsByClassName('ccc4')
+    {#alert(qcheji)#}
+    let ccc4num = 0
+    for (i = 0; i < ccc4.length; i++) {
+        ccc4num = Number(ccc4num) + Number(ccc4[i].innerText)
+    }
+    let fsmb = ccc4[0].innerText
+    let fsbc = ccc4[1].innerText
+    let fscy = document.getElementById('fscy')
+    fscy.innerText = Number(fsbc) - Number(fsmb)
+    {#alert(ccc1num)#}
+    let hjccc4 = document.getElementById('hjccc4')
+    hjccc4.innerText = ccc4num
+
+
+    {#一部综合#}
+    let ybheji = document.getElementsByClassName('ybheji')
+    {#alert(qcheji)#}
+    let ybhejinum = 0
+    for (i = 0; i < ybheji.length; i++) {
+        ybhejinum = Number(ybhejinum) + Number(ybheji[i].innerText)
+    }
+
+    let ybmb = ybheji[0].innerText
+    let ybbc = ybheji[1].innerText
+    let ybcy = document.getElementById('ybcy')
+    ybcy.innerText = Number(ybbc) - Number(ybmb)
+
+    {#alert(ccc1num)#}
+    let zhybheji = document.getElementById('zhybheji')
+    zhybheji.innerText = ybhejinum
+
+
+    {#五厂#}
+    let xxx1 = document.getElementsByClassName('xxx1')
+    {#alert(qcheji)#}
+    let xxx1num = 0
+    for (i = 0; i < xxx1.length; i++) {
+        xxx1num = Number(xxx1num) + Number(xxx1[i].innerText)
+    }
+
+    let wcmb = xxx1[0].innerText
+    let wcbc = xxx1[1].innerText
+    let wccy = document.getElementById('wccy')
+    wccy.innerText = Number(wcbc) - Number(wcmb)
+
+
+    {#alert(ccc1num)#}
+    let hjxxx1 = document.getElementById('hjxxx1')
+    hjxxx1.innerText = xxx1num
+
+
+    {#射出#}
+    let xxx2 = document.getElementsByClassName('xxx2')
+    {#alert(qcheji)#}
+    let xxx2num = 0
+    for (i = 0; i < xxx2.length; i++) {
+        xxx2num = Number(xxx2num) + Number(xxx2[i].innerText)
+    }
+    let scmb = xxx2[0].innerText
+    let scbc = xxx2[1].innerText
+    let sccy = document.getElementById('sccy')
+    sccy.innerText = Number(scbc) - Number(scmb)
+
+
+    {#alert(ccc1num)#}
+    let hjxxx2 = document.getElementById('hjxxx2')
+    hjxxx2.innerText = xxx2num
+
+
+    {#八厂#}
+    let xxx3 = document.getElementsByClassName('xxx3')
+    {#alert(qcheji)#}
+    let xxx3num = 0
+    for (i = 0; i < xxx3.length; i++) {
+        xxx3num = Number(xxx3num) + Number(xxx3[i].innerText)
+    }
+
+    let bcmb = xxx3[0].innerText
+    let bcbc = xxx3[1].innerText
+    let bccy = document.getElementById('bccy')
+    bccy.innerText = Number(bcbc) - Number(bcmb)
+
+    {#alert(ccc1num)#}
+    let hjxxx3 = document.getElementById('hjxxx3')
+    hjxxx3.innerText = xxx3num
+
+
+    {#二部综合#}
+    let ebheji = document.getElementsByClassName('ebheji')
+    {#alert(qcheji)#}
+    let ebhejinum = 0
+    for (i = 0; i < ebheji.length; i++) {
+        ebhejinum = Number(ebhejinum) + Number(ebheji[i].innerText)
+    }
+
+
+    let ebmb = ebheji[0].innerText
+    let ebbc = ebheji[1].innerText
+    let ebcy = document.getElementById('ebcy')
+    ebcy.innerText = Number(ebbc) - Number(ebmb)
 
 
 
-{#<h1>{{ wwbzuohji }}</h1>#}
-{#<h1>{{ wwbyouhji }}</h1>#}
+
+
+
+    {#alert(ccc1num)#}
+    let zhebheji = document.getElementById('zhebheji')
+    zhebheji.innerText = ebhejinum
+
+</script>
+<script>
+    let zonghejiccc = document.getElementById('zongheji')
+    let zongheji1ccc = document.getElementById('zongheji1')
+    {#alert(zonghejiccc)#}
+    let cyqchj = document.getElementById('cyqchj')
+    let cyzhj = Number(zongheji1ccc.innerText) - Number(zonghejiccc.innerText)
+    {#alert(cyzhj)#}
+    cyqchj.innerText = cyzhj
+
+
+</script>
+<br>
+<br>
+<h1>组底产量</h1>
+<table  class="table table-hover table-bordered">
+    <tr class="info">
+        <th>组合总产量</th>
+        <th>外发组合</th>
+        <th>无组合</th>
+        <th>底加工</th>
+    </tr>
+    <tr>
+       {% for foo in zdcl %}
+        <td>{{ foo |default:''}}</td>
+       {% endfor %}
+
+    </tr>
+</table>
 </body>
 </html>
