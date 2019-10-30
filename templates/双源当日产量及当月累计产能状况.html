@@ -21,12 +21,15 @@
         }
 
         body {
-            margin: 5px;
+            margin: 15px;
+        }
+        h1{
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-{#<span>{{ all_plan_list.chengxing}}</span>#}
+<span>{{ all_plan_list}}</span>
 {##}
 {#    <table>#}
 {#        <tr>#}
@@ -37,33 +40,32 @@
 {##}
 {#    </table>#}
 
+
+{#<span>{{  zcall_nwb_list}}</span>#}
 <h1 style="margin: auto ;text-align: center"> 双源当日产量及当月累计产能状况</h1>
 
 
-<div style="margin-left: 35%">
+<div style="margin-left: 38%">
     <form method="get">
         {% csrf_token %}
         <div style=" float: left">
 
 
-            <select name="msg" class="form-control" id="msg">
-                <option value="成型" style="border: hidden" id="disabledSelect disabled">请选择类型</option>
-                <option value="成型">成型</option>
-                <option value="针车">针车</option>
 
-            </select>
         </div>
         <div style="float: left">
             <input type="month" name="months" style="border-radius:4px;height: 34px">
             <button class="btn btn-success">
                 提交
             </button>
+                     <span style="font-size: 15px" id="mon">{{ mon }}</span>
         </div>
+
     </form>
 
 </div>
 <br>
-<h1 id="h333">{{ list }} <span style="font-size: 15px" id="mon">{{ mon }}</span></h1>
+<h1 id="h333">{{ list }}</h1>
 <script>
     let mon = document.getElementById('mon')
     window.onload(msg1());
@@ -72,6 +74,8 @@
         setTimeout('mon.classList.add("aaa")', 3000)
     }
 </script>
+<br>
+<h1>成型</h1>
 
 <table border="1" class="table table-hover">
     <tr class="danger">
@@ -221,7 +225,7 @@
         <td class="ebheji">{{ wwbyouhji.0|default:0 }}</td>
     <tr>
     <tr>
-        <td>合计</td>
+        <td style="background-color: #ffb3a7 ;font-weight: bolder">合计</td>
         <td id="zhhejijieguo"></td>
         <td id="hjccc1">2</td>
         <td id="hjccc2"> 3</td>
@@ -234,7 +238,7 @@
         <td id="zhebheji">10</td>
     </tr>
     <tr>
-        <td>差异</td>
+        <td style="background-color: #20b2aa;font-weight: bolder">差异</td>
         <td id="cyqchj"></td>
         <td id="yccy"></td>
         <td id="eccy"></td>
@@ -443,6 +447,381 @@
 </script>
 <br>
 <br>
+<h1>针车</h1>
+<table border="1" class="table table-hover">
+    <tr class="danger">
+        <th>生产部</th>
+        <th colspan="6">生产一部</th>
+        <th colspan="4">生产二部</th>
+
+    </tr>
+    <tr class="success">
+        <th>厂别</th>
+        <th>全厂合计</th>
+        <th>一厂</th>
+        <th>二厂</th>
+        <th>自动化</th>
+        <th>防水</th>
+        <th>一部合计</th>
+        <th>五厂</th>
+        <th>射出</th>
+        <th>八厂</th>
+        <th>二部合计</th>
+
+    </tr>
+    <tr>
+
+        <td>目标</td>
+        <td id="zongheji1111" class="qcheji1111">1</td>
+        <script>
+            let zongheji111 = document.getElementById('zongheji1111')
+            zongheji111.innerText =  {{ zczuoheji1.0 }}+
+            {{ zcyouheji1.0 }}
+
+        </script>
+        {% for foo in  zcall_plan_list.chengxing1 %}
+
+
+            <td class="zcccc{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td class="zxheji1 ybheji1">{{ zczuoheji1.0|default:0 }}</td>
+
+        {% for foo in  all_plan_list.chengxing2 %}
+
+
+            <td class="zcxxx{{ forloop.counter }} zxheji1">{{ foo.msg.2 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td class="zxheji1 zcebheji1">{{zcyouheji1.0|default:0 }}</td>
+
+
+    </tr>
+
+
+    <tr>
+
+        <td>本厂</td>
+        <td id="zongheji11" class="qcheji1"></td>
+        <script>
+            let zongheji11 = document.getElementById('zongheji11')
+            zongheji11.innerText = {{ zczuoheji1.1 }}+
+            {{ zcyouheji1.1 |default:0}}
+
+        </script>
+        {% for foo in  zcall_plan_list.chengxing1 %}
+
+
+            <td class="zcccc{{ forloop.counter }} zxheji1">{{ foo.msg.3 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td class="zxheji1 ybheji1">{{ zczuoheji1.1 |default:0 }}</td>
+
+        {% for foo in  zcall_plan_list.chengxing2 %}
+
+
+            <td class="zcxxx{{ forloop.counter }}" class="zxheji1">{{ foo.msg.3 |default:'' }}</td>
+
+
+
+        {% endfor %}
+        <td class="zcebheji1">{{ zcyouheji1.1|default:0 }}</td>
+
+
+    </tr>
+    <tr>
+        <td>企业内外包</td>
+        <td id="zongheji31" class="qcheji1"></td>
+        <script>
+            let zongheji31 = document.getElementById('zongheji31')
+            zongheji31.innerText = {{ zcnwbzuohji1.0|default:0 }}+
+            {{ zcnwbyouhji1.0|default:0 }}
+
+        </script>
+
+        {% for foo in  zcall_nwb_list.chengxing1 %}
+
+
+            <td class="zcccc{{ forloop.counter }} zxheji1">  {{ foo.msg.2|default:'' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="zxheji1 ybheji1"> {{ zcnwbzuohji1.0|default:0 }}</td>
+        {% for foo in  zcall_nwb_list.chengxing2 %}
+
+
+            <td class="zcxxx{{ forloop.counter }} zxheji1">  {{ foo.msg.2|default:'  ' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="zxheji1 zcebheji1">{{ zcnwbyouhji1.0 |default:0 }}</td>
+    <tr>
+
+
+    <tr>
+        <td>企业外外包</td>
+        <td id="zongheji21" class="qcheji1"></td>
+        <script>
+            let zongheji21 = document.getElementById('zongheji21')
+            zongheji21.innerText = {{ zcwwbzuohji1.0|default:0 }}+
+            {{ zcwwbyouhji1.0|default:0 }}
+
+        </script>
+
+        {% for foo in  zcall_wwb_list.chengxing1 %}
+
+
+            <td class="zcccc{{ forloop.counter }}">  {{ foo.msg.2|default:'' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="ybheji1">{{ zcwwbzuohji1.0|default:0 }}</td>
+        {% for foo in  zcall_wwb_list.chengxing2 %}
+
+
+            <td class="zcxxx{{ forloop.counter }}">  {{ foo.msg.2|default:'  ' }}
+            </td>
+
+
+        {% endfor %}
+        <td class="zcebheji1">{{ zcwwbyouhji1.0|default:0 }}</td>
+    <tr>
+    <tr>
+        <td style="background-color: #ffb3a7 ;font-weight: bolder">合计</td>
+        <td id="zhhejijieguo1"></td>
+        <td id="zchjccc1">2</td>
+        <td id="zchjccc2"> 3</td>
+        <td id="zchjccc3">4</td>
+        <td id="zchjccc4">5</td>
+        <td id="zhybheji1">6</td>
+        <td id="zchjxxx1">7</td>
+        <td id="zchjxxx2">8</td>
+        <td id="zchjxxx3">9</td>
+        <td id="zczhebheji">10</td>
+    </tr>
+    <tr>
+        <td style="background-color: #20b2aa;font-weight: bolder">差异</td>
+        <td id="zccyqchj1"></td>
+        <td id="zcyccy1"></td>
+        <td id="zceccy1"></td>
+        <td id="zczdhcy1"></td>
+        <td id="zcfscy1"></td>
+        <td id="ybcy1"></td>
+        <td id="zcwccy1"></td>
+        <td id="zcsccy1"></td>
+        <td id="zcbccy1"></td>
+        <td id="zcebcy1"></td>
+    </tr>
+</table>
+
+<script>
+
+    {#总合计#}
+    let qcheji1 = document.getElementsByClassName('qcheji1')
+    {#alert(qcheji)#}
+    let qchejinum1 = 0
+    for (i = 0; i < qcheji1.length; i++) {
+        qchejinum1 = Number(qchejinum1) + Number(qcheji1[i].innerText)
+    }
+    {#alert(qchejinum)+#}
+    let zhhejijieguo1 = document.getElementById('zhhejijieguo1')
+    zhhejijieguo1.innerText = qchejinum1
+
+
+    {#一厂#}
+    let zcccc1 = document.getElementsByClassName('zcccc1')
+    {#alert(qcheji)#}
+    let ccc1num1 = 0
+    for (i = 0; i < zcccc1.length; i++) {
+        ccc1num1 = Number(ccc1num1) + Number(zcccc1[i].innerText)
+    }
+    let zcycmb1 = zcccc1[0].innerText
+    let zcycbc1 = zcccc1[1].innerText
+    let zcyccy1 = document.getElementById('zcyccy1')
+    zcyccy1.innerText = Number(zcycbc1) - Number(zcycmb1)
+
+    {#alert(ccc1num)#}
+    let zchjccc11 = document.getElementById('zchjccc1')
+    zchjccc11.innerText = ccc1num1
+
+
+    {#二厂#}
+    let zcccc2 = document.getElementsByClassName('zcccc2')
+    {#alert(qcheji)#}
+    let ccc2num1 = 0
+    for (i = 0; i < zcccc2.length; i++) {
+        ccc2num1 = Number(ccc2num1) + Number(zcccc2[i].innerText)
+    }
+    let zcecmb1 = zcccc2[0].innerText
+    let zcecbc1 = ccc2[1].innerText
+    let zceccy1 = document.getElementById('zceccy1')
+    zceccy1.innerText = Number(zcecbc1) - Number(zcecmb1)
+
+
+    {#alert(ccc1num)#}
+    let zchjccc2 = document.getElementById('zchjccc2')
+    zchjccc2.innerText = ccc2num1
+
+
+    {#自动化#}
+    let zcccc3 = document.getElementsByClassName('zcccc3')
+    {#alert(qcheji)#}
+    let ccc3num1 = 0
+    for (i = 0; i < zcccc3.length; i++) {
+        ccc3num1 = Number(ccc3num1) + Number(zcccc3[i].innerText)
+    }
+
+    let zczdhmb1 = zcccc3[0].innerText
+    let zczdhbc1 = zcccc3[1].innerText
+    let zczdhcy1 = document.getElementById('zczdhcy1')
+    zczdhcy1.innerText = Number(zczdhbc1) - Number(zczdhmb1)
+
+
+    {#alert(ccc1num)#}
+    let zchjccc3 = document.getElementById('zchjccc3')
+    zchjccc3.innerText = ccc3num1
+
+
+    {#防水#}
+    let zcccc4 = document.getElementsByClassName('zcccc4')
+    {#alert(qcheji)#}
+    let ccc4num1 = 0
+    for (i = 0; i < zcccc4.length; i++) {
+        ccc4num1 = Number(ccc4num1) + Number(zcccc4[i].innerText)
+    }
+    let zcfsmb1 = zcccc4[0].innerText
+    let zcfsbc1 = zcccc4[1].innerText
+    let zcfscy1 = document.getElementById('zcfscy1')
+    zcfscy1.innerText = Number(zcfsbc1) - Number(zcfsmb1)
+    {#alert(ccc1num)#}
+    let zchjccc4 = document.getElementById('zchjccc4')
+    zchjccc4.innerText = ccc4num1
+
+
+    {#一部综合#}
+    let ybheji1 = document.getElementsByClassName('ybheji1')
+    {#alert(qcheji)#}
+    let ybhejinum1 = 0
+    for (i = 0; i < ybheji1.length; i++) {
+        ybhejinum1 = Number(ybhejinum1) + Number(ybheji1[i].innerText)
+    }
+
+    let ybmb1 = ybheji1[0].innerText
+    let ybbc1 = ybheji1[1].innerText
+    let ybcy1 = document.getElementById('ybcy1')
+    ybcy1.innerText = Number(ybbc1) - Number(ybmb1)
+
+    {#alert(ccc1num)#}
+    let zhybheji1 = document.getElementById('zhybheji1')
+    zhybheji1.innerText = ybhejinum1
+
+
+    {#五厂#}
+    let zcxxx1 = document.getElementsByClassName('zcxxx1')
+    {#alert(qcheji)#}
+    let xxx1num1 = 0
+    for (i = 0; i < zcxxx1.length; i++) {
+        xxx1num1 = Number(xxx1num1) + Number(zcxxx1[i].innerText)
+    }
+
+    let zcwcmb1 = zcxxx1[0].innerText
+    let zcwcbc1 = zcxxx1[1].innerText
+    let zcwccy1 = document.getElementById('zcwccy1')
+    zcwccy1.innerText = Number(zcwcbc1) - Number(zcwcmb1)
+
+
+    {#alert(ccc1num)#}
+    let zchjxxx1 = document.getElementById('zchjxxx1')
+    zchjxxx1.innerText = xxx1num1
+
+
+    {#射出#}
+    let zcxxx2 = document.getElementsByClassName('zcxxx2')
+    {#alert(qcheji)#}
+    let xxx2num1 = 0
+    for (i = 0; i < zcxxx2.length; i++) {
+        xxx2num1 = Number(xxx2num1) + Number(zcxxx2[i].innerText)
+    }
+    let zcscmb1 = zcxxx2[0].innerText
+    let zcscbc1 = zcxxx2[1].innerText
+    let zcsccy1 = document.getElementById('zcsccy1')
+    zcsccy1.innerText = Number(zcscbc1) - Number(zcscmb1)
+
+
+    {#alert(ccc1num)#}
+    let zchjxxx2 = document.getElementById('zchjxxx2')
+    zchjxxx2.innerText = xxx2num1
+
+
+    {#八厂#}
+    let zcxxx3 = document.getElementsByClassName('zcxxx3')
+    {#alert(qcheji)#}
+    let xxx3num1 = 0
+    for (i = 0; i < zcxxx3.length; i++) {
+        xxx3num1 = Number(xxx3num1) + Number(zcxxx3[i].innerText)
+    }
+
+    let zcbcmb1 = zcxxx3[0].innerText
+    let zcbcbc1 = zcxxx3[1].innerText
+    let zcbccy1 = document.getElementById('zcbccy1')
+    zcbccy1.innerText = Number(zcbcbc1) - Number(zcbcmb1)
+
+    {#alert(ccc1num)#}
+    let zchjxxx3 = document.getElementById('zchjxxx3')
+    zchjxxx3.innerText = xxx3num1
+
+
+    {#二部综合#}
+    let zcebheji1 = document.getElementsByClassName('zcebheji1')
+    {#alert(qcheji)#}
+    let zcebhejinum1 = 0
+    for (i = 0; i < zcebheji1.length; i++) {
+        zcebhejinum1 = Number(zcebhejinum1) + Number(zcebheji1[i].innerText)
+    }
+
+       {#alert(zcebhejinum1)#}
+    let zczhebheji = document.getElementById('zczhebheji')
+    zczhebheji.innerText =zcebhejinum1
+    let zcebmb1 = zcebheji1[0].innerText
+    let zcebbc1 = zcebheji1[1].innerText
+    let zcebcy1 = document.getElementById('zcebcy1')
+    zcebcy1.innerText = Number(zcebbc1) - Number(zcebmb1)
+
+
+
+
+
+
+
+</script>
+<script>
+    let zonghejiccc1 = document.getElementById('zongheji1111')
+    let zongheji1ccc1 = document.getElementById('zongheji11')
+    {#alert(zonghejiccc)#}
+    let cyqchj1 = document.getElementById('zccyqchj1')
+    let cyzhj1 = Number(zongheji1ccc1.innerText) - Number(zonghejiccc1.innerText)
+    {#alert(cyzhj)#}
+    cyqchj1.innerText = cyzhj1
+
+
+</script>
+
+
+
+
+
+<br>
+<br>
+
 <h1>组底产量</h1>
 <table  class="table table-hover table-bordered">
     <tr class="info">

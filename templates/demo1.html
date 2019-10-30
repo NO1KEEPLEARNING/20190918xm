@@ -2,37 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-<script type="text/javascript">
-	document.onkeydown=function(){
-		var e = window.event||arguments[0];
-					if(e.keyCode==123){
-				alert('你知道的太多了！');
-					return false;
-			}
-				if((e.ctrlKey)&&(e.shiftKey)&&(e.keyCode==73)){
-			alert('你知道的太多了！');
-			return false;
-		}
-		if((e.ctrlKey)&&(e.keyCode==85)){
-			alert('你知道的太多了！');
-			return false;
-		}
-		if((e.ctrlKey)&&(e.keyCode==83)){
-		   alert('你知道的太多了！');
-		   return false;
-		}
-			}
-		var threshold = 160;
-	window.setInterval(function() {
-	    if (window.outerWidth - window.innerWidth > threshold ||
-	    window.outerHeight - window.innerHeight > threshold) {
-			window.location = "about:blank";
-	    }
-	}, 1e3);
-	</script>
+    <title>Title</title>
+           <script src="js/echarts.js"></script>
+
+</head>
+<body><!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+
+        let dataname =['张三']
+        let indicatorname =[
+           { name: '数据库',max:100},
+           { name: '业务',max:100},
+           { name: '沟通',max:100},
+           { name: '加法',max:100},
+           { name: '减法',max:100},
+           { name: '哈哈',max:100}
+        ]
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    title: {
+        text: '基础雷达图'
+    },
+    tooltip: {},
+    legend: {
+        data: dataname
+    },
+    radar: {
+        // shape: 'circle',
+        name: {
+            textStyle: {
+                color: '#fff',
+                backgroundColor: '#999',
+                borderRadius: 3,
+                padding: [3, 5]
+           }
+        },
+        indicator: indicatorname
+    },
+    series: [{
+        name: '预算 vs 开销（Budget vs spending）',
+        type: 'radar',
+        // areaStyle: {normal: {}},
+        data : [
+            {
+                value : [80, 70, 75, 83, 65, 73],
+                name : '张三'
+            }
+        ]
+    }]
+};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+
 </body>
 </html>

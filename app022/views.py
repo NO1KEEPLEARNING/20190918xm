@@ -336,12 +336,13 @@ def add_symsg(request):
 
 
 def cnfllmsg(request):
+    last_month = (datetime.datetime.now().replace(day=1) - datetime.timedelta(days=1)).strftime("%Y-%m")
     if request.method == 'GET':
 
         ontime = datetime.datetime.now()
 
         month = datetime.datetime.now().replace(day=1).month
-        last_month = (datetime.datetime.now().replace(day=1) - datetime.timedelta(days=1)).strftime("%Y-%m")
+
         ##print('nowtime',last_month)     # 上个月时间
 
         conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
@@ -376,11 +377,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row1[11]
             bumen = row1[2]
-            A1 = int(float(row1[3] or 0))
-            A2 = int(float(row1[4] or 0))
-            A3 = int(float(row1[5] or 0))
-            A4 = int(float(row1[6] or 0))
-            A5 = int(float(row1[7] or 0))
+            A1 = format((float(row1[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row1[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row1[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row1[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row1[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row1[8]) * 100)
                 print('row1[8]',row1[8])
@@ -405,11 +406,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row2[11]
             bumen = row2[2]
-            A1 = int(float(row2[3] or 0))
-            A2 = int(float(row2[4] or 0))
-            A3 = int(float(row2[5] or 0))
-            A4 = int(float(row2[6] or 0))
-            A5 = int(float(row2[7] or 0))
+            A1 = format((float(row2[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row2[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row2[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row2[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row2[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row2[8]) * 100)
                 print('row2[8]',row2[8])
@@ -434,11 +435,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row3[11]
             bumen = row3[2]
-            A1 = int(float(row3[3] or 0))
-            A2 = int(float(row3[4] or 0))
-            A3 = int(float(row3[5] or 0))
-            A4 = int(float(row3[6] or 0))
-            A5 = int(float(row3[7] or 0))
+            A1 = format((float(row3[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row3[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row3[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row3[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row3[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row3[8]) * 100)
                 print('row3[8]',row3[8])
@@ -464,11 +465,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row4[11]
             bumen = row4[2]
-            A1 = int(float(row4[3] or 0))
-            A2 = int(float(row4[4] or 0))
-            A3 = int(float(row4[5] or 0))
-            A4 = int(float(row4[6] or 0))
-            A5 = int(float(row4[7] or 0))
+            A1 = format((float(row4[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row4[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row4[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row4[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row4[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row4[8]) * 100)
                 print('row1[8]',row4[8])
@@ -504,8 +505,13 @@ def cnfllmsg(request):
 
     else:
         monthtime = request.POST.get('text1')
-        ##print('monthtime', monthtime)
-        last_month = monthtime
+        print('monthtime', monthtime)
+
+        if not monthtime:
+            last_month=last_month
+        else:
+            last_month = monthtime
+        print('lastmonth',last_month)
         conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
 
         cursor1 = conn.cursor()
@@ -538,18 +544,18 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row1[11]
             bumen = row1[2]
-            A1 = int(float(row1[3] or 0))
-            A2 = int(float(row1[4] or 0))
-            A3 = int(float(row1[5] or 0))
-            A4 = int(float(row1[6] or 0))
-            A5 = int(float(row1[7] or 0))
+            A1 = format((float(row1[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row1[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row1[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row1[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row1[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row1[8]) * 100)
             except:
                 A6 = ''
 
             A7 = format((float(row1[9] or 0) * 100) / 100.0, '.1f')
-
+            # print('a5>>>>>>>>>>>',A5)
             rowmsg.append(gongsi)
             rowmsg.append(bumen)
             rowmsg.append(A1)
@@ -566,11 +572,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row2[11]
             bumen = row2[2]
-            A1 = int(float(row2[3] or 0))
-            A2 = int(float(row2[4] or 0))
-            A3 = int(float(row2[5] or 0))
-            A4 = int(float(row2[6] or 0))
-            A5 = int(float(row2[7] or 0))
+            A1 = format((float(row2[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row2[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row2[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row2[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row2[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row2[8]) * 100)
             except:
@@ -594,11 +600,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row3[11]
             bumen = row3[2]
-            A1 = int(float(row3[3] or 0))
-            A2 = int(float(row3[4] or 0))
-            A3 = int(float(row3[5] or 0))
-            A4 = int(float(row3[6] or 0))
-            A5 = int(float(row3[7] or 0))
+            A1 = format((float(row3[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row3[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row3[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row3[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row3[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row3[8]) * 100)
             except:
@@ -622,11 +628,11 @@ def cnfllmsg(request):
             rowmsg = []
             gongsi = row4[11]
             bumen = row4[2]
-            A1 = int(float(row4[3] or 0))
-            A2 = int(float(row4[4] or 0))
-            A3 = int(float(row4[5] or 0))
-            A4 = int(float(row4[6] or 0))
-            A5 = int(float(row4[7] or 0))
+            A1 = format((float(row4[3] or 0) * 100) / 100.0, '.0f')
+            A2 = format((float(row4[4] or 0) * 100) / 100.0, '.0f')
+            A3 = format((float(row4[5] or 0) * 100) / 100.0, '.0f')
+            A4 = format((float(row4[6] or 0) * 100) / 100.0, '.0f')
+            A5 = format((float(row4[7] or 0) * 100) / 100.0, '.0f')
             try:
                 A6 = "%.f%%" % (float(row4[8]) * 100)
             except:
@@ -667,5 +673,5 @@ def download(request):
     file = open('./sy_msg_xsl/星昌.xls', 'rb')
     response = FileResponse(file)
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="demo.xlsx"'
+    response['Content-Disposition'] = 'attachment;filename="demo.xls"'
     return response
