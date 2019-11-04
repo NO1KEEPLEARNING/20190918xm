@@ -29,7 +29,7 @@
     </style>
 </head>
 <body>
-<span>{{ all_plan_list}}</span>
+{#<span>{{ all_plan_list.chengxing2}}</span>#}
 {##}
 {#    <table>#}
 {#        <tr>#}
@@ -42,7 +42,8 @@
 
 
 {#<span>{{  zcall_nwb_list}}</span>#}
-<h1 style="margin: auto ;text-align: center"> 双源当日产量及当月累计产能状况</h1>
+<h1 style="margin: auto ;text-align: center"> 双源{{ year }} 年{{ yue }}月
+    产能汇总</h1>
 
 
 <div style="margin-left: 38%">
@@ -58,7 +59,7 @@
             <button class="btn btn-success">
                 提交
             </button>
-                     <span style="font-size: 15px" id="mon">{{ mon }}</span>
+{#                     <span style="font-size: 15px" id="mon">{{ mon }}</span>#}
         </div>
 
     </form>
@@ -66,14 +67,14 @@
 </div>
 <br>
 <h1 id="h333">{{ list }}</h1>
-<script>
-    let mon = document.getElementById('mon')
-    window.onload(msg1());
-
-    function msg1() {
-        setTimeout('mon.classList.add("aaa")', 3000)
-    }
-</script>
+{#<script>#}
+{#    let mon = document.getElementById('mon')#}
+{#    window.onload(msg1());#}
+{##}
+{#    function msg1() {#}
+{#        setTimeout('mon.classList.add("aaa")', 3000)#}
+{#    }#}
+{#</script>#}
 <br>
 <h1>成型</h1>
 
@@ -526,7 +527,7 @@
         {% for foo in  zcall_plan_list.chengxing2 %}
 
 
-            <td class="zcxxx{{ forloop.counter }}" class="zxheji1">{{ foo.msg.3 |default:'' }}</td>
+            <td class="zcxxx{{ forloop.counter }}" class="zxheji1">{{ foo.msg.2 |default:'' }}</td>
 
 
 
@@ -662,7 +663,7 @@
         ccc2num1 = Number(ccc2num1) + Number(zcccc2[i].innerText)
     }
     let zcecmb1 = zcccc2[0].innerText
-    let zcecbc1 = ccc2[1].innerText
+    let zcecbc1 = zcccc2[1].innerText
     let zceccy1 = document.getElementById('zceccy1')
     zceccy1.innerText = Number(zcecbc1) - Number(zcecmb1)
 

@@ -46,6 +46,7 @@ def cn_msg(requests):
     print('monthsssssssss', months)
 
     day = str(year) + '-' + str(mon) + '-' + str(monthRange[1])
+
     server = '192.168.0.131'  # 数据库服务器名称或IP
     user = 'OA'  # 用户名
     password = 'Sems1991'  # 密码
@@ -106,8 +107,8 @@ def cn_msg(requests):
             yuefen = row[0]
             plantname = row[1]
             cc_type = row[2]
-            all_qty = row[3]
-            all_plan_qty = row[4]
+            all_qty = row[4]
+            all_plan_qty = row[3]
             dict['plantname'] = plantname
             dict['msg'] = [yuefen, cc_type, all_qty, all_plan_qty]
             plan_list.append(dict)
@@ -516,6 +517,8 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
 
         # 'list':list,
         'mon': day,
-        'zdcl': zdcl
+        'zdcl': zdcl,
+        'year':year,
+        'yue':mon
 
     })
