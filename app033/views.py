@@ -359,7 +359,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     zcall_wwb_list = {}
     zcwwb_list = []
     if num1:
-        print('wwb12312312313123131213')
+        # print('wwb12312312313123131213')
         for row in cursoq3 or 7:
             dict = {}
             yuefen = row[0]
@@ -375,7 +375,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         zcall_wwb_list['chengxing1'] = zcwwb_list[0:4]
         zcall_wwb_list['chengxing2'] = zcwwb_list[4:7]
     else:
-        print('wwb55555555555555555555555555555555')
+        # print('wwb55555555555555555555555555555555')
         for row in range(7):
             dict = {}
             yuefen = ''
