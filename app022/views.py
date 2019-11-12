@@ -2,6 +2,8 @@
 from django.shortcuts import render, HttpResponse
 import pymssql
 import random
+import xlwt
+
 import math
 import os
 from django.http import FileResponse
@@ -655,6 +657,105 @@ def cnfllmsg(request):
             len(shuangchilist), len(shuanglianlist), len(shuangyuanlist), len(xiangchanglist)
 
         ]
+        sumnum = len(shuangchilist) + len(shuanglianlist) + len(shuangyuanlist) + len(xiangchanglist)
+
+
+
+        '''
+        增加excel 下载功能
+        
+        '''
+
+        def set_style(name, height, bold=False):
+            alignment = xlwt.Alignment()  # Create Alignment
+            alignment.horz = xlwt.Alignment.HORZ_CENTER  # May be: HORZ_GENERAL, HORZ_LEFT, HORZ_CENTER, HORZ_RIGHT, HORZ_FILLED, HORZ_JUSTIFIED, HORZ_CENTER_ACROSS_SEL, HORZ_DISTRIBUTED
+            alignment.vert = xlwt.Alignment.VERT_CENTER  # May be: VERT_TOP, VERT_CENTER, VERT_BOTTOM, VERT_JUSTIFIED,
+            style = xlwt.XFStyle()  # 初始化样式
+
+            font = xlwt.Font()  # 为样式创建字体
+            font.name = name  # 'Times New Roman'
+            font.bold = bold
+            font.color_index = 4
+            font.height = height
+
+            style.font = font
+            style.alignment = alignment  # Add Alignment to Style
+            # style.borders = borders
+
+            return style
+
+        def write_excel():
+            f = xlwt.Workbook()  # 创建工作簿
+            sheet1 = f.add_sheet(u'sheet1', cell_overwrite_ok=True)  # 创建sheet
+            rowz = [u'双驰企业{}月各厂人均产能表'.format(last_month)]
+            row0 = [u'序号', u'公司', u'部门', u'换算后产能(双)', u'打卡折合后人数/月', u'申请工时/月', u'上班总工时/月', u'人均产能/天/人', u'电脑车比重',
+                    u'各厂总人均产能']
+            column0 = range(1, sumnum + 1)
+            # msg0 =shuangchilist+shuanglianlist+shuangyuanlist+xiangchanglist
+            # print(shuangyuanlist)
+            sheet1.col(0).width = 2222
+            sheet1.col(1).width = 2222
+            sheet1.col(2).width = 2222
+            sheet1.col(3).width = 4444
+            sheet1.col(4).width = 5555
+            sheet1.col(5).width = 4444
+            sheet1.col(6).width = 4444
+            sheet1.col(7).width = 4444
+            sheet1.col(8).width = 4444
+            sheet1.col(9).width = 4444
+            sheet1.col(10).width = 4444
+
+            sheet1.write_merge(0, 0, 3, 7, rowz[0], set_style('Times New Roman', 220, True))
+
+            for i in range(0, len(row0)):
+                sheet1.write(1, i, row0[i], set_style('Times New Roman', 220, True))
+            for j in range(len(shuangchilist)):
+
+                for i in range(0, len(shuangchilist[j])):
+                    sheet1.write(j + 2, i + 1, shuangchilist[j][i], set_style('Times New Roman', 220, True))
+            for j in range(len(shuanglianlist)):
+
+                for i in range(0, len(shuanglianlist[j])):
+                    sheet1.write(j + len(shuangchilist) + 2, i + 1, shuanglianlist[j][i],
+                                 set_style('Times New Roman', 220, True))
+            for j in range(len(shuangyuanlist)):
+
+                for i in range(0, len(shuangyuanlist[j])):
+                    sheet1.write(j + len(shuangchilist) + len(shuanglianlist) + 2, i + 1, shuangyuanlist[j][i],
+                                 set_style('Times New Roman', 220, True))
+            for j in range(len(xiangchanglist)):
+
+                for i in range(0, len(xiangchanglist[j])):
+                    sheet1.write(j + len(shuangchilist) + len(shuanglianlist) + len(shuangyuanlist) + 2, i + 1,
+                                 xiangchanglist[j][i], set_style('Times New Roman', 220, True))
+            for i in range(0, len(column0)):
+                sheet1.write(i + 2, 0, column0[i], set_style('Times New Roman', 220))
+            f.save('./bb_msg/人均产能.xls')  # 保存文件
+
+        write_excel()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return render(request, '产能总报表.html', {
             "shuangchilist": shuangchilist,
             "shuanglianlist": shuanglianlist,
@@ -675,3 +776,13 @@ def download(request):
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="demo.xls"'
     return response
+
+
+def listdownload(request):
+    file = open('./bb_msg/人均产能.xls', 'rb')
+    response = FileResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="SMESinformat.xls"'
+    return response
+
+

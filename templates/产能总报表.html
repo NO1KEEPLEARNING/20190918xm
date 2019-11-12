@@ -72,14 +72,15 @@
                    name="text1" autocomplete="off">
 
             <button class="btn btn-primary">确定</button>
-            <hr>
+
             {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
 
         </div>
     </form>
+
 </div>
-
-
+     <a href="{% url 'listdownload' %}" class="btn btn-success" type="button" style="position: absolute;float: left;top: 40px;left: 70%">下载当月数据</a>
+              <Hr>
 <div style="width: 80%; text-align: center ; margin: auto;">
     <table class="table table-bordered table-hover">
         {#      <p >{{oldtime }}</p>#}
