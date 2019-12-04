@@ -21,6 +21,43 @@
     <script src="../static/layui/layui.js"></script>
 
     <script src="/static/build/layui.js"></script>
+    <style>
+        .td1{
+            width: 46px;
+        }
+        .td2{width: 47px;
+        }
+        .td3{
+            width: 90px;
+        }
+        .td4{
+            width: 120px;
+        }
+        .td5{
+            width: 140px;
+        }
+        .td6{
+            width: 100px;
+        }
+        .td7{
+            width: 110px;
+        }
+        .td8{
+            width: 130px;
+        }
+        .td9{
+            width: 100px;
+        }
+        .td10{
+            width: 140px;
+        }
+        .red1{
+            background-color: red;
+        }
+        .gureen{
+            background-color: #00F7DE;
+        }
+    </style>
     <script>
         var myDate = new Date()
         let yea = myDate.getFullYear()
@@ -59,9 +96,22 @@
         });
 
     </script>
+    <SCRIPT>
+    window.onload=function () {
+           let sc8 =document.getElementsByClassName('sc8')
+
+    for(i=0;i<sc8.length;i++){
+        if (sc8[i].innerText=='0.0'){
+            sc8[i].innerText=''
+        }
+    }
+    }
+
+</SCRIPT>
     <title>产能总报表</title>
 </head>
 <body>
+<div  style="background-color: white ;position: fixed ;width: 100%">
     <h1 style="position:relative;left: 30%">双驰企业{{times }}月各厂人均产能表</h1>
 <div style="margin: auto; position: relative ;left: 30%">
     <form action="" method="post">
@@ -79,9 +129,11 @@
     </form>
 
 </div>
-     <a href="{% url 'listdownload' %}" class="btn btn-success" type="button" style="position: absolute;float: left;top: 40px;left: 70%">下载当月数据</a>
-              <Hr>
-<div style="width: 80%; text-align: center ; margin: auto;">
+     <a  href="{% url 'listdownload' %}" class="btn btn-success" type="button" style="position: absolute;float: left;top: 40px;left: 70%">下载当月数据</a>
+              <Br>
+
+</div>
+<div style=" width: 80%;text-align: center ; margin: auto; padding-top: 137px">
     <table class="table table-bordered table-hover">
         {#      <p >{{oldtime }}</p>#}
         <tr style=" border: 1px black; background-color: #00FFFF">
@@ -98,36 +150,44 @@
         </tr>
         <div>
             {% for row1 in shuangchilist %}
-                <tr style="background-color: #c9c9c9">
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ row1.0 }}</td>
-                    <td>{{ row1.1 }}</td>
-                    <td>{{ row1.2 }}</td>
-                    <td>{{ row1.3 }}</td>
-                    <td>{{ row1.4 }}</td>
-                    <td>{{ row1.5 }}</td>
-                    <td>{{ row1.6 }}</td>
-                    <td>{{ row1.7 |default:'' }}</td>
-                    <td>{{ row1.8 }}</td>
+                <tr>
+                    <td  class="td1">{{ forloop.counter }}</td>
+                    <td class="td2">{{ row1.0 }}</td>
+                    <td class="td3">{{ row1.1 }}</td>
+                    <td class="td4">{{ row1.2 }}</td>
+                    <td class="td5">{{ row1.3 }}</td>
+                    <td class="td6">{{ row1.4 }}</td>
+                    <td class="td7">{{ row1.5 }}</td>
+                    <td class="td8">{{ row1.6 }}</td>
+                    <td class="td9">{{ row1.7 |default:'' }}</td>
+                    <td class="sc8 td10">{{ row1.8 |default:''}}</td>
                 </tr>
             {% endfor %}
+
         </div>
 
+    </table>
+    <table class="table table-bordered table-hover">
+        <br>
+
         <div>
+
+
             {% for row2 in shuanglianlist %}
-                <tr style="background-color: #FFB800">
-                    <td class="slnum">  {{ forloop.counter}}</td>
-                    <td>{{ row2.0 }}</td>
-                    <td>{{ row2.1 }}</td>
-                    <td>{{ row2.2 }}</td>
-                    <td>{{ row2.3 }}</td>
-                    <td>{{ row2.4 }}</td>
-                    <td>{{ row2.5 }}</td>
-                    <td>{{ row2.6 }}</td>
-                    <td>{{ row2.7 |default:'' }}</td>
-                    <td>{{ row2.8 }}</td>
+                <tr >
+                    <td class="slnum td1">  {{ forloop.counter}}</td>
+                    <td class="td2">{{ row2.0 }}</td>
+                    <td class="td3">{{ row2.1 }}</td>
+                    <td class="td4">{{ row2.2 }}</td>
+                    <td class="td5">{{ row2.3 }}</td>
+                    <td class="td6">{{ row2.4 }}</td>
+                    <td class="td7">{{ row2.5 }}</td>
+                    <td class="td8">{{ row2.6 }}</td>
+                    <td class="td9">{{ row2.7 |default:'' }}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
                 </tr>
             {% endfor %}
+
         </div>
         <script>
             let slnum =document.getElementsByClassName('slnum')
@@ -136,22 +196,26 @@
             }
 
         </script>
+    </table>
+        <table class="table table-bordered table-hover">
+            <br>
 
         <div>
             {% for row2 in shuangyuanlist %}
-                <tr style="background-color: #eb7350" class="table-hover hover">
-                    <td  class="synum">{{ forloop.counter }}</td>
-                    <td>{{ row2.0 }}</td>
-                    <td>{{ row2.1 }}</td>
-                    <td>{{ row2.2 }}</td>
-                    <td>{{ row2.3 }}</td>
-                    <td>{{ row2.4 }}</td>
-                    <td>{{ row2.5 }}</td>
-                    <td>{{ row2.6 }}</td>
-                    <td>{{ row2.7 |default:'' }}</td>
-                    <td>{{ row2.8 }}</td>
+                <tr  class="table-hover hover">
+                    <td  class="synum td1">{{ forloop.counter }}</td>
+                    <td class="td2">{{ row2.0 }}</td>
+                    <td class="td3">{{ row2.1 }}</td>
+                    <td class="td4">{{ row2.2 }}</td>
+                    <td class="td5">{{ row2.3 }}</td>
+                    <td class="td6">{{ row2.4 }}</td>
+                    <td class="td7">{{ row2.5 }}</td>
+                    <td class="td8">{{ row2.6 }}</td>
+                    <td class="td9">{{ row2.7 |default:'' }}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
                 </tr>
             {% endfor %}
+
         </div>
            <script>
             let synum =document.getElementsByClassName('synum')
@@ -161,21 +225,24 @@
 
         </script>
 
+    </table>
+       <table class="table table-bordered table-hover">
+            <br>
 
 
        <div>
             {% for row2 in xiangchanglist %}
-                <tr style="background-color: powderblue" class="table-hover hover">
-                    <td class="xcnum">{{ forloop.counter }}</td>
-                    <td>{{ row2.0 }}</td>
-                    <td>{{ row2.1 }}</td>
-                    <td>{{ row2.2 }}</td>
-                    <td>{{ row2.3 }}</td>
-                    <td>{{ row2.4 }}</td>
-                    <td>{{ row2.5 }}</td>
-                    <td>{{ row2.6 }}</td>
-                    <td>{{ row2.7 |default:'' }}</td>
-                    <td>{{ row2.8 }}</td>
+                <tr class="table-hover hover">
+                    <td class="xcnum td1">{{ forloop.counter }}</td>
+                    <td class="td2">{{ row2.0 }}</td>
+                    <td class="td3"> {{ row2.1 }}</td>
+                    <td class="td4">{{ row2.2 }}</td>
+                    <td class="td5">{{ row2.3 }}</td>
+                    <td class="td6">{{ row2.4 }}</td>
+                    <td class="td7">{{ row2.5 }}</td>
+                    <td class="td8">{{ row2.6 }}</td>
+                    <td class="td9">{{ row2.7 |default:'' }}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
                 </tr>
             {% endfor %}
         </div>
@@ -192,5 +259,32 @@
     </table>
 </div>
 
+
+
+<script>
+ {#  把百分数转成小数    #}
+    function toPoint(percent){
+    var str=percent.replace("%","");
+    str= str/100;
+    return str;
+}
+    let td9 =document.getElementsByClassName('td9')
+    for(i=0;i<td9.length;i++){
+        console.log(toPoint(td9[i].innerText))
+        if(toPoint(td9[i].innerText)>= 0.2){
+             td9[i].classList.add('red1')
+        }
+    }
+
+
+    let td10 = document.getElementsByClassName('td10')
+        for(i=0;i<td10.length;i++){
+        {#console.log(toPoint(td10[i].innerText))#}
+        if(td10[i].innerText>= 29){
+             td10[i].classList.add('gureen')
+        }
+    }
+
+</script>
 </body>
 </html>

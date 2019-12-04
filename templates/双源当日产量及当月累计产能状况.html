@@ -16,6 +16,9 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <style>
+        .red1{
+            background-color: red;
+        }
         .aaa {
             display: none;
         }
@@ -81,7 +84,7 @@
 {#    }#}
 {#</script>#}
 {#<br>#}
-<h3>成型    <span> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量</span></h3>
+<h3>成型    <span style="font-size: 20px ;color: red"> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量</span></h3>
 
 <table border="1" class="table table-hover">
     <tr class="danger">
@@ -110,8 +113,8 @@
         <td id="zongheji" class="qcheji"></td>
         <script>
             let zongheji = document.getElementById('zongheji')
-            zongheji.innerText = {{ zuoheji.0 }}+
-            {{ youheji.0 }}
+            zongheji.innerText = {{ zuoheji.1 }}+
+            {{ youheji.1 }}
 
         </script>
         {% for foo in  all_plan_list.chengxing1 %}
@@ -122,7 +125,7 @@
 
 
         {% endfor %}
-        <td class="zxheji ybheji">{{ zuoheji.0|default:0 }}</td>
+        <td class="zxheji ybheji">{{ zuoheji.1|default:0 }}</td>
 
         {% for foo in  all_plan_list.chengxing2 %}
 
@@ -144,8 +147,8 @@
         <td id="zongheji1" class="qcheji"></td>
         <script>
             let zongheji1 = document.getElementById('zongheji1')
-            zongheji1.innerText = {{ zuoheji.1 }}+
-            {{ youheji.1 |default:0}}
+            zongheji1.innerText = {{ zuoheji.0 }}+
+            {{ youheji.0 |default:0}}
 
         </script>
         {% for foo in  all_plan_list.chengxing1 %}
@@ -156,7 +159,7 @@
 
 
         {% endfor %}
-        <td class="zxheji ybheji">{{ zuoheji.1 |default:0 }}</td>
+        <td class="zxheji ybheji">{{ zuoheji.0 |default:0 }}</td>
 
         {% for foo in  all_plan_list.chengxing2 %}
 
@@ -244,19 +247,20 @@
         <td id="zhebheji">10</td>
     </tr>
     <tr>
-        <td style="background-color: #20b2aa;font-weight: bolder">差异</td>
-        <td id="cyqchj"></td>
-        <td id="yccy"></td>
-        <td id="eccy"></td>
-        <td id="zdhcy"></td>
-        <td id="fscy"></td>
-        <td id="ybcy"></td>
-        <td id="wccy"></td>
-        <td id="sccy"></td>
-        <td id="bccy"></td>
-        <td id="ebcy"></td>
+        <td style="background-color: #20b2aa;font-weight: bolder" class="cyy">差异</td>
+        <td id="cyqchj" class="cyy"></td>
+        <td id="yccy"class="cyy"></td>
+        <td id="eccy" class="cyy"></td>
+        <td id="zdhcy" class="cyy"></td>
+        <td id="fscy" class="cyy"></td>
+        <td id="ybcy" class="cyy"></td>
+        <td id="wccy" class="cyy"></td>
+        <td id="sccy" class="cyy"></td>
+        <td id="bccy" class="cyy"></td>
+        <td id="ebcy" class="cyy"></td>
     </tr>
 </table>
+
 
 
 <script>
@@ -452,6 +456,8 @@
 
 </script>
 
+
+
 <h3>针车</h3>
 <table border="1" class="table table-hover">
     <tr class="danger">
@@ -474,35 +480,35 @@
         <th>二部合计</th>
 
     </tr>
-    <tr style="display: none">
+    <tr >
 
         <td>目标</td>
-        <td id="zongheji1111" class="qcheji1111"></td>
+        <td id="zongheji1111" class="qcheji1111 qcheji1"></td>
         <script>
             let zongheji111 = document.getElementById('zongheji1111')
-            zongheji111.innerText =  {{ zczuoheji1.0 }}+
-            {{ zcyouheji1.0 }}
+            zongheji111.innerText =  {{ zczuoheji1.1 }}+
+            {{ zcyouheji1.1 }}
 
         </script>
         {% for foo in  zcall_plan_list.chengxing1 %}
 
 
-            <td class="zcccc{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
+            <td class="zcccc{{ forloop.counter }}">{{ foo.msg.3 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td class="zxheji1 ybheji1">{{ zczuoheji1.0|default:0 }}</td>
+        <td class="zxheji1 ybheji1">{{ zczuoheji1.1|default:0 }}</td>
 
-        {% for foo in  all_plan_list.chengxing2 %}
+        {% for foo in  zcall_plan_list.chengxing2 %}
 
 
-            <td class="zcxxx{{ forloop.counter }} zxheji1">{{ foo.msg.2 |default:'' }}</td>
+            <td class="zcxxx{{ forloop.counter }} zxheji1">{{ foo.msg.3 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td class="zxheji1 zcebheji1">{{zcyouheji1.0|default:0 }}</td>
+        <td class="zxheji1 zcebheji1">{{zcyouheji1.1|default:0 }}</td>
 
 
     </tr>
@@ -514,19 +520,19 @@
         <td id="zongheji11" class="qcheji1"></td>
         <script>
             let zongheji11 = document.getElementById('zongheji11')
-            zongheji11.innerText = {{ zczuoheji1.1 }}+
-            {{ zcyouheji1.1 |default:0}}
+            zongheji11.innerText = {{ zczuoheji1.0 }}+
+            {{ zcyouheji1.0 |default:0}}
 
         </script>
         {% for foo in  zcall_plan_list.chengxing1 %}
 
 
-            <td class="zcccc{{ forloop.counter }} zxheji1">{{ foo.msg.3 |default:'' }}</td>
+            <td class="zcccc{{ forloop.counter }} zxheji1">{{ foo.msg.2 |default:'' }}</td>
 
 
 
         {% endfor %}
-        <td class="zxheji1 ybheji1">{{ zczuoheji1.1 |default:0 }}</td>
+        <td class="zxheji1 ybheji1">{{ zczuoheji1.0 |default:0 }}</td>
 
         {% for foo in  zcall_plan_list.chengxing2 %}
 
@@ -536,7 +542,7 @@
 
 
         {% endfor %}
-        <td class="zcebheji1">{{ zcyouheji1.1|default:0 }}</td>
+        <td class="zcebheji1">{{ zcyouheji1.0|default:0 }}</td>
 
 
     </tr>
@@ -614,17 +620,17 @@
         <td id="zczhebheji">10</td>
     </tr>
     <tr>
-        <td style="background-color: #20b2aa;font-weight: bolder">差异</td>
-        <td id="zccyqchj1"></td>
-        <td id="zcyccy1"></td>
-        <td id="zceccy1"></td>
-        <td id="zczdhcy1"></td>
-        <td id="zcfscy1"></td>
-        <td id="ybcy1"></td>
-        <td id="zcwccy1"></td>
-        <td id="zcsccy1"></td>
-        <td id="zcbccy1"></td>
-        <td id="zcebcy1"></td>
+        <td style="background-color: #20b2aa;font-weight: bolder" class="cye">差异</td>
+        <td id="zccyqchj1" class="cye"></td>
+        <td id="zcyccy1" class="cye"></td>
+        <td id="zceccy1" class="cye"></td>
+        <td id="zczdhcy1" class="cye"></td>
+        <td id="zcfscy1" class="cye"></td>
+        <td id="ybcy1" class="cye"></td>
+        <td id="zcwccy1" class="cye"></td>
+        <td id="zcsccy1" class="cye"></td>
+        <td id="zcbccy1" class="cye"></td>
+        <td id="zcebcy1" class="cye"></td>
     </tr>
 </table>
 
@@ -820,7 +826,30 @@
 
 </script>
 
+<script>
+    let cye =document.getElementsByClassName('cye')
+        let cyy =document.getElementsByClassName('cyy')
+    window.onload=function () {
+        for(i=0;i<cye.length;i++ ){
+            console.log(cye[i].innerHTML)
+        if (cye[i].innerHTML<0) {
+            cye[i].classList.add('red1')
+        }
+    }
+         for(i=0;i<cyy.length;i++ ){
+            console.log(cyy[i].innerHTML)
+        if (cyy[i].innerHTML<0) {
+            cyy[i].classList.add('red1')
+        }
+    }
+    }
 
+
+
+
+
+
+</script>
 <h3>组底产量</h3>
 <table  class="table table-hover table-bordered">
     <tr class="info">

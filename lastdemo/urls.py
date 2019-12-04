@@ -29,6 +29,8 @@ urlpatterns = [
     path(r'download',view22.download,name='download'),
     path(r'listdownload', view22.listdownload, name='listdownload'),
     path('cnmsg/',view33.cn_msg),
+    path('CTW_LT',view33.CTW_LT ,name='CTW_LT'),
+    # path('scjdb23640',view33.scjdb23640 ,name='scjdb23640'), --数据量太大,且没有用,放弃该操作
 
 
 ]

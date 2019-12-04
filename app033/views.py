@@ -6,6 +6,7 @@ import random
 import math
 import os
 from django.http import FileResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 import datetime
@@ -32,7 +33,10 @@ def cn_msg(requests):
 
     year, mon = months.split('-')
     year = int(year)
-    mon = int(mon)
+    mon = int(mon) - 1  # 取上个月数据
+    if mon == 0:
+        year = year - 1
+        mon = 12
     print('year', year)
     print('mon', mon)
 
@@ -273,8 +277,6 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     cursor8.execute(sql8)
     nwbyouhji = cursor8.fetchone()
 
-
-
     # 针车查询操作
     # 查询操作
 
@@ -409,12 +411,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
 
         '''.format(day)
     cursoq5.execute(sql5)
-    zcwwbyouhji1= cursoq5.fetchone()
-
-
-
-
-
+    zcwwbyouhji1 = cursoq5.fetchone()
 
     # 针车内外包
     sql6 = '''
@@ -477,7 +474,6 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     cursoq8.execute(sql8)
     zcnwbyouhji1 = cursoq8.fetchone()
 
-
     zdcl = []
     sql9 = '''
     select top 100  all_qty  from VIEW_TEMP_DAY_CVT_CAP where docdate='{}' and cc_type ='组合' 
@@ -513,12 +509,63 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         'zcnwbzuohji1': zcnwbzuohji1,
         'zcnwbyouhji1': zcnwbyouhji1,
 
-
-
         # 'list':list,
         'mon': day,
         'zdcl': zdcl,
-        'year':year,
-        'yue':mon
+        'year': year,
+        'yue': mon
 
     })
+
+
+def CTW_LT(request):
+    '''
+
+    :param request:
+    :return:
+    '''
+    server = '192.168.0.131'  # 数据库服务器名称或IP
+    user = 'ERP_DEV'  # 用户名
+    password = 'Sems2019'  # 密码
+    database = 'SYERP'  # 数据库名称
+    port = '1433'
+    conn = pymssql.connect(server, user, password, database, port)
+    cursor = conn.cursor()
+    # begindate =''
+    # enddate =''
+    if request.method == 'GET':
+        dt = datetime.datetime.now()
+
+        dt1 = dt + datetime.timedelta(days=-30)  # 前30天
+        dt2 = dt + datetime.timedelta(days=-1)  # 昨天
+        nowyear = dt1.year
+        nowmonth = dt1.month
+        nowday = dt1.day
+        oldyear = dt2.year
+        oldmonth = dt2.month
+        oldday = dt2.day
+
+        # print(dt1)
+        oldtime = str(nowyear) + '-' + str(nowmonth) + '-' + str(nowday)
+        nowtime = str(oldyear) + '-' + str(oldmonth) + '-' + str(oldday)
+        # print(nowtime)
+        begindate = request.GET.get('begindate')
+        enddate = request.GET.get('enddate')
+
+        if not begindate:
+            begindate = oldtime
+        if not enddate:
+            enddate = nowtime
+        print('begindate', begindate)
+        print('enddate', enddate)
+        cursor.execute("exec DBO.USP_CTW_LT @begindate='{}', @enddate ='{}'".format(begindate, enddate))
+        result = cursor.fetchall()  # 得到结果集
+        msg_list = []
+        for row in result:
+            msg_list.append(row)
+
+        return render(request, 'CTW_LT.html', {
+            'msg_list': msg_list
+
+        })
+

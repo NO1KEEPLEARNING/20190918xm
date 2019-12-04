@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+      <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="/static/build/layui.js"></script>
+    <title>CTW_LT报表</title>
+</head>
+<body>
+
+<h1 style="margin: auto; text-align: center"> CTW_LT 报表</h1 >
+    <script>
+        var myDate = new Date()
+        let yea = myDate.getFullYear()
+        let mon = myDate.getMonth()
+        {#let msg#}
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            //年月选择器
+            laydate.render({
+                elem: '#test1'
+                , type: 'date',
+                {#min:'{{oldtime}}'#}
+                {#value:''#}
+
+            });
+             laydate.render({
+                elem: '#test2'
+                , type: 'date',
+                {#min:'{{oldtime}}'#}
+                {#value:''#}
+
+            });
+
+
+            {#laydate.render({#}
+            {#    elem: '#test1' //指定元素#}
+            {#     ,theme: '#grid'#}
+            {#,min: '2019-06-13'#}
+            {#    , done: function (value, date, endDate) {#}
+            {#        // alert(value)#}
+            {#        console.log(value); //得到日期生成的值，如：2017-08-18#}
+            {#        msg =value#}
+            {#        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}#}
+            {#        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。#}
+            {#        msggess=document.getElementById('msggess')#}
+            {#        msggess.innerText=msg#}
+            {#    }#}
+            {#{);#}
+
+
+        });
+
+    </script>
+    <div style="margin-left: 180px">
+            <form  method="get">
+    <div> <!-- 注意：这一层元素并不是必须的 -->
+            <h3 style="display: inline-block; font-size: 18px"><span>开始时间</span></h3>
+            <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
+                   name="begindate" autocomplete="off">
+            <h3 style="display: inline-block; font-size: 18px"><span>结束时间</span></h3>
+            <input style="display: inline;width: 250px" type="text" class="layui-input" id="test2"
+                   name="enddate" autocomplete="off">
+
+            <button class="btn btn-primary">确定</button>
+
+            {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+
+        </div>
+</form>
+    </div>
+
+
+{#    <form  method="get">#}
+{#    <div> <!-- 注意：这一层元素并不是必须的 -->#}
+{#            #}
+{#            <button class="btn btn-primary">确定</button>#}
+{##}
+            {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+{##}
+{#        </div>#}
+{#</form>#}
+
+
+{#{{ msg_list }}#}
+
+
+
+
+
+<table class="table table-bordered table-hover"   >
+    <tr class="table-bordered" style=" background-color: #00FFFF">
+        <th>序号</th>
+        <th>订单类型</th>
+        <th>生产周期</th>
+        <th>双源一厂</th>
+        <th>双源二厂</th>
+        <th>双源五厂</th>
+        <th>防水车间</th>
+        <th>射出车间</th>
+        <th>自动化车间</th>
+        <th>双源八场</th>
+
+    </tr>
+     {% for foo in msg_list %}
+        <tr>
+            <td>{{ foo.0 |default:''}}</td>
+            <td>{{ foo.2 |default:''}}</td>
+            <td>{{ foo.3 |default:''}}</td>
+            <td>{{ foo.4 |default:''}}</td>
+            <td>{{ foo.5 |default:''}}</td>
+            <td>{{ foo.6 |default:''}}</td>
+            <td>{{ foo.7 |default:''}}</td>
+            <td>{{ foo.8 |default:''}}</td>
+            <td>{{ foo.9 |default:''}}</td>
+            <td>{{ foo.10 |default:''}}</td></tr>
+     {% endfor %}
+     
+
+
+</table>
+</body>
+</html>
