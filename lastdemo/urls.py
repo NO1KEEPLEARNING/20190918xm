@@ -18,6 +18,7 @@ from django.urls import path,re_path
 from app01 import views
 from app022 import views as view22
 from app033 import views as view33
+from app044 import views as view44
 urlpatterns = [
     # path('admin', admin.site.urls),
     path(r'show/',views.show_msg),
@@ -29,8 +30,9 @@ urlpatterns = [
     path(r'download',view22.download,name='download'),
     path(r'listdownload', view22.listdownload, name='listdownload'),
     path('cnmsg/',view33.cn_msg),
-    path('CTW_LT',view33.CTW_LT ,name='CTW_LT'),
-    # path('scjdb23640',view33.scjdb23640 ,name='scjdb23640'), --数据量太大,且没有用,放弃该操作
+    path('CTW_LT/',view33.CTW_LT ,name='CTW_LT'),
+    path(r'text/',view44.GreetingView().test1)
+
 
 
 ]

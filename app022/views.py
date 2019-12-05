@@ -17,11 +17,20 @@ import xlrd
 import os
 
 
+
+
 from decimal import Decimal
 
 
 
-base_path = os.getcwd() + '\sy_msg_xsl/'
+
+base_spl ='EKP_PRODUCTIVITY_SY'                   # 数据库名称   EKP_PRODUCTIVITY_SY 正式库 , EKP_PRODUCTIVITY_SY_TEST测试库
+base_path = os.getcwd() + '\sy_msg_xsl//'   # 文件地址
+base_time  = ''                      #文件保存时间
+
+
+
+
 
 tyep = 12  # 每页显示多少个
 global oldgcname
@@ -69,8 +78,8 @@ def msgupload(request):
         cursor1 = conn.cursor()
 
         cursor1.execute(
-            "select   FD_YUEFEN,FD_GONGSI, COUNT (LIS_ID),LIS_ID   from ekp_productivity_sy WHERE FD_GONGSI='{}'  GROUP BY(LIS_ID,FD_YUEFEN,FD_GONGSI) ORDER BY FD_YUEFEN DESC".format(
-                gcmsg))
+            "select   FD_YUEFEN,FD_GONGSI, COUNT (LIS_ID),LIS_ID   from  {} WHERE FD_GONGSI='{}'  GROUP BY(LIS_ID,FD_YUEFEN,FD_GONGSI) ORDER BY FD_YUEFEN DESC".format(
+                base_spl    , gcmsg))
 
         sy_msg = []
         i = 0
@@ -142,8 +151,8 @@ def show_symsg(request, id):
 
 select  FD_ID,FD_YUEFEN,FD_BUMEN,FD_GONGSI,FD_HUANSUANHOUCHANNENG,FD_DAKAZHEHEHOURENSHU,SHENQINGGONGSHI,SHANGBANZONGGONGSHI,
                 RENJUNCHANNENG,DIANNAOCHEBIZHONG,GECHANGRENJUNCHANNENG,LIS_ID   FROM (select  FD_ID,FD_YUEFEN,FD_BUMEN,FD_GONGSI,FD_HUANSUANHOUCHANNENG,FD_DAKAZHEHEHOURENSHU,SHENQINGGONGSHI,SHANGBANZONGGONGSHI,
-                RENJUNCHANNENG,DIANNAOCHEBIZHONG,GECHANGRENJUNCHANNENG,LIS_ID   from ekp_productivity_sy  WHERE LIS_ID ={} and FD_GONGSI='{}' order  by FD_ID)
-    """.format(id, oldgcnames))
+                RENJUNCHANNENG,DIANNAOCHEBIZHONG,GECHANGRENJUNCHANNENG,LIS_ID   from {}  WHERE LIS_ID ={} and FD_GONGSI='{}' order  by FD_ID)
+    """.format( base_spl,id, oldgcnames))
     sy_msg = []
     for rows in cursor1:
         rows = rows
@@ -200,7 +209,7 @@ def add_symsg(request):
         cursor1 = conn.cursor()
         try:
             cursor1.execute(
-                "select     max(LIS_ID)   from ekp_productivity_sy   ORDER BY FD_YUEFEN DESC  ")
+                "select     max(LIS_ID)   from {}   ORDER BY FD_YUEFEN DESC  ".format(base_spl))
             global nowid
             nowid = 0
 
@@ -227,11 +236,18 @@ def add_symsg(request):
         # ##print('接收到的时间', timemsg1, type(timemsg1))
         avatar = request.FILES.get("exampleInputFile")
         # ##print('add测试', avatar)
-        with open(base_path + avatar.name, 'wb') as f:
+
+
+        '''
+        文件保存文件
+        '''
+
+
+        with open(base_path +timemsg1+avatar.name, 'wb') as f:
             for line in avatar:
                 f.write(line)
 
-        files = xlrd.open_workbook(base_path + avatar.name)
+        files = xlrd.open_workbook(base_path + timemsg1+avatar.name)
         sheet = files.sheet_by_index(0)  # 选取sheet1表格
         row = sheet.nrows  # 列表行数
         # ##print('row', row)
@@ -244,14 +260,14 @@ def add_symsg(request):
         cursor2 = conn.cursor()
 
         cursor1.execute(
-            "select     max(LIS_ID)   from ekp_productivity_sy   ORDER BY FD_YUEFEN DESC   ")
+            "select     max(LIS_ID)   from {}   ORDER BY FD_YUEFEN DESC   ".format(base_spl))
 
         timemsg11 = str(timemsg1[0:7])   # 接受到年月
         ##print('接收到的日期时间为', timemsg11)
         ##print('接收到的公司名称为', oldgcname)
         cursor2.execute(
-            "SELECT distinct (FD_YUEFEN) from EKP_PRODUCTIVITY_SY WHERE FD_YUEFEN like'%{}%' and FD_GONGSI='{}'".format(
-                timemsg11, oldgcname))
+            "SELECT distinct (FD_YUEFEN) from {} WHERE FD_YUEFEN like'%{}%' and FD_GONGSI='{}'".format(
+                base_spl,   timemsg11, oldgcname))
         try:
             the_time1 = cursor2.fetchone()[0]
         except:
@@ -293,28 +309,21 @@ def add_symsg(request):
             GECHANGRENJUNCHANNENG = str(text[10])
             LIS_ID = str(text[11])
 
-            # ##print('加入的内容为')
-            # ##print(FD_ID, FD_YUEFEN11, FD_BUMEN, FD_GONGSI, FD_HUANSUANHOUCHANNENG, FD_DAKAZHEHEHOURENSHU,
-            #       SHENQINGGONGSHI, SHANGBANZONGGONGSHI,
-            #       RENJUNCHANNENG, DIANNAOCHEBIZHONG, GECHANGRENJUNCHANNENG, LIS_ID)
-            # ##print('FD_YUEFEN', FD_YUEFEN11[0:7], type(FD_YUEFEN11[0:7]), '========>')
-            # ##print('timemsg1', timemsg1[0:7], type(str(timemsg1[0:7])), '=====>')
-            #
-            # ##print("结束为==>>>>>>>>>>>>>>>")
-            # ##print('cursor2.fetchone()',cursor2.fetchone())
+
 
             if the_time1:
 
                 cursor3.execute(
-                    '''UPDATE EKP_PRODUCTIVITY_SY  set FD_BUMEN='{0}',FD_HUANSUANHOUCHANNENG='{1}',FD_DAKAZHEHEHOURENSHU='{2}',SHENQINGGONGSHI='{3}',SHANGBANZONGGONGSHI='{4}',RENJUNCHANNENG='{5}',DIANNAOCHEBIZHONG='{6}',GECHANGRENJUNCHANNENG='{7}',FD_GONGSI='{8}',FD_YUEFEN='{9}' WHERE FD_ID={10}  and FD_GONGSI='{11}' and FD_YUEFEN='{12}'  '''
+                    '''UPDATE {13}  set FD_BUMEN='{0}',FD_HUANSUANHOUCHANNENG='{1}',FD_DAKAZHEHEHOURENSHU='{2}',SHENQINGGONGSHI='{3}',SHANGBANZONGGONGSHI='{4}',RENJUNCHANNENG='{5}',DIANNAOCHEBIZHONG='{6}',GECHANGRENJUNCHANNENG='{7}',FD_GONGSI='{8}',FD_YUEFEN='{9}' WHERE FD_ID={10}  and FD_GONGSI='{11}' and FD_YUEFEN='{12}'  '''
                         .format(
+
                         FD_BUMEN,
                         FD_HUANSUANHOUCHANNENG,
                         FD_DAKAZHEHEHOURENSHU,
                         SHENQINGGONGSHI,
                         SHANGBANZONGGONGSHI,
                         RENJUNCHANNENG, DIANNAOCHEBIZHONG, GECHANGRENJUNCHANNENG,
-                        FD_GONGSI, FD_YUEFEN11, FD_ID, oldgcname, the_time1
+                        FD_GONGSI, FD_YUEFEN11, FD_ID, oldgcname, the_time1,base_spl
 
                     ))
                 # ##print('修改成功', "hahahahahhaah")
@@ -324,8 +333,8 @@ def add_symsg(request):
                 LIS_ID=int(LIS_ID)+1
                 print('走的2222else',LIS_ID)
                 cursor3.execute(
-                    "INSERT INTO EKP_PRODUCTIVITY_SY VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'   )".format(
-                        FD_ID, FD_YUEFEN11, FD_BUMEN, FD_HUANSUANHOUCHANNENG, FD_DAKAZHEHEHOURENSHU, SHENQINGGONGSHI,
+                    "INSERT INTO {} VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'   )".format(
+                        base_spl,FD_ID, FD_YUEFEN11, FD_BUMEN, FD_HUANSUANHOUCHANNENG, FD_DAKAZHEHEHOURENSHU, SHENQINGGONGSHI,
                         SHANGBANZONGGONGSHI,
                         RENJUNCHANNENG, DIANNAOCHEBIZHONG, GECHANGRENJUNCHANNENG, LIS_ID, FD_GONGSI
 
@@ -355,20 +364,20 @@ def cnfllmsg(request):
         cursor4 = conn.cursor()
 
         cursor1.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN  like '{0}%' and FD_GONGSI='双驰' ".format(
-                last_month))
+            "SELECT   *  from {0}    where  FD_YUEFEN  like '{1}%' and FD_GONGSI='双驰' ".format(
+                base_spl,last_month))
 
         cursor2.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN  like '{0}%' and FD_GONGSI='双联' ".format(
-                last_month))
+            "SELECT   *  from {}    where  FD_YUEFEN  like '{}%' and FD_GONGSI='双联' ".format(
+                base_spl,last_month))
 
         cursor3.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN  like '{0}%'and FD_GONGSI='双源' ".format(
-                last_month))
+            "SELECT   *  from {}    where  FD_YUEFEN  like '{}%'and FD_GONGSI='双源' ".format(
+                base_spl, last_month))
 
         cursor4.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN  like '{0}%' and FD_GONGSI='星昌' ".format(
-                last_month))
+            "SELECT   *  from {}    where  FD_YUEFEN  like '{}%' and FD_GONGSI='星昌' ".format(
+                base_spl,  last_month))
 
         shuangchilist = []
         shuanglianlist = []
@@ -506,7 +515,7 @@ def cnfllmsg(request):
         })
 
     else:
-        monthtime = request.POST.get('text1')
+        monthtime = request.POST.get('test1')
         print('monthtime', monthtime)
 
         if not monthtime:
@@ -522,20 +531,20 @@ def cnfllmsg(request):
         cursor4 = conn.cursor()
 
         cursor1.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN like '{0}%'  and FD_GONGSI='双驰' ".format(
-                last_month))
+            "SELECT   *  from {}    where  FD_YUEFEN like '{}%'  and FD_GONGSI='双驰' ".format(
+                base_spl,  last_month))
 
         cursor2.execute(
-            "SELECT   *  from ekp_productivity_sy    where  FD_YUEFEN like '{0}%'  and FD_GONGSI='双联' ".format(
-                last_month))
+            "SELECT   *  from {}    where  FD_YUEFEN like '{}%'  and FD_GONGSI='双联' ".format(
+                base_spl, last_month))
 
         cursor3.execute(
-            "SELECT   *  from ekp_productivity_sy    where   FD_YUEFEN like '{0}%'  and FD_GONGSI='双源' ".format(
-                last_month))
+            "SELECT   *  from {}    where   FD_YUEFEN like '{}%'  and FD_GONGSI='双源' ".format(
+                base_spl,   last_month))
 
         cursor4.execute(
-            "SELECT   *  from ekp_productivity_sy    where   FD_YUEFEN  like '{0}%'  and FD_GONGSI='星昌' ".format(
-                last_month))
+            "SELECT   *  from {}    where   FD_YUEFEN  like '{}%'  and FD_GONGSI='星昌' ".format(
+                base_spl, last_month))
 
         shuangchilist = []
         shuanglianlist = []
