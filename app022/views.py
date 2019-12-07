@@ -57,8 +57,8 @@ def msgupload(request):
         pages = request.GET.get('pages')
         ##print('pages', pages)
 
-        if not pages:
-            pages = 1
+        # if not pages:   这句有bug   不能跳转了每次都都是上一页页数
+        pages = 1
         # page = page
         servr1 = "<a href=/msgupload/?pages={0}&gcmsg=双源  class='btn btn-default btn1' >双源</a>".format(pages)
         servr2 = "<a href=/msgupload/?pages={0}&gcmsg=双联 class='btn btn-success btn1'>双联</a>".format(pages)
@@ -348,6 +348,12 @@ def add_symsg(request):
 
 def cnfllmsg(request):
     last_month = (datetime.datetime.now().replace(day=1) - datetime.timedelta(days=1)).strftime("%Y-%m")
+    conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
+    cursor0 = conn.cursor()
+    cursor0.execute(
+        "SELECT   FD_YUEFEN  from EKP_PRODUCTIVITY_SY   where  FD_GONGSI in  ('双驰','双联','兴昌','双驰') ORDER BY FD_YUEFEN desc ")
+
+    havingtime = cursor0.fetchone()
     if request.method == 'GET':
 
         ontime = datetime.datetime.now()
@@ -356,17 +362,21 @@ def cnfllmsg(request):
 
         ##print('nowtime',last_month)     # 上个月时间
 
-        conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
+
 
         cursor1 = conn.cursor()
         cursor2 = conn.cursor()
         cursor3 = conn.cursor()
         cursor4 = conn.cursor()
 
+
+        # print('havingtime+++++++++++++', havingtime )
+        last_month=havingtime[0]
+
         cursor1.execute(
             "SELECT   *  from {0}    where  FD_YUEFEN  like '{1}%' and FD_GONGSI='双驰' ".format(
                 base_spl,last_month))
-
+        # print('laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         cursor2.execute(
             "SELECT   *  from {}    where  FD_YUEFEN  like '{}%' and FD_GONGSI='双联' ".format(
                 base_spl,last_month))
@@ -504,13 +514,17 @@ def cnfllmsg(request):
             len(shuangchilist), len(shuanglianlist), len(shuangyuanlist), len(xiangchanglist)
 
         ]
+
+        # print('123123123123',"-".join(last_month.split('-')[0:2]))
+        last_month="-".join(last_month.split('-')[0:2])
         return render(request, '产能总报表.html', {
             "shuangchilist": shuangchilist,
             "shuanglianlist": shuanglianlist,
             "shuangyuanlist": shuangyuanlist,
             "xiangchanglist": xiangchanglist,
             'numlis': numlis,
-            'times': last_month
+            'times': last_month,
+            'havingtime':havingtime
 
         })
 
@@ -771,7 +785,8 @@ def cnfllmsg(request):
             "shuangyuanlist": shuangyuanlist,
             "xiangchanglist": xiangchanglist,
             'numlis': numlis,
-            'times': last_month
+            'times': last_month,
+            'havingtime': havingtime
 
         })
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -21,42 +21,67 @@
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <script src="../static/layui/layui.js"></script>
 
-{#    <script src="/static/build/layui.js"></script>#}
+    {#    <script src="/static/build/layui.js"></script>#}
     <style>
-        .td1{
+
+
+        th {
+            margin: auto;
+            text-align: center;
+        }
+
+        .play1 {
+            display: none;
+        }
+
+        .td1 {
             width: 46px;
         }
-        .td2{width: 47px;
+
+        .td2 {
+            width: 47px;
         }
-        .td3{
+
+        .td3 {
             width: 90px;
         }
-        .td4{
-            width: 120px;
+
+        .td4 {
+            width: 80px;
         }
-        .td5{
-            width: 140px;
+
+        .td5 {
+            width: 80px;
         }
-        .td6{
-            width: 100px;
+
+        .td6 {
+            width: 70px;
         }
-        .td7{
-            width: 110px;
+
+        .td7 {
+            width: 80px;
         }
-        .td8{
-            width: 130px;
+
+        .td8 {
+            width: 70px;
         }
-        .td9{
-            width: 100px;
+
+        .td9 {
+            width: 60px;
         }
-        .td10{
-            width: 140px;
+
+        .td10 {
+            width: 60px;
         }
-        .red1{
-            background-color: red;
+
+        .red1 {
+            {#background-color: red;#}
+            color: red;
         }
-        .gureen{
-            background-color: #00F7DE;
+
+        .gureen {
+            {#background-color: #00F7DE;#}
+            color: #6A6AFF;
         }
     </style>
     <script>
@@ -67,108 +92,155 @@
         layui.use('laydate', function () {
             var laydate = layui.laydate;
 
-  laydate.render({
-    elem: '#test1'  , //指定元素
-      type : 'month',
-	position : 'fixed',
-	ready : function(date) { // 控件在打开时触发，回调返回一个参数：初始的日期时间对象
-		initYear = date.year;
-		console.log(initYear)
-	},
+            laydate.render({
+                elem: '#test1', //指定元素
+                type: 'month',
+                position: 'fixed',
+                ready: function (date) { // 控件在打开时触发，回调返回一个参数：初始的日期时间对象
+                    initYear = date.year;
+                    console.log(initYear)
+                },
 
-      change : function(value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象
-		var selectYear = date.year;
-		var differ = selectYear - initYear;
-		if (differ == 0) {
-			if ($(".layui-laydate").length) {
-				$("#test1").val(value);
-				$(".layui-laydate").remove();
-			}
-		}
-		initYear = selectYear;
-	}
+                change: function (value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象
+                    var selectYear = date.year;
+                    var differ = selectYear - initYear;
+                    if (differ == 0) {
+                        if ($(".layui-laydate").length) {
+                            $("#test1").val(value);
+                            $(".layui-laydate").remove();
+                        }
+                    }
+                    initYear = selectYear;
+                }
 
-	{#change : function(value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象#}
-    {##}
-	{#	var selectYear = date.year;#}
-	{#	var differ = selectYear - initYear;#}
-	{#	var laydate1 =document.getElementsByClassName('layui-laydate')#}
-     {#   var test1 =document.getElementById('test1')#}
-	{#	console.log(differ)#}
-	{#	if (differ == 0) {#}
-	{#		if (laydate1.length) {#}
-	{#		    alert(laydate1.length)#}
-	{#			test1.innerText=value;#}
-    {##}
-	{#			laydate1.remove();#}
-	{#		}#}
-	{#	}#}
-	{#	initYear = selectYear;#}
+                {#change : function(value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象#}
+                {##}
+                {#	var selectYear = date.year;#}
+                {#	var differ = selectYear - initYear;#}
+                {#	var laydate1 =document.getElementsByClassName('layui-laydate')#}
+                {#   var test1 =document.getElementById('test1')#}
+                {#	console.log(differ)#}
+                {#	if (differ == 0) {#}
+                {#		if (laydate1.length) {#}
+                {#		    alert(laydate1.length)#}
+                {#			test1.innerText=value;#}
+                {##}
+                {#			laydate1.remove();#}
+                {#		}#}
+                {#	}#}
+                {#	initYear = selectYear;#}
 
 
-});
-
+            });
 
 
         });
 
     </script>
     <SCRIPT>
-    window.onload=function () {
-           let sc8 =document.getElementsByClassName('sc8')
+        window.onload = function () {
+            let sc8 = document.getElementsByClassName('sc8')
 
-    for(i=0;i<sc8.length;i++){
-        if (sc8[i].innerText=='0.0'){
-            sc8[i].innerText=''
+            for (i = 0; i < sc8.length; i++) {
+                if (sc8[i].innerText == '0.0') {
+                    sc8[i].innerText = ''
+                }
+            }
         }
-    }
-    }
 
-</SCRIPT>
+    </SCRIPT>
     <title>产能总报表</title>
 </head>
 <body>
-<div  style="background-color: white ;position: fixed ;width: 100%">
-    <h1 style="position:relative;left: 30%">双驰企业{{times }}月各厂人均产能表</h1>
-<div style="margin: auto; position: relative ;left: 30%">
-    <form action="" method="post">
-        {% csrf_token %}
-        <div> <!-- 注意：这一层元素并不是必须的 -->
-            <h3 style="display: inline-block; font-size: 18px"><span>请选择年月</span></h3>
-            <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
-                   name="test1" autocomplete="off">
+<span style="display: none" id='shuanglianlist'>{{ shuanglianlist }}</span>
+<span style="display: none" id='shuangchilist'>{{ shuangchilist }}</span>
+<span style="display: none" id='shuangyuanlist'>{{ shuangyuanlist }}</span>
+<span style="display: none" id='xiangchanglist'>{{ xiangchanglist }}</span>
 
-            <button class="btn btn-primary">确定</button>
 
-            {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+<div style="background-color: white ;position: fixed ;width: 100%">
+    <h1 style="position:relative;left: 30%">双驰企业{{ times }}月各厂人均产能表</h1>
+    <div style="margin: auto; position: relative ;left: 30%">
 
-        </div>
-    </form>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div> <!-- 注意：这一层元素并不是必须的 -->
+
+                <h3 style="display: inline-block; font-size: 18px"><span>请选择年月</span></h3>
+                <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
+                       name="test1" autocomplete="off">
+
+                <button class="btn btn-primary">确定</button>
+                  <span id ='newmsg'></span> <span>{{ havingtime.0 }}</span>
+
+                {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+
+            </div>
+
+            <script>
+                let newmsg  =document.getElementById('newmsg')
+
+                {#alert(havingtime)#}
+                if ( {{  havingtime.0 }}){
+                    newmsg.innerText='当前为最新数据:'
+
+
+                }
+            </script>
+        </form>
+
+    </div>
+
+
+    <a href="{% url 'listdownload' %}" class="btn btn-success" type="button"
+       style="position: absolute;float: left;top: 40px;left: 80%">下载当月数据</a>
+{#    <Br>#}
 
 </div>
-     <a  href="{% url 'listdownload' %}" class="btn btn-success" type="button" style="position: absolute;float: left;top: 40px;left: 70%">下载当月数据</a>
-              <Br>
+{# 图例 #}
+    <div style="background-color: white ;width: 150px ;height: 150px ;position: fixed;float: left ;z-index: 9999999999999999999999;left: 90%;top: 75%;" >
+   <div style="width: 30px ;height: 30px ;position: relative ;float: left ;background-color: red; border-radius:7px">
 
-</div>
-<div style=" width: 80%;text-align: center ; margin: auto; padding-top: 137px">
+   </div>
+        <div style="width: 70px ;height: 30px ;position: relative ;float: left ;background-color: #FFB800; border-radius:7px">        <span style="font-size: 8px">电脑车比重少于20%</span></div>
+
+   <div style="width: 30px ;height: 30px ;position: absolute ;float: left ; top:30px  ;background-color: #6A6AFF; border-radius:7px">
+
+   </div>  <div style="width: 70px ;height: 30px ;position: absolute ;float: left ; top:30px  ;left: 30px ;background-color: #FFB800; border-radius:7px"><span  style="font-size: 8px">总人均少于28双</span></div>
+    </div>
+<div style=" width: 80%;text-align: center ; margin: auto; padding-top: 77px">
+   <h5 style="text-align: left ;font-size: 22px ;color: red ;"><span >注:2019年集团针车比重目标为20%,人均产能目标为28双</span></h5>
     <table class="table table-bordered table-hover">
         {#      <p >{{oldtime }}</p>#}
-        <tr style=" border: 1px black; background-color: #00FFFF">
-            <th>序号</th>
-            <th>公司</th>
-            <th>部门</th>
-            <th>换算后产能(双)</th>
-            <th>打卡折合后人数/月</th>
-            <th>申请工时/月</th>
-            <th>上班总工时/月</th>
-            <th>人均产能/天/人</th>
-            <th>电脑车比重</th>
-            <th>各厂总人均产能</th>
-        </tr>
+        <div>
+            <tr style=" border: 1px black; background-color: #FFB800 ;text-align: center ;margin: auto">
+                <th>序号</th>
+                <th>公司</th>
+                <th>部门</th>
+                {#            <th>换算后产能(双)</th>#}
+                <th>换算产能</th>
+                {#            <th>打卡折合后人数/月</th>#}
+                <th>打卡后人数</th>
+                {#            <th>申请工时/月</th>#}
+                <th>申请工时</th>
+                {#            <th>上班总工时/月</th>#}
+                <th>上班工时</th>
+                {#            <th>人均产能/天/人</th>#}
+                <th>人均产能</th>
+                {#            <th>电脑车比重</th>#}
+                <th>电脑车</th>
+                {#            <th>各厂总人均产能</th>#}
+                <th>总人均</th>
+            </tr>
+
+        </div>
+
+
         <div>
             {% for row1 in shuangchilist %}
                 <tr>
-                    <td  class="td1">{{ forloop.counter }}</td>
+                    <td class="td1">{{ forloop.counter }}</td>
                     <td class="td2">{{ row1.0 }}</td>
                     <td class="td3">{{ row1.1 }}</td>
                     <td class="td4">{{ row1.2 }}</td>
@@ -177,11 +249,12 @@
                     <td class="td7">{{ row1.5 }}</td>
                     <td class="td8">{{ row1.6 }}</td>
                     <td class="td9">{{ row1.7 |default:'' }}</td>
-                    <td class="sc8 td10">{{ row1.8 |default:''}}</td>
+                    <td class="sc8 td10">{{ row1.8 |default:'' }}</td>
                 </tr>
             {% endfor %}
 
         </div>
+
 
     </table>
     <table class="table table-bordered table-hover">
@@ -191,8 +264,8 @@
 
 
             {% for row2 in shuanglianlist %}
-                <tr >
-                    <td class="slnum td1">  {{ forloop.counter}}</td>
+                <tr>
+                    <td class="slnum td1">  {{ forloop.counter }}</td>
                     <td class="td2">{{ row2.0 }}</td>
                     <td class="td3">{{ row2.1 }}</td>
                     <td class="td4">{{ row2.2 }}</td>
@@ -201,26 +274,26 @@
                     <td class="td7">{{ row2.5 }}</td>
                     <td class="td8">{{ row2.6 }}</td>
                     <td class="td9">{{ row2.7 |default:'' }}</td>
-                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:'' }}</td>
                 </tr>
             {% endfor %}
 
         </div>
         <script>
-            let slnum =document.getElementsByClassName('slnum')
-            for (i=0;i<slnum.length;i++){
-                slnum[i].innerText=parseInt(slnum[i].innerText)+parseInt({{ numlis.0}})
+            let slnum = document.getElementsByClassName('slnum')
+            for (i = 0; i < slnum.length; i++) {
+                slnum[i].innerText = parseInt(slnum[i].innerText) + parseInt({{ numlis.0}})
             }
 
         </script>
     </table>
-        <table class="table table-bordered table-hover">
-            <br>
+    <table class="table table-bordered table-hover">
+        <br>
 
         <div>
             {% for row2 in shuangyuanlist %}
-                <tr  class="table-hover hover">
-                    <td  class="synum td1">{{ forloop.counter }}</td>
+                <tr class="table-hover hover">
+                    <td class="synum td1">{{ forloop.counter }}</td>
                     <td class="td2">{{ row2.0 }}</td>
                     <td class="td3">{{ row2.1 }}</td>
                     <td class="td4">{{ row2.2 }}</td>
@@ -229,25 +302,25 @@
                     <td class="td7">{{ row2.5 }}</td>
                     <td class="td8">{{ row2.6 }}</td>
                     <td class="td9">{{ row2.7 |default:'' }}</td>
-                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:'' }}</td>
                 </tr>
             {% endfor %}
 
         </div>
-           <script>
-            let synum =document.getElementsByClassName('synum')
-            for (i=0;i<synum.length;i++){
-                synum[i].innerText=parseInt(synum[i].innerText)+parseInt({{ numlis.0}})+parseInt({{ numlis.1}})
+        <script>
+            let synum = document.getElementsByClassName('synum')
+            for (i = 0; i < synum.length; i++) {
+                synum[i].innerText = parseInt(synum[i].innerText) + parseInt({{ numlis.0}}) + parseInt({{ numlis.1}})
             }
 
         </script>
 
     </table>
-       <table class="table table-bordered table-hover">
-            <br>
+    <table class="table table-bordered table-hover">
+        <br>
 
 
-       <div>
+        <div>
             {% for row2 in xiangchanglist %}
                 <tr class="table-hover hover">
                     <td class="xcnum td1">{{ forloop.counter }}</td>
@@ -259,49 +332,89 @@
                     <td class="td7">{{ row2.5 }}</td>
                     <td class="td8">{{ row2.6 }}</td>
                     <td class="td9">{{ row2.7 |default:'' }}</td>
-                    <td class="sc8 td10">{{ row2.8 |default:''}}</td>
+                    <td class="sc8 td10">{{ row2.8 |default:'' }}</td>
                 </tr>
             {% endfor %}
         </div>
-            <script>
-            let xcnum =document.getElementsByClassName('xcnum')
-            for (i=0;i<xcnum.length;i++){
-                xcnum[i].innerText=parseInt(xcnum[i].innerText)+parseInt({{ numlis.0}})+parseInt({{ numlis.1}})+parseInt({{ numlis.2}})
+        <script>
+            let xcnum = document.getElementsByClassName('xcnum')
+            for (i = 0; i < xcnum.length; i++) {
+                xcnum[i].innerText = parseInt(xcnum[i].innerText) + parseInt({{ numlis.0}}) + parseInt({{ numlis.1}}) + parseInt({{ numlis.2}})
             }
 
         </script>
-
 
 
     </table>
 </div>
 
 
+<div class="play1" id="lalala"
 
-<script>
- {#  把百分数转成小数    #}
-    function toPoint(percent){
-    var str=percent.replace("%","");
-    str= str/100;
-    return str;
-}
-    let td9 =document.getElementsByClassName('td9')
-    for(i=0;i<td9.length;i++){
-        console.log(toPoint(td9[i].innerText))
-        if(toPoint(td9[i].innerText)>= 0.2){
-             td9[i].classList.add('red1')
+     style="width: 1050px  ;height: 240px ;background-color: #6A6AFF ; left: 123px  ;top:200px   ;z-index: 9999  ;position: absolute ;float: left">
+
+
+    <div style="margin-left: 60%;margin-top: 20px"><h1>当月无数据</h1>
+        <H1>最近有数据日期为</H1>
+          <h1>{{  havingtime.0 }}</h1>
+    </div>
+    <div/>
+
+
+
+
+
+    <script>
+        let lalala = document.getElementById('lalala')
+
+
+        let shuanglianlist = document.getElementById('shuanglianlist')
+        let shuangchilist = document.getElementById('shuangchilist')
+        let shuangyuanlist = document.getElementById('shuangyuanlist')
+        let xiangchanglist = document.getElementById('xiangchanglist')
+
+        console.log(shuanglianlist.innerText.length)
+        console.log(xiangchanglist.innerText.length)
+        console.log(shuangchilist.innerText.length)
+        console.log(shuangyuanlist.innerText.length)
+
+        console.log(lalala)
+        if (shuanglianlist.innerText.length == 2 && shuangchilist.innerText.length == 2 && shuangyuanlist.innerText.length == 2 && xiangchanglist.innerText.length == 2) {
+            {#alert("123123123123213")#}
+            lalala.classList.remove('play1')
+
+
         }
-    }
 
 
-    let td10 = document.getElementsByClassName('td10')
-        for(i=0;i<td10.length;i++){
-        {#console.log(toPoint(td10[i].innerText))#}
-        if(td10[i].innerText>= 29){
-             td10[i].classList.add('gureen')
+    </script>
+
+    <script>
+        {#  把百分数转成小数    #}
+
+        function toPoint(percent) {
+            var str = percent.replace("%", "");
+            str = str / 100;
+            return str;
         }
-    }
 
-</script>
+        let td9 = document.getElementsByClassName('td9')
+        for (i = 0; i < td9.length; i++) {
+            console.log(toPoint(td9[i].innerText))
+            if (toPoint(td9[i].innerText) <= 0.2) {
+                td9[i].classList.add('red1')
+            }
+        }
+
+
+        let td10 = document.getElementsByClassName('td10')
+        for (i = 0; i < td10.length; i++) {
+            {#console.log(toPoint(td10[i].innerText))#}
+            if (td10[i].innerText < 29) {
+                td10[i].classList.add('gureen')
+            }
+        }
+
+    </script>
 </body>
 </html>
