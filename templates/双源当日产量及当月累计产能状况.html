@@ -292,7 +292,7 @@
 
                                     <td>
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-warning  progress-bar-striped active"
+                                            <div class="progress-bar   progress-bar-striped active"
                                                  role="progressbar" aria-valuenow="60"
                                                  aria-valuemin="0" aria-valuemax="100" style="width: 60%;"
                                                  id="bili{{ forloop.counter }}">
@@ -355,7 +355,7 @@
 
                                     <td>
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-warning  progress-bar-striped active"
+                                            <div class="progress-bar   progress-bar-striped active"
                                                  role="progressbar" aria-valuenow="60"
                                                  aria-valuemin="0" aria-valuemax="100" style="width: 60%;"
                                                  id="bili2{{ forloop.counter }}">
@@ -368,11 +368,22 @@
 
 
                                     <script>
+
+
+
+
+
                                         function toPoint(percent){
     var str=percent.replace("%","");
 
     return str;
 }
+
+
+                                        
+
+
+
                                         function keepTwoDecimalFull(num) {
                                             var result = parseFloat(num);
                                             if (isNaN(result)) {
@@ -441,7 +452,7 @@
                                 </SCRIPT>
                                 <td>
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-warning  progress-bar-striped active"
+                                            <div class="progress-bar   progress-bar-striped active"
                                                  role="progressbar" aria-valuenow="60"
                                                  aria-valuemin="0" aria-valuemax="100" style="width: 60%;"
                                                  id="zhjbili">
@@ -574,7 +585,7 @@
         <tr>
 
             <td>目标</td>
-            <td id="zongheji" class="qcheji"></td>
+            <td id="zongheji" class="qcheji mubiaomsg"></td>
             <script>
                 let zongheji = document.getElementById('zongheji')
                 zongheji.innerText = {{ zuoheji.1 }}+
@@ -584,22 +595,22 @@
             {% for foo in  all_plan_list.chengxing1 %}
 
 
-                <td class="ccc{{ forloop.counter }}">{{ foo.msg.2 |default:'' }}</td>
+                <td class="ccc{{ forloop.counter }} mubiaomsg">{{ foo.msg.2 |default:'' }}</td>
 
 
 
             {% endfor %}
-            <td class="zxheji ybheji">{{ zuoheji.1|default:'' }}</td>
+            <td class="zxheji ybheji mubiaomsg">{{ zuoheji.1|default:'' }}</td>
 
             {% for foo in  all_plan_list.chengxing2 %}
 
 
-                <td class="xxx{{ forloop.counter }} zxheji">{{ foo.msg.2 |default:'' }}</td>
+                <td class="xxx{{ forloop.counter }} zxheji mubiaomsg">{{ foo.msg.2 |default:'' }}</td>
 
 
 
             {% endfor %}
-            <td class="zxheji ebheji">{{ youheji.1|default:'' }}</td>
+            <td class="zxheji ebheji mubiaomsg">{{ youheji.1|default:'' }}</td>
 
 
         </tr>
@@ -608,7 +619,7 @@
         <tr>
 
             <td>本厂</td>
-            <td id="zongheji1" class="qcheji"></td>
+            <td id="zongheji1" class="qcheji bcmsg"></td>
             <script>
                 let zongheji1 = document.getElementById('zongheji1')
                 zongheji1.innerText = {{ zuoheji.0 }}+
@@ -618,25 +629,41 @@
             {% for foo in  all_plan_list.chengxing1 %}
 
 
-                <td class="ccc{{ forloop.counter }} zxheji">{{ foo.msg.3 |default:'' }}</td>
+                <td class="ccc{{ forloop.counter }} zxheji bcmsg">{{ foo.msg.3 |default:'' }}</td>
 
 
 
             {% endfor %}
-            <td class="zxheji ybheji">{{ zuoheji.0 |default:'' }}</td>
+            <td class="zxheji ybheji bcmsg">{{ zuoheji.0 |default:'' }}</td>
 
             {% for foo in  all_plan_list.chengxing2 %}
 
 
-                <td class="xxx{{ forloop.counter }}" class="zxheji">{{ foo.msg.3 |default:'' }}</td>
+                <td class="xxx{{ forloop.counter }} zxheji bcmsg">{{ foo.msg.3 |default:'' }}</td>
 
 
 
             {% endfor %}
-            <td class="ebheji">{{ youheji.0|default:'' }}</td>
+            <td class="ebheji bcmsg">{{ youheji.0|default:'' }}</td>
 
 
         </tr>
+    <script>
+
+        let mubiaomsg =document.getElementsByClassName('mubiaomsg')
+        let bcmsg =document.getElementsByClassName('bcmsg')
+             window.onload = function () {
+            for (i = 0; i < mubiaomsg.length; i++) {
+                console.log(mubiaomsg[i].innerHTML,bcmsg[i].innerHTML)
+                if (Number(bcmsg[i].innerText) <= Number(mubiaomsg[i].innerText)) {
+                    bcmsg[i].classList.add('red1')
+                }
+            }
+
+        }
+
+
+    </script>
         <tr>
             <td>企业内外包</td>
             <td id="zongheji3" class="qcheji"></td>
@@ -1285,20 +1312,7 @@
     <script>
         let cye = document.getElementsByClassName('cye')
         let cyy = document.getElementsByClassName('cyy')
-        window.onload = function () {
-            for (i = 0; i < cye.length; i++) {
-                console.log(cye[i].innerHTML)
-                if (cye[i].innerHTML < 0) {
-                    cye[i].classList.add('red1')
-                }
-            }
-            for (i = 0; i < cyy.length; i++) {
-                console.log(cyy[i].innerHTML)
-                if (cyy[i].innerHTML < 0) {
-                    cyy[i].classList.add('red1')
-                }
-            }
-        }
+
 
 
     </script>
@@ -1318,5 +1332,17 @@
         </tr>
     </table>
 </div>
+<script>
+            let   jdd =document.getElementsByClassName('progress-bar')
+                                 for(i=0;i<jdd.length;i++) {
+                                     console.log(toPercent(jdd[i].innerText))
+                                if (toPoint(jdd[i].innerText)>100){
+                                    jdd[i].classList.add('progress-bar-danger')
+                                } else {
+                                     jdd[i].classList.add('progress-bar-success')
+                                }
+                                 }
+
+</script>
 </body>
 </html>
