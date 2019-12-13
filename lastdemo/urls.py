@@ -31,7 +31,7 @@ urlpatterns = [
     path(r'listdownload', view22.listdownload, name='listdownload'),
     path('cnmsg/',view33.cn_msg),
     path('CTW_LT/',view33.CTW_LT ,name='CTW_LT'),
-    path(r'text/',view44.GreetingView().test1)
+    path(r'text/',view44.greeting.test1)
 
 
 

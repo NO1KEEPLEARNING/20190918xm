@@ -57,13 +57,13 @@ def msgupload(request):
         pages = request.GET.get('pages')
         ##print('pages', pages)
 
-        # if not pages:   这句有bug   不能跳转了每次都都是上一页页数
-        pages = 1
+        if not pages:    #这句有bug   不能跳转了每次都都是上一页页数
+            pages = 1
         # page = page
-        servr1 = "<a href=/msgupload/?pages={0}&gcmsg=双源  class='btn btn-default btn1' >双源</a>".format(pages)
-        servr2 = "<a href=/msgupload/?pages={0}&gcmsg=双联 class='btn btn-success btn1'>双联</a>".format(pages)
-        servr3 = "<a href=/msgupload/?pages={0}&gcmsg=双驰 class='btn btn-info btn1'>双驰</a>".format(pages)
-        servr4 = "<a href=/msgupload/?pages={0}&gcmsg=星昌 class='btn btn-warning btn1'>星昌</a>".format(pages)
+        servr1 = "<a href=/msgupload/?gcmsg=双源  class='btn btn-default btn1' >双源</a>".format(pages)
+        servr2 = "<a href=/msgupload/?gcmsg=双联 class='btn btn-success btn1'>双联</a>".format(pages)
+        servr3 = "<a href=/msgupload/?gcmsg=双驰 class='btn btn-info btn1'>双驰</a>".format(pages)
+        servr4 = "<a href=/msgupload/?gcmsg=星昌 class='btn btn-warning btn1'>星昌</a>".format(pages)
         gcmsg = request.GET.get('gcmsg')
         global oldgcname
         oldgcname=oldgcname
@@ -86,7 +86,7 @@ def msgupload(request):
         #print('geshu',cursor1)
         for rows in cursor1:
             sy_msg.append(rows)
-            print('rows[0]',rows[0])
+            # print('rows[0]',rows[0])
             i = i + 1
         ##print('i', i)
         ##print('返回页码数', pages)
@@ -100,6 +100,7 @@ def msgupload(request):
         ##print('end', end)
 
         sy_msg = sy_msg[start:end]
+        print('sy_msg',sy_msg)
         i = math.ceil(i / tyep) + 1
         ##print('待分页信息', sy_msg)
         page_range = range(1, i)  # 显示页码数
@@ -372,7 +373,8 @@ def cnfllmsg(request):
 
         # print('havingtime+++++++++++++', havingtime )
         last_month=havingtime[0]
-
+        print('last_month',last_month)
+        last_month = "-".join(last_month.split('-')[0:2])
         cursor1.execute(
             "SELECT   *  from {0}    where  FD_YUEFEN  like '{1}%' and FD_GONGSI='双驰' ".format(
                 base_spl,last_month))
@@ -514,9 +516,12 @@ def cnfllmsg(request):
             len(shuangchilist), len(shuanglianlist), len(shuangyuanlist), len(xiangchanglist)
 
         ]
-
+        print("1111111111111",shuangchilist)
+        print("2222222222222",shuanglianlist)
+        print("3333333333333",shuangyuanlist)
+        print("4444444444444",xiangchanglist)
         # print('123123123123',"-".join(last_month.split('-')[0:2]))
-        last_month="-".join(last_month.split('-')[0:2])
+
         return render(request, '产能总报表.html', {
             "shuangchilist": shuangchilist,
             "shuanglianlist": shuanglianlist,

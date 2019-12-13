@@ -20,11 +20,17 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <script src="../static/layui/layui.js"></script>
+    
 
     {#    <script src="/static/build/layui.js"></script>#}
     <style>
 
-
+        body{
+            background-color: #00bbdd;
+        }
+        table{
+            background-color: white;
+        }
         th {
             margin: auto;
             text-align: center;
@@ -37,42 +43,79 @@
         .td1 {
             width: 46px;
         }
+        .th1{
+             width: 46px;
+        }
 
         .td2 {
+            width: 47px;
+        }
+         .th2 {
             width: 47px;
         }
 
         .td3 {
             width: 90px;
         }
+        .th3 {
+            width: 90px;
+        }
 
         .td4 {
+            width: 80px;
+        }
+         .th4 {
             width: 80px;
         }
 
         .td5 {
             width: 80px;
         }
+         .th5 {
+            width: 80px;
+        }
+
 
         .td6 {
+            width: 70px;
+        }
+          .th6 {
             width: 70px;
         }
 
         .td7 {
             width: 80px;
         }
+         .th7 {
+            width: 80px;
+        }
+
 
         .td8 {
             width: 70px;
         }
+          .th8 {
+            width: 70px;
+        }
+
 
         .td9 {
+            width: 60px;
+        }
+
+
+        .th9 {
             width: 60px;
         }
 
         .td10 {
             width: 60px;
         }
+
+        .th10 {
+            width: 60px;
+        }
+
 
         .red1 {
             {#background-color: red;#}
@@ -83,6 +126,11 @@
             {#background-color: #00F7DE;#}
             color: #6A6AFF;
         }
+        img{
+            width:100%;
+            height: 79px;
+        }
+
     </style>
     <script>
         var myDate = new Date()
@@ -152,13 +200,14 @@
     <title>产能总报表</title>
 </head>
 <body>
+<img   style="position: fixed;float: left;z-index: 9" src="../static/pic/20191212163406.png" alt="">
 <span style="display: none" id='shuanglianlist'>{{ shuanglianlist }}</span>
 <span style="display: none" id='shuangchilist'>{{ shuangchilist }}</span>
 <span style="display: none" id='shuangyuanlist'>{{ shuangyuanlist }}</span>
 <span style="display: none" id='xiangchanglist'>{{ xiangchanglist }}</span>
 
 
-<div style="background-color: white ;position: fixed ;width: 100%">
+<div style="position: fixed ;width: 100% ;z-index: 10 ">
     <h1 style="position:relative;left: 30%">双驰企业{{ times }}月各厂人均产能表</h1>
     <div style="margin: auto; position: relative ;left: 30%">
 
@@ -183,7 +232,7 @@
 
                 {#alert(havingtime)#}
                 if ( {{  havingtime.0 }}){
-                    newmsg.innerText='当前为最新数据:'
+                    newmsg.innerText='最近数据时间为:'
 
 
                 }
@@ -199,7 +248,7 @@
 
 </div>
 {# 图例 #}
-    <div style="background-color: white ;width: 150px ;height: 150px ;position: fixed;float: left ;z-index: 9999999999999999999999;left: 90%;top: 75%;" >
+    <div style="background-color: #00bbdd ;width: 150px ;height: 150px ;position: fixed;float: left ;left: 90%;top: 75%;" >
    <div style="width: 30px ;height: 30px ;position: relative ;float: left ;background-color: red; border-radius:7px">
 
    </div>
@@ -209,32 +258,40 @@
 
    </div>  <div style="width: 70px ;height: 30px ;position: absolute ;float: left ; top:30px  ;left: 30px ;background-color: #FFB800; border-radius:7px"><span  style="font-size: 8px">总人均少于28双</span></div>
     </div>
-<div style=" width: 80%;text-align: center ; margin: auto; padding-top: 77px">
+<div style="position: fixed;float: left; width: 80% ;left: 10%; top: 77px ;background-color: white ;height: 62px" >
    <h5 style="text-align: left ;font-size: 22px ;color: red ;"><span >注:2019年集团针车比重目标为20%,人均产能目标为28双</span></h5>
+ {#      <p >{{oldtime }}</p>#}
     <table class="table table-bordered table-hover">
-        {#      <p >{{oldtime }}</p>#}
         <div>
             <tr style=" border: 1px black; background-color: #FFB800 ;text-align: center ;margin: auto">
-                <th>序号</th>
-                <th>公司</th>
-                <th>部门</th>
+                <th class="th1">序号</th>
+                <th class="th2">公司</th>
+                <th class="th3">部门</th>
                 {#            <th>换算后产能(双)</th>#}
-                <th>换算产能</th>
+                <th class="th4">换算产能</th>
                 {#            <th>打卡折合后人数/月</th>#}
-                <th>打卡后人数</th>
+                <th class="th5">打卡后人数</th>
                 {#            <th>申请工时/月</th>#}
-                <th>申请工时</th>
+                <th class="th6">申请工时</th>
                 {#            <th>上班总工时/月</th>#}
-                <th>上班工时</th>
+                <th class="th7">上班工时</th>
                 {#            <th>人均产能/天/人</th>#}
-                <th>人均产能</th>
+                <th class="th8">人均产能</th>
                 {#            <th>电脑车比重</th>#}
-                <th>电脑车</th>
+                <th class="th9">电脑车</th>
                 {#            <th>各厂总人均产能</th>#}
-                <th>总人均</th>
+                <th class="th10">总人均</th>
             </tr>
 
         </div>
+        </table>
+
+</div>
+<div style=" width: 80%;text-align: center ; margin: auto; padding-top: 137px;z-index: 99999999999999999999999">
+
+
+    <table class="table table-bordered table-hover  table-striped">
+
 
 
         <div>
@@ -257,8 +314,8 @@
 
 
     </table>
-    <table class="table table-bordered table-hover">
-        <br>
+    <table class="table table-bordered table-hover  table-striped">
+
 
         <div>
 
@@ -287,8 +344,8 @@
 
         </script>
     </table>
-    <table class="table table-bordered table-hover">
-        <br>
+    <table class="table table-bordered table-hover  table-striped">
+
 
         <div>
             {% for row2 in shuangyuanlist %}
@@ -316,8 +373,8 @@
         </script>
 
     </table>
-    <table class="table table-bordered table-hover">
-        <br>
+    <table class="table table-bordered table-hover  table-striped">
+
 
 
         <div>
@@ -378,7 +435,7 @@
         console.log(shuangchilist.innerText.length)
         console.log(shuangyuanlist.innerText.length)
 
-        console.log(lalala)
+        {#console.log(lalala)#}
         if (shuanglianlist.innerText.length == 2 && shuangchilist.innerText.length == 2 && shuangyuanlist.innerText.length == 2 && xiangchanglist.innerText.length == 2) {
             {#alert("123123123123213")#}
             lalala.classList.remove('play1')

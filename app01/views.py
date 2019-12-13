@@ -20,7 +20,11 @@ def show_msg(request):
         database = 'SYERP'  # 数据库名称
         port = '1433'
         conn = pymssql.connect(server, user, password, database, port)
-
+        cursor1 = conn.cursor()
+        cursor1.execute(
+            'select  CONVERT(varchar(100),a.docdate,23) from VIEW_TEMP_DAY_CVT_CAP a  where   docdate=(select max(docdate)from VIEW_TEMP_DAY_CVT_CAP) order by plantname,cc_type,in_ex desc')
+        docdate1 =cursor1.fetchone()
+        print('123123123123123',docdate1)
         cursor = conn.cursor()
 
         # 查询操作
@@ -119,7 +123,8 @@ def show_msg(request):
         return render(request, '产能报表1.html', {
             "MSG": result,
             'datetime': MSG,
-            "color_lsit": color_list
+            "color_lsit": color_list,
+            'docdate': docdate1,
         })
     else:
         # print(MSG, "是空的")
@@ -230,9 +235,13 @@ def show_msg(request):
                                    "all_avg_qty": el["all_avg_qty"]
                                }]})
         # print(result)
+        print("最近时间",docdate,type(docdate))
+
+        print(str(docdate).split(' ') )
         return render(request, '产能报表1.html', {
             "MSG": result,
-            "now_time": docdate,
+            "now_time": str(docdate).split(' '),
+            'docdate':str(docdate).split(' '),
             "color_lsit": color_list
 
         })

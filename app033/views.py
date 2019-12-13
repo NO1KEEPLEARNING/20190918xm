@@ -22,8 +22,34 @@ import calendar  # 获取月份有多少天
 
 
 def cn_msg(requests):
-    nowyear = datetime.datetime.now().year
-    nowmonth = datetime.datetime.now().month
+    server = '192.168.0.131'  # 数据库服务器名称或IP
+
+    user = 'OA'  # 用户名
+    password = 'Sems1991'  # 密码
+    database = 'SYERP'  # 数据库名称
+    port = '1433'
+    conn = pymssql.connect(server, user, password, database, port)
+    cursorsss = conn.cursor()
+
+    sq55 = '''
+        select  top 1    CONVERT(VARCHAR(10),docdate,23) from VIEW_TEMP_DAY_CVT_CAP a where 
+
+    cc_type='成型' and in_ex like '%合计%' 
+    order by a.docdate desc
+             '''
+    cursorsss.execute(sq55)
+    max_date = cursorsss.fetchall()
+    print('max_date', '-'.join(max_date[0][0].split('-')[0:2]))
+    if int(max_date[0][0].split('-')[2]) >= 28:
+        nowyear, nowmonth = max_date[0][0].split('-')[0:2]
+    else:
+        nowyear, nowmonth = max_date[0][0].split('-')[0:2]
+        nowmonth = int(nowmonth) - 1
+        if int(nowmonth) == 1:
+            nowyear = nowyear - 1
+
+    # nowyear = datetime.datetime.now().year
+    # nowmonth = datetime.datetime.now().month
     print(nowyear, nowmonth)
     # list = requests.GET.get('msg')
     months = requests.GET.get('months')
@@ -33,10 +59,10 @@ def cn_msg(requests):
 
     year, mon = months.split('-')
     year = int(year)
-    mon = int(mon) - 1  # 取上个月数据
-    if mon == 0:
-        year = year - 1
-        mon = 12
+    mon = int(mon)
+    # if mon == 0:
+    #     year = year - 1
+    #     mon = 12
     print('year', year)
     print('mon', mon)
 
@@ -50,13 +76,6 @@ def cn_msg(requests):
     print('monthsssssssss', months)
 
     day = str(year) + '-' + str(mon) + '-' + str(monthRange[1])
-
-    server = '192.168.0.131'  # 数据库服务器名称或IP
-    user = 'OA'  # 用户名
-    password = 'Sems1991'  # 密码
-    database = 'SYERP'  # 数据库名称
-    port = '1433'
-    conn = pymssql.connect(server, user, password, database, port)
 
     cursor = conn.cursor()
     cursor0 = conn.cursor()
@@ -513,7 +532,9 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         'mon': day,
         'zdcl': zdcl,
         'year': year,
-        'yue': mon
+        'yue': mon,
+        'nowyear':nowyear,
+        'nowmonth':nowmonth
 
     })
 
@@ -568,4 +589,3 @@ def CTW_LT(request):
             'msg_list': msg_list
 
         })
-

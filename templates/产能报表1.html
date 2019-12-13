@@ -37,6 +37,14 @@
         .bow1{
             height: 10px;
         }
+        th{
+            text-align: center;
+            margin-top: auto;
+        }
+        td{
+            text-align: center;
+            margin-top: auto;
+        }
     {#    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{#}
     {#        padding: 0px;#}
     {#        line-height: 1.42857143;#}
@@ -57,20 +65,28 @@
 
 </head>
 <body>
-<div>
+{#{{ now_time }}#}
+
+<div class="title1" style="position: fixed;float: left;width: 100%   ;  margin-top: -80px;
+background-image: url('../static/pic/20191212163406.png');
+">
+
     <h1 style="text-align: center"  >双源当日产量及当月累计产能状况</h1>
     <form action="" method="get">
-    <div>
-        <div> <!-- 注意：这一层元素并不是必须的 -->
+    <div style="margin-left: 30%">
+        <div style="margin: auto;left: 30%"> <!-- 注意：这一层元素并不是必须的 -->
             <h3 style="display: inline-block; font-size: 18px"><span>请选择日期</span></h3>
             <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1" name="text1" autocomplete="off">
 
             <button class="btn btn-primary" >确定</button>
-            <hr>
-{#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
+            最新数据时间为: &nbsp;{{ docdate.0 }}
 
+{#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
 </div>
+        </div>
         </form>
+
+
 
 <script src="/static/build/layui.js"></script>
 <script>
@@ -100,19 +116,21 @@
 </script>
 
     </div>
-    <div>
 
+
+    <div >
     </div>
-    <div style="margin: auto">
+    <div style="margin: auto ;width: 80%; margin-top: 80px">
+
         {% for i in MSG %}
             <div>
      <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading table-hover""><span class="cor2" style="font-size: 20px ;font-weight: bolder" >{{i.plantname}}</span>&nbsp;
+        <div class="panel-heading table-hover"><span class="cor2" style="font-size: 20px ;font-weight: bolder" >{{i.plantname}}</span>&nbsp;
          {% if datetime %}
                 <span>{{datetime}}</span>
           {% else %}
-              <span>{{now_time}}  目前显示的是 最新日期</span>
+              <span>{{now_time.0}}  目前显示的是 最新日期</span>
          {% endif %}
 
 
@@ -121,22 +139,22 @@
 
      </div>
             {% load my_tags %}
-        <div class="panel-body top1">
+        <div class="panel-body top1" style="top: 100px" >
 {#        <p>{{ color_lsit}}</p>#}
          <table class="table  table-bordered table-hover" style="background-color: {{color_lsit|filter_multi }}  ;filter:Alpha(opacity=100)">
 
 
 
-            <tr class="msg22">
+            <tr class="msg22" style="text-align: center">
                 <th>序号</th>
                 <th>单位</th>
                 <th>组别</th>
-                <th>目标产量</th>
-                <th>当日产量</th>
-                <th>当日换算</th>
-                <th>当日人数</th>
-                <th>当日人均|目标</th>
-                <th>当日人均|实际</th>
+                <th>目标</th>
+                <th>产量</th>
+                <th>换算</th>
+                <th>人数</th>
+                <th>人均|目标</th>
+                <th>人均|实际</th>
                 <th>累计目标</th>
                 <th>累计产量</th>
                 <th>差异</th>
