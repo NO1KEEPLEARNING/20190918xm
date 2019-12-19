@@ -216,11 +216,11 @@
             {% csrf_token %}
             <div> <!-- 注意：这一层元素并不是必须的 -->
 
-                <h3 style="display: inline-block; font-size: 18px"><span>请选择年月</span></h3>
+                <h3 style="display: inline-block; font-size: 18px"><span>年月</span></h3>
                 <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
                        name="test1" autocomplete="off">
 
-                <button class="btn btn-primary">确定</button>
+                <button class="btn btn-success">确定</button>
                   <span id ='newmsg'></span> <span>{{ havingtime.0 }}</span>
 
                 {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
@@ -259,7 +259,7 @@
    </div>  <div style="width: 70px ;height: 30px ;position: absolute ;float: left ; top:30px  ;left: 30px ;background-color: #FFB800; border-radius:7px"><span  style="font-size: 8px">总人均少于28双</span></div>
     </div>
 <div style="position: fixed;float: left; width: 80% ;left: 10%; top: 77px ;background-color: white ;height: 62px" >
-   <h5 style="text-align: left ;font-size: 22px ;color: red ;"><span >注:2019年集团针车比重目标为20%,人均产能目标为28双</span></h5>
+   <h5 style="text-align: left ;font-size: 14px ;color: red ;line-height: 24px"><span >注:(2019年集团针车比重目标为20%,人均产能目标为28双) </span></h5>
  {#      <p >{{oldtime }}</p>#}
     <table class="table table-bordered table-hover">
         <div>

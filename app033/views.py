@@ -108,15 +108,19 @@ def cn_msg(requests):
     plan_list = []
     all_plan_list = {}
     sql0 = '''
-        select  CONVERT(VARCHAR(10),docdate,23) ,plantname,cc_type,all_qty  ,all_plan_qty from VIEW_TEMP_DAY_CVT_CAP a where a.docdate='{}' and cc_type='成型' and in_ex like '%合计%' 
-    ORDER BY CHARINDEX(plantname, + '双源一厂,双源二厂,自动化车间,防水车间,双源五厂,射出车间,双源八厂')
+         select  CONVERT(VARCHAR(10),docdate,23) ,a.plantname,cc_type,all_qty  ,all_plan_qty,b.digit  from VIEW_TEMP_DAY_CVT_CAP a 
+   inner join sumsydigt b on a.plantname =b.plantname
+   where a.docdate='{}' and cc_type='成型' and in_ex like '%合计%' 
+    ORDER BY CHARINDEX(a.plantname, + '双源一厂,双源二厂,自动化车间,防水车间,双源五厂,射出车间,双源八厂')
         '''.format(day)
     cursor0.execute(sql0)
     num1 = int(len(cursor0.fetchall()))
     if num1:
         sql = '''
-            select  CONVERT(VARCHAR(10),docdate,23) ,plantname,cc_type,all_qty  ,all_plan_qty from VIEW_TEMP_DAY_CVT_CAP a where a.docdate='{}' and cc_type='成型' and in_ex like '%合计%' 
-        ORDER BY CHARINDEX(plantname, + '双源一厂,双源二厂,自动化车间,防水车间,双源五厂,射出车间,双源八厂')
+              select  CONVERT(VARCHAR(10),docdate,23) ,a.plantname,cc_type,all_qty  ,all_plan_qty,b.digit  from VIEW_TEMP_DAY_CVT_CAP a 
+   inner join sumsydigt b on a.plantname =b.plantname
+   where a.docdate='{}' and cc_type='成型' and in_ex like '%合计%' 
+    ORDER BY CHARINDEX(a.plantname, + '双源一厂,双源二厂,自动化车间,防水车间,双源五厂,射出车间,双源八厂')
             '''.format(day)
         cursor.execute(sql)
 
@@ -132,8 +136,9 @@ def cn_msg(requests):
             cc_type = row[2]
             all_qty = row[4]
             all_plan_qty = row[3]
+            digit =row[5]
             dict['plantname'] = plantname
-            dict['msg'] = [yuefen, cc_type, all_qty, all_plan_qty]
+            dict['msg'] = [yuefen, cc_type, all_qty, all_plan_qty,digit]
             plan_list.append(dict)
         print('plan_list', plan_list)
 
@@ -184,7 +189,7 @@ def cn_msg(requests):
     all_wwb_list = {}
     wwb_list = []
     if num1:
-        print('wwb12312312313123131213')
+        # print('wwb12312312313123131213')
         for row in cursor3 or 7:
             dict = {}
             yuefen = row[0]
@@ -200,7 +205,7 @@ def cn_msg(requests):
         all_wwb_list['chengxing1'] = wwb_list[0:4]
         all_wwb_list['chengxing2'] = wwb_list[4:7]
     else:
-        print('wwb55555555555555555555555555555555')
+        # print('wwb55555555555555555555555555555555')
         for row in range(7):
             dict = {}
             yuefen = ''
@@ -224,7 +229,7 @@ and in_ex like '%外外包%' and plantname   in  ('双源一厂','双源二厂',
     '''.format(day)
     cursor4.execute(sql4)
     wwbzuohji = cursor4.fetchone()
-    print('wwbzuohji', wwbzuohji)
+    # print('wwbzuohji', wwbzuohji)
     sql5 = '''
 
 select sum(all_qty) from VIEW_TEMP_DAY_CVT_CAP where  docdate='{}'  and    cc_type ='成型' 
@@ -246,7 +251,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     all_nwb_list = {}
     nwb_list = []
     if num1:
-        print('nwb12312312312313131321')
+        # print('nwb12312312312313131321')
         for row in cursor6:
             dict = {}
             yuefen = row[0]
@@ -262,7 +267,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         all_nwb_list['chengxing1'] = nwb_list[0:4]
         all_nwb_list['chengxing2'] = nwb_list[4:7]
     else:
-        print('nwb555555555555555555555555555')
+        # print('nwb555555555555555555555555555')
         for row in range(7):
             dict = {}
             yuefen = ''
@@ -320,7 +325,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         # print('cursor',cursor)
         # print('hahahahah',len(cursor.fetchall()))
 
-        print('123123123123')
+        # print('123123123123')
         for row in cursoq:
             dict = {}
             yuefen = row[0]
@@ -331,12 +336,12 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
             dict['plantname'] = plantname
             dict['msg'] = [yuefen, cc_type, all_qty, all_plan_qty]
             zcplan_list.append(dict)
-        print('zcplan_list', zcplan_list)
+        # print('zcplan_list', zcplan_list)
 
 
     else:
 
-        print('4564564646456')
+        # print('4564564646456')
         for row in range(7):
             dict = {}
             yuefen = ''
@@ -364,8 +369,8 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
             '''.format(day)
     cursoq2.execute(sql2)
     zcyouhji1 = cursoq2.fetchone()
-    print('zuoheji112221', zczuohji1)
-    print('youheji111222', zcyouhji1)
+    # print('zuoheji112221', zczuohji1)
+    # print('youheji111222', zcyouhji1)
 
     zcall_plan_list['chengxing1'] = zcplan_list[0:4]
     zcall_plan_list['chengxing2'] = zcplan_list[4:7]
@@ -420,7 +425,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         '''.format(day)
     cursoq4.execute(sql4)
     zcwwbzuohji1 = cursoq4.fetchone()
-    print('zcwwbzuohji', zcwwbzuohji1)
+    # print('zcwwbzuohji', zcwwbzuohji1)
     sql5 = '''
 
     select sum(all_qty) from VIEW_TEMP_DAY_CVT_CAP where  docdate='{}'  and    cc_type ='针车' 
@@ -459,7 +464,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
         zcall_nwb_list['chengxing1'] = zcnwb_list[0:4]
         zcall_nwb_list['chengxing2'] = zcnwb_list[4:7]
     else:
-        print('nwb555555555555555555555555555')
+        # print('nwb555555555555555555555555555')
         for row in range(7):
             dict = {}
             yuefen = ''
@@ -505,7 +510,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
 
     # print('wwbzuoheji',wwbzuohji)
     # print('wwbzyuoheji',wwbyouhji)
-    # print('all_plan_list',all_plan_list)
+    print('all_plan_list',all_plan_list)
     # print('all_wwb_list', all_wwb_list)
     return render(requests, '双源当日产量及当月累计产能状况.html', {
         'all_plan_list': all_plan_list,

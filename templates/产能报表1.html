@@ -67,19 +67,20 @@
 <body>
 {#{{ now_time }}#}
 
-<div class="title1" style="position: fixed;float: left;width: 100%   ;  margin-top: -80px;
-background-image: url('../static/pic/20191212163406.png');
+<div class="title1" style="position: fixed;float: left;width: 100%   ;  margin-top: -172px;
+background-image: url('../static/pic/20191212163406.png')  ;background-size:100%;background-position-x:center;background-position-y:center;
+background-repeat:no-repeat ;
 ">
 
-    <h1 style="text-align: center"  >双源当日产量及当月累计产能状况</h1>
-    <form action="" method="get">
+    <h1 style="text-align: center ;margin-top: 69px; ;font-size: 35px;padding-bottom: 16px"  >双源当日产量及当月累计产能状况</h1>
+    <form action="" method="get" style="background-color: white">
     <div style="margin-left: 30%">
-        <div style="margin: auto;left: 30%"> <!-- 注意：这一层元素并不是必须的 -->
-            <h3 style="display: inline-block; font-size: 18px"><span>请选择日期</span></h3>
+        <div style="margin: auto;left: 60% ;margin-left: 408px"> <!-- 注意：这一层元素并不是必须的 -->
+            <h3 style="display: inline-block; font-size: 18px"><span>日期</span></h3>
             <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1" name="text1" autocomplete="off">
 
             <button class="btn btn-primary" >确定</button>
-            最新数据时间为: &nbsp;{{ docdate.0 }}
+          <span style="    margin-left: -1000px;"> 最新数据时间为: &nbsp;{{ docdate.0 }}</span>
 
 {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
 </div>
@@ -118,15 +119,15 @@ background-image: url('../static/pic/20191212163406.png');
     </div>
 
 
-    <div >
-    </div>
+    <div    style= "margin-top: 135px;">
+
     <div style="margin: auto ;width: 80%; margin-top: 80px">
 
         {% for i in MSG %}
             <div>
      <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading table-hover"><span class="cor2" style="font-size: 20px ;font-weight: bolder" >{{i.plantname}}</span>&nbsp;
+        <div class="panel-heading table-hover" ><span class="cor2" style="font-size: 20px ;font-weight: bolder" >{{i.plantname}}</span>&nbsp;
          {% if datetime %}
                 <span>{{datetime}}</span>
           {% else %}

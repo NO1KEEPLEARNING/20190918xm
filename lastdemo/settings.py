@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'app01.apps.App01Config',
     'app022',
     'app033',
-    'app044'
+    'newmsg.app044'
 ]
 
 MIDDLEWARE = [

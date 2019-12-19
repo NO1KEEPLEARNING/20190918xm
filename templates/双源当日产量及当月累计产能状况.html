@@ -144,9 +144,9 @@
 </head>
 <body>
 {#{{ all_plan_list.chengxing1 }}#}
-<div style="position: fixed;float: left ;background-color: white ;width: 100%">
-    <h2 style="margin: auto ;text-align: center"> 双源{{ year }} 年{{ yue }}月
-        产能汇总</h2>
+<div style="position: fixed;float: left ;background-color: white ;width: 100%;z-index: 99">
+    <h1 style="margin: auto ;text-align: center ;font-size: 36px"> 双源{{ year }} 年{{ yue }}月
+        产能汇总</h1>
 
 
     <div style="margin-left: 38%">
@@ -162,31 +162,15 @@
 
                 {#                <button class="btn btn-primary">确定</button>#}
                 <button class="btn btn-success">
-                    提交
+                    确定
                 </button>
                 {#                     <span style="font-size: 15px" id="mon">{{ mon }}</span>#}
                 <span> &nbsp;&nbsp; {{ nowyear }}年{{ nowmonth }}月 为最新数据</span>
             </div>
 
         </form>
-        <div style="position: absolute;float: left ; width: 20px; height: 20px;
 
-    left: 80%;
-    top: 30%;
-">
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
-                    style="height: 38px">
-                显示图表
-            </button>
-        </div>
-        <div style="margin-left: -60%"><span style="font-size: 20px ;color: red ;"> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量</span>
-            <div style="position: absolute;float: right ;background-color: red ;width: 15px;height: 15px ;margin-top: 2px">
-            </div>
-            <div style="position: absolute;float: right ;font-size: 15px ;left: 25px">
-                <span>未达标数据</span>
-            </div>
 
-        </div>
 
     </div>
     <script>
@@ -300,7 +284,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>200</td>
+                                    <td class="tbnum1">{{ all_wwb.msg.4 }}</td>
                                     <script>
                                         function keepTwoDecimalFull(num) {
                                             var result = parseFloat(num);
@@ -363,7 +347,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>200</td>
+                                    <td class="tbnum1">{{ all_wwb.msg.4 }}</td>
 
 
 
@@ -463,10 +447,22 @@
                                     <script>
                                              let zhjbili =document.getElementById('zhjbili')
                                         zhjbili.innerText=toPercent(numbenchangnum/nummubiaonum)
-                                        zhjbili.style.width = twobaifen{{ forloop.counter }};
+                                        zhjbili.style.width = toPercent(numbenchangnum/nummubiaonum);
                                     </script>
                                 </td>
-                                <td>5</td>
+                                <td id ='tbsumnum1'>5</td>
+                                <script>
+                                    let tbnum1 =document.getElementsByClassName('tbnum1')
+
+                                    let tbsumnum1 =document.getElementById('tbsumnum1')
+                                    let tbdigit =0
+                                    for(i=0;i<tbnum1.length;i++){
+                                        tbdigit=tbdigit+Number(tbnum1[i].innerText)
+                                        console.log(tbnum1.innerText)
+                                        console.log(tbdigit)
+                                    }
+                                    tbsumnum1.innerText=tbdigit
+                                </script>
                             </tr>
                         </table>
                         <script type="text/javascript">
@@ -558,10 +554,26 @@
         </div>
     </div>
 </div>
-<div style="padding-top: 105px ;width: 80%;margin:auto">
+<div style="padding-top: 75px ;width: 80%;margin:auto">
     <h3 style="font-weight: bolder">成型 </h3>
+        <div >
 
-    <table border="1" class="table table-hover" style="margin: auto;text-align: center">
+            <div style="position: absolute;float: right ;background-color: red ;width: 15px;height: 15px ;margin-top: 2px ;z-index: -1">
+            </div>
+            <div style="position: absolute;float: right ;font-size: 15px ;left: 13%;z-index: -2 ;margin-top: -12px   ">
+                <span style="">未达标数据    <span style="font-size: 20px ;color: red ; z-index: -1"> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量</span></span>
+
+            </div>
+  <div style="position: absolute;float: left ; width: 20px; height: 20px;left: 83%;top: 140px;    z-index: 0;">
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
+                    style="height: 38px;margin-top: -52px">
+                显示图表
+            </button>
+        </div>
+        </div>
+
+
+    <table border="1" class="table table-hover" style="margin: auto;text-align: center   ;  margin-top: 23px;">
         <tr class="" style="background-color: #aacedf">
             <td>生产部</td>
             <td colspan="6">生产一部</td>
@@ -1337,9 +1349,9 @@
                                  for(i=0;i<jdd.length;i++) {
                                      console.log(toPercent(jdd[i].innerText))
                                 if (toPoint(jdd[i].innerText)>100){
-                                    jdd[i].classList.add('progress-bar-danger')
+                                    jdd[i].classList.add('progress-bar-success')
                                 } else {
-                                     jdd[i].classList.add('progress-bar-success')
+                                     jdd[i].classList.add('progress-bar-danger')
                                 }
                                  }
 
