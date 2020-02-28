@@ -19,6 +19,7 @@ from dateutil import parser
 from django.views.generic.base import View
 import xlrd
 import os
+import calendar  # 获取月份有多少天
 
 
 class produce_show(View):
@@ -183,7 +184,7 @@ where lockdate>='2020-01-01'and lockdate<='2020-01-31'  and (cp_ok_flag=0 OR
         #--本月共完成指令数  首批领料与首批缴库时间差(总时长)
 
         order_finsh_sun_time_sql ='''
-        select  COUNT(*) as 指令数 ,sum(diff) 总时长, sum((diff)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW
+        select  sum((diff)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW
 where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1 and periodid='2020-01'and company_id='XC'AND LOTNO not like '%试作%' 
         
         
@@ -196,7 +197,7 @@ where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1 and 
         #----本月共完成指令数  首批缴库与最后批缴库时间差
 
         order_finsh_1t9cha_time_sql ='''
-        select  COUNT(*) as 指令数 ,sum(diff2) 总时长, sum((diff2)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW 
+        select  sum((diff2)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW 
 where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1 and periodid='2020-01'and company_id='XC'AND LOTNO not like '%试作%' 
         
         '''
@@ -209,11 +210,11 @@ where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1 and 
 
 
 
-        #--当月开单 本月完成指令数  首批领料与首批缴库时间差
+        #--当月开单 本月完成指令数  首批领料与首批缴库时间差 开单并完成
 
 
         order_finsh_1t1cha_time_sql ='''
-        select  COUNT(*) as 指令数 ,sum(diff) 总时长, sum((diff)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW
+        select  sum((diff)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW
 where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1  and lockdate>='2020-01-01'and lockdate<='2020-01-31' and periodid='2020-01'and company_id='XC'AND LOTNO not like '%试作%' 
         
         
@@ -222,8 +223,16 @@ where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1  and
         cursor.execute(order_finsh_1t1cha_time_sql)
         order_finsh_1t1cha_time = cursor.fetchall()
         print('order_finsh_1t1cha_time', order_finsh_1t1cha_time)
+        # --当月开单 本月完成指令数 首次与最后一次缴库时间差  开单并完成
+        order_finsh_1t1cha1_time_sql = '''
+                    select  sum((diff2)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW 
+where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1  and lockdate>='2020-01-01'and lockdate<='2020-01-31' and periodid='2020-01'and company_id='XC'AND LOTNO not like '%试作%' 
+               
+                '''
 
-
+        cursor.execute(order_finsh_1t1cha1_time_sql)
+        order_finsh_1t1cha1_time = cursor.fetchall()
+        print('order_finsh_1t1cha_time', order_finsh_1t1cha1_time)
 
         # 本月订单缴库总(带试作)
 
@@ -256,15 +265,139 @@ order by diff+diff2 DESC ,realdigit DESC
 
 
 
+#我是分割线
+
+
+        number_list =['01','02','03','04','05','06','07','08','09','10','11','12']
+
+        mon_list =['2020-01','2020-02','2020-03','2020-04','2020-05','2020-06','2020-07','2020-08','2020-09','2020-10','2020-11','2020-12']
+        year_mon_list =[]
+        every_mon_open_finsh_order_list = []
+        every_mon_finsh_order_list =[]
+        order_finsh_sun_time_list =[]
+
+        yearn ='2020'
+        for mon1 in number_list:
+            year_mon_list.append(yearn+'-'+(mon1))
+            print(mon1)
+            mon2=mon1
+            mon1=int(mon1)
+
+            print('mon1',mon1)
+            print('yearn',yearn)
+            monthRange = calendar.monthrange(int(yearn), int(mon1))  # 获取月份有多少天
+            print('monthRange++++++',mon1, monthRange)
+            days=monthRange[1]
+
+
+            year_mon_day =yearn+'-'+str(mon2)+'-'+str(days)
+            year_mon_1=yearn+'-'+str(mon2)+'-'+str('01')
+            perid_id =yearn+'-'+str(mon2)
+            print('year_mon_day',year_mon_day)
+            print('year_mon_1',year_mon_1)
+            print('perid_id',perid_id)
 
 
 
 
 
 
+        #每个月  总计完成指令数
 
-        return JsonResponse({'result': 200, 'msg': '连接成功','now_mon_not_finsh_upon':mon_order_mts_sun
-                             })
+            every_mon_finsh_order_sql ='''
+                   SELECT  COUNT(1)   AS cnt
+    FROM VIEW_PR_CTW
+    WHERE ISNULL(cp_ok_flag,0) = 1  and periodid='{}'   and  company_id='xc'  and  cpmaxdate<='{}'and  cpmaxdate>='{}'
+    GROUP BY  periodid,company_id
+    ORDER BY company_id,periodid 
+            
+            '''.format(perid_id,year_mon_day,year_mon_1)
+            cursor.execute(every_mon_finsh_order_sql)
+
+            every_mon_finsh_order = cursor.fetchall()
+
+            for imsg in every_mon_finsh_order:
+                every_mon_finsh_order_list.append(imsg[0])
+
+        #每个月  开单完成指令数
 
 
+            every_mon_open_finsh_order_sql='''
+      SELECT  COUNT(1)   AS cnt
+    FROM VIEW_PR_CTW
+    WHERE ISNULL(cp_ok_flag,0) = 1 and  company_id='xc' and periodid='{}' 
+    and  cpmaxdate<='{}'and  cpmaxdate>='{}'and lockdate>='{}'and lockdate<='{}'
+    GROUP BY  periodid,company_id
+    ORDER BY company_id,periodid 
+            
+            
+            '''.format(perid_id,year_mon_day,year_mon_1,year_mon_1,year_mon_day)
+            cursor.execute(every_mon_open_finsh_order_sql)
+
+            every_mon_open_finsh_order = cursor.fetchall()
+
+            for imsg1 in every_mon_open_finsh_order:
+                every_mon_open_finsh_order_list.append(imsg1[0])
+            print('number_list', number_list)
+            print('year_mon_list ', year_mon_list)
+
+
+
+
+
+            order_finsh_sun_time_sql = '''
+
+                    select  sum((diff)*realdigit)/sum(realdigit) 首批与首批时间平均时长 from VIEW_PR_CTW
+            where cpmaxdate <='2020-01-31' and cpmaxdate>='2020-01-01' AND cp_ok_flag=1 and periodid='2020-01'and company_id='XC'AND LOTNO not like '%试作%' 
+
+
+                    '''
+
+            cursor.execute(order_finsh_sun_time_sql)
+            order_finsh_sun_time = cursor.fetchall()
+            print('order_finsh_sun_time ',order_finsh_sun_time )
+            for imsg1 in  order_finsh_sun_time:
+                order_finsh_sun_time_list.append(imsg1[0])
+            print('order_finsh_sun_time_list', order_finsh_sun_time_list)
+
+
+
+
+
+        print('mon_order_open_finsh[0][0]',mon_order_open_finsh[0][0])
+        print('last_mon_order_open_finsh[0][0]',last_mon_order_open_finsh[0][0])
+        print('last_after_mon_order_finsh',last_after_mon_order_finsh[0][0])
+        print('mon_order_not_finsh',mon_order_not_finsh[0][0])
+        print('now_mon_order_not_finsh_hav',now_mon_order_not_finsh_hav[0][0])
+        print('now_mon_not_finsh_upon',now_mon_not_finsh_upon[0][0])
+        print('one_order_max_number',one_order_max_number[0][0])
+        print('one_order_min_number',one_order_min_number[0][0])
+        print('now_mon_finsh_number',now_mon_finsh_number[0][0])
+        print('now_mon_open_finsh ',now_mon_open_finsh)
+        print('mon_order_open_finsh_sql',mon_order_open_finsh)      # 本月开单本月完成
+        print('mon_order_finsh',mon_order_finsh)   #   # 总共完成指令数
+
+        print('every_mon_finsh_order',every_mon_finsh_order_list)   #每年12个月每个月 完成指令数
+        print('every_mon_open_finsh_order_list',every_mon_open_finsh_order_list)
+
+        # return JsonResponse({'result': 200, 'msg': '连接成功','now_mon_not_finsh_upon':mon_order_mts_sun
+        #                      })
+
+        return render(request,'demi1.html',{
+            'mon_order_open_finsh':mon_order_open_finsh[0][0],
+            'last_mon_order_open_finsh':last_mon_order_open_finsh[0][0],
+            'last_after_mon_order_finsh':last_after_mon_order_finsh[0][0],
+            'mon_order_not_finsh':mon_order_not_finsh[0][0],
+            'now_mon_order_not_finsh_hav':now_mon_order_not_finsh_hav[0][0],
+            'now_mon_not_finsh_upon':now_mon_not_finsh_upon[0][0],
+            'one_order_max_number':one_order_max_number[0][0],
+            'one_order_min_number':one_order_min_number[0][0],
+            'now_mon_finsh_number':now_mon_finsh_number[0][0],
+            'now_mon_open_finsh':now_mon_open_finsh[0][0],
+            'mon_order_finsh':mon_order_finsh[0][0],
+            'every_mon_finsh_order_list':every_mon_finsh_order_list,
+            'every_mon_open_finsh_order_list':every_mon_open_finsh_order_list
+
+
+        })
 produce_show = produce_show()
