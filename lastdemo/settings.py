@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'app01.apps.App01Config',
     'app022',
     'app033',
-    'newmsg.app044'
+    'newmsg.app044',
+    'p2020apps.produce202001'
 ]
 
 MIDDLEWARE = [

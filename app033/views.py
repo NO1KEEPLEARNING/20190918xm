@@ -7,7 +7,7 @@ import math
 import os
 from django.http import FileResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import xlwt
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 import datetime
 import cx_Oracle
@@ -39,14 +39,20 @@ def cn_msg(requests):
              '''
     cursorsss.execute(sq55)
     max_date = cursorsss.fetchall()
+    print('max_date',max_date)
     print('max_date', '-'.join(max_date[0][0].split('-')[0:2]))
     if int(max_date[0][0].split('-')[2]) >= 28:
         nowyear, nowmonth = max_date[0][0].split('-')[0:2]
     else:
         nowyear, nowmonth = max_date[0][0].split('-')[0:2]
-        nowmonth = int(nowmonth) - 1
-        if int(nowmonth) == 1:
-            nowyear = nowyear - 1
+        #由于 一月份无数据暂时先改成-2
+
+        nowmonth = int(nowmonth) - 2     #20200221 wzh  源数据        nowmonth = int(nowmonth) - 1
+
+        if nowmonth ==0 :
+            nowmonth=12
+        if int(nowmonth) == 12:
+            nowyear = int(nowyear) - 1
 
     # nowyear = datetime.datetime.now().year
     # nowmonth = datetime.datetime.now().month
@@ -501,7 +507,7 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
     zdcl = []
     sql9 = '''
     select top 100  all_qty  from VIEW_TEMP_DAY_CVT_CAP where docdate='{}' and cc_type ='组合' 
-   	ORDER BY CHARINDEX(in_ex, + '大地合计,外包组合,无组合,本厂组合')
+   	ORDER BY CHARINDEX(in_ex, + '大底合计,外包组合,无组合,本厂组合')
     
     '''.format(day)
     cursor9.execute(sql9)
@@ -510,8 +516,9 @@ and in_ex like '%外外包%'   and plantname   not  in  ('双源一厂','双源�
 
     # print('wwbzuoheji',wwbzuohji)
     # print('wwbzyuoheji',wwbyouhji)
-    print('all_plan_list',all_plan_list)
+    # print('all_plan_list',all_plan_list)
     # print('all_wwb_list', all_wwb_list)
+
     return render(requests, '双源当日产量及当月累计产能状况.html', {
         'all_plan_list': all_plan_list,
         'zuoheji': zuohji,
@@ -591,6 +598,14 @@ def CTW_LT(request):
             msg_list.append(row)
 
         return render(request, 'CTW_LT.html', {
-            'msg_list': msg_list
+            'msg_list': msg_list,
+        'begindate':begindate,
+        'enddate':enddate
 
         })
+
+
+
+
+
+

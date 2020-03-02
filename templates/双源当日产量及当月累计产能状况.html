@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>双源产能汇总</title>
@@ -33,6 +33,11 @@
 
     <SCRIPT src="../static/js/echarts.js"></SCRIPT>
     <style>
+        td
+            {font-family:"Times New Roman",Georgia,Serif;
+            line-height: 17px;
+        }
+
         .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
             padding: 7px;
         }
@@ -53,10 +58,7 @@
             font-weight: bold;
         }
 
-        td {
-            font-size: 18px;
 
-        }
 
         #boxs {
             width: 870px;
@@ -81,7 +83,7 @@
             float: left;
             width: 20px;
             height: 101%;
-            font-size: 22px;
+            font-size: 20px;
             line-height: 19px;
             color: white;
             text-align: center;
@@ -112,12 +114,12 @@
             height: 30px;
             margin: auto;
             text-align: center;
-            font-size: 25px;
+            font-size: 20px;
         }
 
         .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > td {
             margin: 2px;
-            font-size: 26px;
+            font-size: 20px;
         }
 
         .progress {
@@ -135,17 +137,21 @@
 
         .btn-group-lg > .btn, .btn-lg {
             padding: 10px 16px;
-            font-size: 13px;
+            font-size: 20px;
             line-height: 1.3333333;
             border-radius: 6px;
+        }
+        td{
+            font-size: 17px;
         }
 
     </style>
 </head>
 <body>
 {#{{ all_plan_list.chengxing1 }}#}
-<div style="position: fixed;float: left ;background-color: white ;width: 100%;z-index: 99">
-    <h1 style="margin: auto ;text-align: center ;font-size: 36px"> 双源{{ year }} 年{{ yue }}月
+<div style="position: fixed;float: left ;background-color: white ;width: 100%;z-index: 99 ;background-color: white)  ;background-size:100%;background-position-x:center;background-position-y:center;
+background-repeat:no-repeat ;">
+    <h1 style="margin: auto ;text-align: center ;font-size: 30px"> 双源{{ year }} 年{{ yue }}月
         产能汇总</h1>
 
 
@@ -161,11 +167,11 @@
                        name="months" autocomplete="off">
 
                 {#                <button class="btn btn-primary">确定</button>#}
-                <button class="btn btn-success">
+                <button class="btn btn-primary">
                     确定
                 </button>
                 {#                     <span style="font-size: 15px" id="mon">{{ mon }}</span>#}
-                <span> &nbsp;&nbsp; {{ nowyear }}年{{ nowmonth }}月 为最新数据</span>
+                <span> &nbsp;&nbsp;最新数据时间为  {{ nowyear }}年{{ nowmonth }}月 </span>
             </div>
 
         </form>
@@ -249,7 +255,8 @@
                         aria-hidden="true">&times;</span>
                 </button>
                 <div id="boxs" style="">
-
+                    <span style="text-align: center;margin-left: 35%;font-size: 22px">  双源{{ year }} 年{{ yue }}月
+        产能完成率</span>
 
                     <div id="topboxs">
                         <div id="main" style="width: 840px;height:200px;"></div>
@@ -478,7 +485,7 @@
                             // 指定图表的配置项和数据
                             option = {
                                 title: {
-                                    text: '月度完成率'
+                                    text: ''
                                 },
                                 tooltip: {
                                     trigger: 'axis',
@@ -555,18 +562,18 @@
     </div>
 </div>
 <div style="padding-top: 75px ;width: 80%;margin:auto">
-    <h3 style="font-weight: bolder">成型 </h3>
-        <div >
 
-            <div style="position: absolute;float: right ;background-color: red ;width: 15px;height: 15px ;margin-top: 2px ;z-index: -1">
+        <div >
+                <h3 style="font-weight: bolder">成型 </h3>
+            <div style="position: absolute;float: right ;width: 15px;height: 15px ;margin-top: 2px ;z-index: -1">
             </div>
-            <div style="position: absolute;float: right ;font-size: 15px ;left: 13%;z-index: -2 ;margin-top: -12px   ">
-                <span style="">未达标数据    <span style="font-size: 20px ;color: red ; z-index: -1"> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量</span></span>
+            <div style="position: absolute;float: right ;font-size: 15px ;left: 10%;z-index: -2 ;margin-top: -12px   ">
+               <span style="font-size: 18px ;color: red ; z-index: -1"> 注:目标产量为系统的排产量,非各厂副总提供的月目标产量;&nbsp;&nbsp; 红色为未达标数据</span>  <span style="">  </span>
 
             </div>
   <div style="position: absolute;float: left ; width: 20px; height: 20px;left: 83%;top: 140px;    z-index: 0;">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
-                    style="height: 38px;margin-top: -52px">
+                    style="height: 38px;margin-top: -52px;margin-left: -20px;line-height: 20px">
                 显示图表
             </button>
         </div>

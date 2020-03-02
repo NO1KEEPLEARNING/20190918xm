@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -22,12 +22,23 @@
 
     <title>产能报表</title>
     <style>
+        td  {font-family:"Times New Roman",Georgia,Serif;
+            line-height: 57px;
+            font-size: 17px;
+        }
+        tr{
+            font-size: 17px;
+
+        }
         .red {
             font-weight:bold;
             background-color: #D9D9D9;
         }
+            .red1 {
+        color: red;
+        }
         .msgg{
-            font-size: 15px;
+
             margin: 3px;}
 
     {#    }#}
@@ -67,12 +78,12 @@
 <body>
 {#{{ now_time }}#}
 
-<div class="title1" style="position: fixed;float: left;width: 100%   ;  margin-top: -172px;
-background-image: url('../static/pic/20191212163406.png')  ;background-size:100%;background-position-x:center;background-position-y:center;
-background-repeat:no-repeat ;
-">
+<div class="title1" style="position: fixed;float: left;width: 100%   ;  margin-top: -172px; background-color: white;
 
-    <h1 style="text-align: center ;margin-top: 69px; ;font-size: 35px;padding-bottom: 16px"  >双源当日产量及当月累计产能状况</h1>
+">
+    <img src="../static/pic/图片1.png"
+         style="width: 140px ;height: 140px;z-index: 99999999 ;position: absolute ;float: left;left: 10%" alt="">
+    <h1 style="text-align: center ;margin-top: 69px; ;font-size: 30px;padding-bottom: 16px"  >{{datetime}}{{now_time.0}}双源当日产量及当月累计产能状况</h1>
     <form action="" method="get" style="background-color: white">
     <div style="margin-left: 30%">
         <div style="margin: auto;left: 60% ;margin-left: 408px"> <!-- 注意：这一层元素并不是必须的 -->
@@ -80,7 +91,7 @@ background-repeat:no-repeat ;
             <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1" name="text1" autocomplete="off">
 
             <button class="btn btn-primary" >确定</button>
-          <span style="    margin-left: -1000px;"> 最新数据时间为: &nbsp;{{ docdate.0 }}</span>
+          <span style="    margin-left: -1000px;">  &nbsp; &nbsp;最新数据时间为: &nbsp;{{ docdate.0 }}</span>
 
 {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
 </div>
@@ -148,8 +159,8 @@ background-repeat:no-repeat ;
 
             <tr class="msg22" style="text-align: center">
                 <th>序号</th>
-                <th>单位</th>
-                <th>组别</th>
+                <th >单位</th>
+                <th >组别</th>
                 <th>目标</th>
                 <th>产量</th>
                 <th>换算</th>
@@ -158,6 +169,8 @@ background-repeat:no-repeat ;
                 <th>人均|实际</th>
                 <th>累计目标</th>
                 <th>累计产量</th>
+
+
                 <th>差异</th>
                 <th>累计换算</th>
                 <th>累计人均</th>
@@ -178,8 +191,8 @@ background-repeat:no-repeat ;
                 <td class="msgg">{{foo.work_person|default:'' }}</td>
                 <td class="msgg">{{foo.plan_day_avg_qty|default:'' }}</td>
                 <td class="msgg">{{foo.plan_avg_qty|default:'' }}</td>
-                <td class="msgg">{{foo.all_plan_qty|default:'' }}</td>
-                <td class="msgg">{{foo.all_qty|default:'' }}</td>
+                <td class="msgg ljmb">{{foo.all_plan_qty|default:'' }}</td>
+                <td class="msgg ljcl">{{foo.all_qty|default:'' }}</td>
 
                 <td class="msgg">{{foo.all_diff|default:'' }}</td>
                 <td class="msgg">{{foo.all_cvt_qty|default:'' }}</td>
@@ -217,6 +230,21 @@ background-repeat:no-repeat ;
 
 
         }
+    }
+
+
+
+
+    let ljmb =document.getElementsByClassName('ljmb')
+    let ljcl =document.getElementsByClassName('ljcl')
+
+
+    for (i=0;i<ljmb.length;i++){
+        if(Number(ljmb[i].innerText)>Number(ljcl[i].innerText)){
+            ljcl[i].classList.add('red1')
+        }
+
+
     }
 
 </script>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjspanu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+
+    <script src="../../static/layui/layui.js"></script>
+    <SCRIPT src="../../static/js/echarts.js"></SCRIPT>
+
+
+    <title>Title</title>
+    <style>
+        h2 {
+            text-align: center;
+
+        }
+
+        .demomain1 {
+            width: 100%;
+
+        }
+
+        #box1 {
+            position: absolute;
+            float: left;
+            left: 5%;
+            top: 18%;
+        {#background-color: #FFB800;#} width: 550px;
+            height: 400px;
+
+        }
+
+        #box2 {
+            position: absolute;
+            float: left;
+            left: 5%;
+            top: 90%;
+        {#background-color: #000033;#} width: 550px;
+            height: 400px;
+        }
+
+        #box3 {
+            position: absolute;
+            float: left;
+            left: 52%;
+            top: 18%;
+        {#background-color: #00FF00;#} width: 550px;
+            height: 400px;
+        }
+
+        #box4 {
+            position: absolute;
+            float: left;
+            left: 52%;
+            top: 90%;
+        {#background-color: #6A6AFF;#} width: 550px;
+            height: 400px;
+
+        }
+
+        span {
+            text-align: center;
+        }
+
+        #tucen {
+            z-index: 2;
+            width: 100%;
+            height: 6%;
+
+        {#background-color: #FFB800;#}{#margin: auto;#} text-align: center;
+            line-height: 35px;
+        }
+
+        h2 {
+            text-align: center;
+            margin: auto;
+        }
+
+        input {
+            height: 30px;
+        }
+        select {
+            height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+{#     返回当前时间参数#}
+    function GetQueryValue(queryName) {
+    var query = decodeURI(window.location.search.substring(1));
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == queryName) { return pair[1]; }
+    }
+      var day1 = new Date();
+    day1.setTime(day1.getTime()-24*60*60*1000);
+    var  s1 = day1.getFullYear()+"-" + (day1.getMonth()+1)
+        return s1
+}
+
+var queryVal=GetQueryValue('text1');
+console.log(queryVal);// 小明
+    var myDate = new Date()
+    let yea = myDate.getFullYear()
+    let mon = myDate.getMonth()
+   ;
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#test1', //指定元素
+            type: 'month',
+            position: 'fixed',
+            value:queryVal,
+
+            ready: function (date) { // 控件在打开时触发，回调返回一个参数：初始的日期时间对象
+                initYear = date.year;
+                initMonth =date;
+                console.log(initYear);
+                 console.log(initMonth)
+            },
+
+            change: function (value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象
+                var selectYear = date.year;
+                var selectMonth =date.month;
+                var differ = selectYear - initYear;
+                if (differ == 0) {
+                    if ($(".layui-laydate").length) {
+                        $("#test1").val(value);
+                        $(".layui-laydate").remove();
+                    }
+                }
+                initYear = selectYear;
+                initMonth =selectMonth;
+            }
+
+            {#change : function(value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象#}
+            {##}
+            {#	var selectYear = date.year;#}
+            {#	var differ = selectYear - initYear;#}
+            {#	var laydate1 =document.getElementsByClassName('layui-laydate')#}
+            {#   var test1 =document.getElementById('test1')#}
+            {#	console.log(differ)#}
+            {#	if (differ == 0) {#}
+            {#		if (laydate1.length) {#}
+            {#		    alert(laydate1.length)#}
+            {#			test1.innerText=value;#}
+            {##}
+            {#			laydate1.remove();#}
+            {#		}#}
+            {#	}#}
+            {#	initYear = selectYear;#}
+
+
+        });
+
+
+    });
+</script>
+
+
+<h2>
+    双驰报表
+</h2>
+
+<div class="demomain1">
+
+
+    <div id="tucen" class="input-group">
+        <form action="">
+            <span>公司</span>
+            <select class="form-control" name="carlist">
+                <option value="" >请选择</option>
+                <option value="SY">双源</option>
+                <option value="XC">星昌</option>
+
+                <option value="SC">双驰</option>
+
+            </select>
+
+
+            <span>
+        月份
+    </span>
+
+
+            <input class="form-control" style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
+                   name="text1" autocomplete="off">
+
+            <button style="height: 31px">确定</button>
+
+
+        </form>
+
+
+    </div>
+
+    <div id="box1">
+        <div><span>图1</span></div>
+        <div id="main1" style="width: 550px;height:400px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main1'));
+
+            // 指定图表的配置项和数据
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {
+                            show: 'true',
+                            title: '保存',
+                            name: '图片'
+                        }
+                    }
+                },
+
+                legend: {
+                    data: ['未完成', '已领料', '部分缴库', '上月以前开单', '上月开单', '本月开单']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: ['本月共开指令', '本月共完成指令']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '指令数(个)',
+
+                    },
+
+                ],
+                series: [
+
+                    {
+                        name: '未完成',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [{{ mon_order_not_finsh }},]
+                    },
+                    {
+                        name: '已领料',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [{{ now_mon_order_not_finsh_hav }},]
+                    },
+                    {
+                        name: '部分缴库',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [{{ now_mon_order_not_finsh_hav }},]
+                    }, {
+                        name: '上月以前开单',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [,{{ last_after_mon_order_finsh }}]
+                    },
+                    {
+                        name: '上月开单',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [, {{ last_mon_order_open_finsh }}]
+                    },
+                    {
+                        name: '本月开单',
+                        type: 'bar',
+                        stack: '广告',
+                        data: [, {{ mon_order_open_finsh }}]
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+    </div>
+    <div id="box2">
+        <div><span>图2</span></div>
+        <div id="main" style="width: 550px;height:400px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    {#text: '折线图堆叠'#}
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {
+                            show: 'true',
+                            title: '保存',
+                            name: '图片'
+                        }
+                    }
+                },
+                legend: {
+                    data: ['总计完成', '当月开单完成']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                },
+                yAxis: {
+                    type: 'value',
+
+                    name: '数量'
+
+                },
+                series: [
+                    {
+                        name: '总计完成',
+                        type: 'line',
+                        stack: '总量',
+                        data:{{ every_mon_finsh_order_list }}
+                    },
+                    {
+                        name: '当月开单完成',
+                        type: 'line',
+                        stack: '总量',
+                        data: {{ every_mon_open_finsh_order_list }}
+                    }
+                ]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+    </div>
+
+    <div id="box3">
+        <div><span>图3</span></div>
+        <div id="main2" style="width: 550px;height:400px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main2'));
+
+            // 指定图表的配置项和数据
+            option = {
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                }, legend: {
+                    data: ['最大双数', '最小双数']
+                },
+                title: {
+                    {#text:'123213',#}
+                    subtextStyle: {
+                        align: 'right'
+                    }
+
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {
+                            show: 'true',
+                            title: '保存',
+                            name: '图片'
+                        }
+                    }
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: ['最大双数', '最小双数'],
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '数量',
+                    }
+                ],
+                series: [
+                    {
+                        name: '直接访问',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: [{{ one_order_max_number }}, {{ one_order_min_number }}]
+                    }
+                ]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+    </div>
+
+    <div id="box4">
+        <div><span>图4</span></div>
+        <div id="main3" style="width: 550px;height:400px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main3'));
+
+            // 指定图表的配置项和数据
+            option = {
+                xAxis: {
+                    type: 'category',
+
+                    data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '天数'
+                },
+                tooltip: {
+                    show: 'true'
+
+                },
+                series: [{
+                    data: {{ order_sum_liat }},
+                    type: 'line',
+                    smooth: true
+                }]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+    </div>
+
+
+</div>
+</body>
+</html>

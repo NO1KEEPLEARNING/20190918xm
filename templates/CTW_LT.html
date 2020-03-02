@@ -22,10 +22,55 @@
 
     <script src="/static/build/layui.js"></script>
     <title>CTW_LT报表</title>
+    <STYLE>
+        .msglist{
+            width: 80%;
+            margin: auto;
+            text-align: center;
+            margin-top: 135px;
+        }
+        th{
+            text-align: center;
+
+        }
+        .th1{
+            width: 36px;
+        }.th2{
+            width: 151px;
+                 }
+        .th3{
+            width: 191px;
+        }
+        .th4{
+            width: 92px
+        }
+        .th5{
+            width: 92px;
+        }
+        .th6 {
+            width: 93px;
+        }
+        .th7{
+            width: 92px;
+        }.th8{
+            width: 84px;
+                 }
+        .th9{
+            width: 93px;
+        }
+        .th10{
+            width: 85px;
+        }
+
+    </STYLE>
 </head>
 <body>
+{# {{ begindate }}#}
+{#        {{ enddate }}#}
+<div style="position: fixed;top: 0px ;width: 100% ;height: 14%;background-image: url('../static/pic/20191212163406.png')  ;background-size:100%;background-position-x:center;background-position-y:center;
+background-repeat:no-repeat ; " >
 
-<h1 style="margin: auto; text-align: center"> CTW_LT 报表</h1 >
+<h1 style=" text-align: center"> 双源 CTW_LT 报表</h1 >
     <script>
         var myDate = new Date()
         let yea = myDate.getFullYear()
@@ -39,17 +84,34 @@
             laydate.render({
                 elem: '#test1'
                 , type: 'date',
+
                 {#min:'{{oldtime}}'#}
                 {#value:''#}
+                 done: function (value, date, endDate) {
+                    // alert(value)
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                   let test1 = document.getElementById('test1')
+                     test1.innerText=value
+                }
+
 
             });
+
              laydate.render({
                 elem: '#test2'
                 , type: 'date',
+
+                  done: function (value, date, endDate) {
+                    // alert(value)
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    let test2 = document.getElementById('test2')
+                     test2.innerText=value
+                }
+
                 {#min:'{{oldtime}}'#}
-                {#value:''#}
 
             });
+
 
 
             {#laydate.render({#}
@@ -71,9 +133,9 @@
         });
 
     </script>
-    <div style="margin-left: 180px">
+    <div style="margin: auto ;text-align: center ">
             <form  method="get">
-    <div> <!-- 注意：这一层元素并不是必须的 -->
+    <div style="margin-left: 10%"> <!-- 注意：这一层元素并不是必须的 -->
             <h3 style="display: inline-block; font-size: 18px"><span>开始时间</span></h3>
             <input style="display: inline;width: 250px" type="text" class="layui-input" id="test1"
                    name="begindate" autocomplete="off">
@@ -82,14 +144,31 @@
                    name="enddate" autocomplete="off">
 
             <button class="btn btn-primary">确定</button>
+            </div>
+<div style="width: 100% ;left: 0px;margin-left: 10%">
+<table class="table table-bordered table-hover"  style="width: 80%"  >
+    <tr class="table-bordered" style=" background-color: #00FFFF">
+        <th class="th1">序号</th>
+        <th class="th2">订单类型</th>
+        <th class="th3">生产周期</th>
+        <th class="th4">双源一厂</th>
+        <th class="th5">双源二厂</th>
+        <th class="th6">双源五厂</th>
+        <th class="th7">防水车间</th>
+        <th class="th8">射出车间</th>
+        <th class="th9">自动化车间</th>
+        <th class="th10">双源八场</th>
 
+    </tr>
+</table>
+</div>
             {#            <span id="msg1" style="font-size: 25px">&nbsp;&nbsp;&nbsp;&nbsp;当前日期</span><span id="msggess"></span>#}
 
-        </div>
+
 </form>
     </div>
 
-
+</div>
 {#    <form  method="get">#}
 {#    <div> <!-- 注意：这一层元素并不是必须的 -->#}
 {#            #}
@@ -106,21 +185,9 @@
 
 
 
-
+<div class="msglist">
 <table class="table table-bordered table-hover"   >
-    <tr class="table-bordered" style=" background-color: #00FFFF">
-        <th>序号</th>
-        <th>订单类型</th>
-        <th>生产周期</th>
-        <th>双源一厂</th>
-        <th>双源二厂</th>
-        <th>双源五厂</th>
-        <th>防水车间</th>
-        <th>射出车间</th>
-        <th>自动化车间</th>
-        <th>双源八场</th>
 
-    </tr>
      {% for foo in msg_list %}
         <tr>
             <td>{{ foo.0 |default:''}}</td>
@@ -138,5 +205,19 @@
 
 
 </table>
+</div>
 </body>
+
+ <script>
+
+
+                               let test1 = document.getElementById('test1')
+                    let test2 = document.getElementById('test2')
+
+                test1.value= "{{ begindate }}";
+                {#console.log(test1.innerText)#}
+                test2.value="{{ enddate }}";
+                            {#console.log(test2.innerText)#}
+        </script>
+
 </html>

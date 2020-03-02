@@ -352,9 +352,12 @@ def cnfllmsg(request):
     conn = cx_Oracle.connect('oa/oa@192.168.0.70:1521/ekp')  # 连接数据库
     cursor0 = conn.cursor()
     cursor0.execute(
-        "SELECT   FD_YUEFEN  from EKP_PRODUCTIVITY_SY   where  FD_GONGSI in  ('双驰','双联','兴昌','双驰') ORDER BY FD_YUEFEN desc ")
+
+        "SELECT   FD_YUEFEN  from EKP_PRODUCTIVITY_SY   where  FD_GONGSI in  ('双源','双联','星昌','双驰') ORDER BY FD_YUEFEN   desc")
+    #    "SELECT   FD_YUEFEN  from EKP_PRODUCTIVITY_SY   where  FD_GONGSI in  ('双驰','双联','兴昌','双驰') ORDER BY FD_YUEFEN desc ")
 
     havingtime = cursor0.fetchone()
+    print('havingtime',havingtime)
     if request.method == 'GET':
 
         ontime = datetime.datetime.now()
